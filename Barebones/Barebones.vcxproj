@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{9d7977b8-ffdf-4d5a-8302-bd584864cbcb}</ProjectGuid>
+    <RootNamespace>Barebones</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)\bin\$(ProjectName)\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\bin-int\$(ProjectName)\$(Configuration)-$(Platform)\</IntDir>
+    <PublicIncludeDirectories>$(ProjectDir)\src;</PublicIncludeDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\bin\$(ProjectName)\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\bin-int\$(ProjectName)\$(Configuration)-$(Platform)\</IntDir>
+    <PublicIncludeDirectories>$(ProjectDir)\src;</PublicIncludeDirectories>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>VS;        _DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src; $(SolutionDir)dependencies\glfw\include; $(SolutionDir)dependencies\glad\include; $(SolutionDir)dependencies\glm;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\glfw\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib; opengl32.lib; $(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>VS;        NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src; $(SolutionDir)dependencies\glfw\include; $(SolutionDir)dependencies\glad\include; $(SolutionDir)dependencies\glm;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\glfw\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib; opengl32.lib; $(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="external\glad.c" />
+    <ClCompile Include="src\barebones\core\application.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\material.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\mesh.cpp" />
+    <ClCompile Include="src\barebones\rendering\core\array.cpp" />
+    <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
+    <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
+    <ClCompile Include="src\barebones\rendering\debug\gizmo.cpp" />
+    <ClCompile Include="src\barebones\rendering\debug\gizmos_layer.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\layers\event_layer.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\layers\input_layer.cpp" />
+    <ClCompile Include="src\barebones\core\layer.cpp" />
+    <ClCompile Include="src\barebones\core\layer_stack.cpp" />
+    <ClCompile Include="src\barebones\rendering\rendering_layer.cpp" />
+    <ClCompile Include="src\barebones\rendering\light.cpp" />
+    <ClCompile Include="src\barebones\rendering\renderer.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\camera\perspective_camera.cpp" />
+    <ClCompile Include="src\barebones\rendering\shader\shader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dependencies\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="src\barebones\core\application.h" />
+    <ClInclude Include="src\barebones\core\core.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\barebones\core\barebones\entity\entity.h" />
+    <ClInclude Include="src\barebones\core\entry.h" />
+    <ClInclude Include="src\barebones\core\barebones\events\event.h" />
+    <ClInclude Include="src\barebones\core\barebones\events\event_queue.h" />
+    <ClInclude Include="src\barebones\core\barebones\events\keymap.h" />
+    <ClInclude Include="src\barebones\core\barebones\events\key_event.h" />
+    <ClInclude Include="src\barebones\core\barebones\events\mouse_event.h" />
+    <ClInclude Include="src\barebones\core\barebones\events\window_event.h" />
+    <ClInclude Include="src\barebones\core\barebones\timestep.h" />
+    <ClInclude Include="src\barebones\core\barebones\entity\entity_object.h" />
+    <ClInclude Include="src\barebones\core\barebones\entity\material.h" />
+    <ClInclude Include="src\barebones\core\barebones\entity\mesh.h" />
+    <ClInclude Include="src\barebones\rendering\core\array.h" />
+    <ClInclude Include="src\barebones\rendering\core\buffer.h" />
+    <ClInclude Include="src\barebones\core\window\glfw_window.h" />
+    <ClInclude Include="src\barebones\rendering\core\buffer_layout.h" />
+    <ClInclude Include="src\barebones\rendering\debug\gizmo.h" />
+    <ClInclude Include="src\barebones\rendering\debug\gizmos_layer.h" />
+    <ClInclude Include="src\barebones\core\barebones\layers\event_layer.h" />
+    <ClInclude Include="src\barebones\core\barebones\layers\input_layer.h" />
+    <ClInclude Include="src\barebones\core\layer.h" />
+    <ClInclude Include="src\barebones\core\layer_stack.h" />
+    <ClInclude Include="src\barebones\rendering\rendering_layer.h" />
+    <ClInclude Include="src\barebones\rendering\light.h" />
+    <ClInclude Include="src\barebones\rendering\renderer.h" />
+    <ClInclude Include="src\barebones\core\barebones\camera\perspective_camera.h" />
+    <ClInclude Include="src\barebones\rendering\shader\shader.h" />
+    <ClInclude Include="src\barebones\barebones_src.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\barebones\rendering\shader\sources\gizmo_unlit.shader" />
+    <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
+    <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
+    <None Include="src\barebones\rendering\shader\sources\wire_unlit.shader" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
