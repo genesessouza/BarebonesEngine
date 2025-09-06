@@ -2,7 +2,6 @@
 
 #include <barebones/core/core.h>
 
-#include <glm/ext/matrix_transform.hpp>
 #include <glad/glad.h>
 
 #include <iostream>

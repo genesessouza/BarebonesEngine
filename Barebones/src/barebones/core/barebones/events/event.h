@@ -3,11 +3,9 @@
 #include "keymap.h"
 
 #include <iostream>
-#include <queue>
 #include <unordered_map>
 #include <typeindex>
 #include <functional>
-#include <vector>
 
 class event
 {

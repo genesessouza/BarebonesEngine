@@ -3,8 +3,6 @@
 #include "event.h"
 
 #include <queue>
-#include <memory>
-#include <functional>
 
 class event_queue
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../barebones/events/event.h"
+#include "barebones/core/barebones/events/event.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

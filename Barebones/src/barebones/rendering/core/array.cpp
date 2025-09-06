@@ -1,8 +1,8 @@
 #include "array.h"
 
 #include <glad/glad.h>
-#include <iostream>
 
+#include <iostream>
 
 std::shared_ptr<vertex_array> vertex_array::create()
 {

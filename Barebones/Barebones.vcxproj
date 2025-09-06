@@ -91,6 +91,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad.c" />
+    <ClCompile Include="src\barebones\barebones_pch.cpp" />
     <ClCompile Include="src\barebones\core\application.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
@@ -113,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="src\barebones\barebones_pch.h" />
     <ClInclude Include="src\barebones\core\application.h" />
     <ClInclude Include="src\barebones\core\core.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

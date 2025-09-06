@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../rendering/shader/shader.h"
+#include "barebones/rendering/shader/shader.h"
 
-#include <glm/ext/matrix_float4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class perspective_camera
 {

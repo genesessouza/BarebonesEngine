@@ -1,14 +1,13 @@
 #include "glfw_window.h"
 
-#include "../barebones/events/event_queue.h"
-#include "../barebones/events/key_event.h"
-#include "../barebones/events/mouse_event.h"
+#include "barebones/core/barebones/events/event_queue.h"
+#include "barebones/core/barebones/events/key_event.h"
+#include "barebones/core/barebones/events/mouse_event.h"
+#include "barebones/core/barebones/events/window_event.h"
 
 #include <glm/ext/vector_float2.hpp>
 
 #include <iostream>
-#include "../barebones/events/window_event.h"
-
 
 glfw_window* glfw_window::create(const window_properties& props)
 {

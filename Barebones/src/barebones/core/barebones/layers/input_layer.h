@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../events/event.h"
-#include "../timestep.h"
-#include "../../layer.h"
+#include "barebones/core/barebones/events/event.h"
+#include "barebones/core/barebones/timestep.h"
+#include "barebones/core/layer.h"
 
 class input_layer : public layer
 {

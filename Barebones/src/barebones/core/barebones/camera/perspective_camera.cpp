@@ -2,8 +2,6 @@
 
 #include <glad/glad.h>
 
-#include <glm/gtc/matrix_transform.hpp>
-
 perspective_camera::perspective_camera(float fov, float aspect_ratio, float near_clip, float far_clip) : scene_shader(shader(LIT_SHADER_SOURCE)), position(glm::vec3(0.0f))
 {
 	view_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));

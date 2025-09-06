@@ -1,5 +1,7 @@
 #pragma once
 
+#include "event.h"
+
 class mouse_event : public event
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../core/core.h"
+#include "barebones/core/core.h"
 
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float4.hpp>

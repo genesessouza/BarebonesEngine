@@ -1,8 +1,8 @@
 #include "input_layer.h"
 
-#include "../events/event_queue.h"
-#include "../events/mouse_event.h"
-#include "../events/key_event.h"
+#include "barebones/core/barebones/events/event_queue.h"
+#include "barebones/core/barebones/events/mouse_event.h"
+#include "barebones/core/barebones/events/key_event.h"
 
 input_layer::input_layer()
 {

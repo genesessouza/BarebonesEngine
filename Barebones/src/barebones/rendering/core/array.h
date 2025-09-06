@@ -6,7 +6,6 @@
 #include <memory>
 #include <vector>
 
-
 class vertex_array
 {
 public:

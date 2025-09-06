@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+
 enum class shader_data_type
 {
 	None = 0,

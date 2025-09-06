@@ -1,9 +1,9 @@
 #include "event_layer.h"
 
-#include "../events/window_event.h"
-#include "../events/event_queue.h"
+#include "barebones/core/barebones/events/window_event.h"
+#include "barebones/core/barebones/events/event_queue.h"
 
-#include "../../application.h"
+#include "barebones/core/application.h"
 
 event_layer::event_layer()
 {

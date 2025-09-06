@@ -2,6 +2,8 @@
 
 #include "window/glfw_window.h"
 
+#include "barebones/timestep.h"
+
 #include "barebones/events/window_event.h"
 
 #include "barebones/layers/event_layer.h"
@@ -9,8 +11,6 @@
 
 #include "layer.h"
 #include "layer_stack.h"
-
-#include "barebones/timestep.h"
 
 class application
 {
