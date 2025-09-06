@@ -91,7 +91,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad.c" />
-    <ClCompile Include="src\barebones\barebones_pch.cpp" />
     <ClCompile Include="src\barebones\core\application.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
@@ -100,8 +99,8 @@
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
     <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
+    <ClCompile Include="src\barebones\rendering\debug\bounds.cpp" />
     <ClCompile Include="src\barebones\rendering\debug\gizmo.cpp" />
-    <ClCompile Include="src\barebones\rendering\debug\gizmos_layer.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\event_layer.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\input_layer.cpp" />
     <ClCompile Include="src\barebones\core\layer.cpp" />
@@ -114,7 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\glfw\include\GLFW\glfw3.h" />
-    <ClInclude Include="src\barebones\barebones_pch.h" />
     <ClInclude Include="src\barebones\core\application.h" />
     <ClInclude Include="src\barebones\core\core.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -136,8 +134,8 @@
     <ClInclude Include="src\barebones\rendering\core\buffer.h" />
     <ClInclude Include="src\barebones\core\window\glfw_window.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer_layout.h" />
+    <ClInclude Include="src\barebones\rendering\debug\bounds.h" />
     <ClInclude Include="src\barebones\rendering\debug\gizmo.h" />
-    <ClInclude Include="src\barebones\rendering\debug\gizmos_layer.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\event_layer.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\input_layer.h" />
     <ClInclude Include="src\barebones\core\layer.h" />
@@ -150,10 +148,9 @@
     <ClInclude Include="src\barebones\barebones_src.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\barebones\rendering\shader\sources\gizmo_unlit.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
-    <None Include="src\barebones\rendering\shader\sources\wire_unlit.shader" />
+    <None Include="src\barebones\rendering\shader\sources\debug_shader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

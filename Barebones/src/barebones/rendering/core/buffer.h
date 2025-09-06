@@ -43,10 +43,13 @@ public:
 	uint32_t get_index_buffer_id() const { return renderer_id; }
 	std::shared_ptr<index_buffer> get_index_buffer_object() const { return index_buffer_object; }
 
-	uint32_t get_count() { return count; }
+	uint32_t* get_indices() const { return indices; }
+
+	uint32_t get_count() const { return count; }
 private:
 	uint32_t renderer_id;
 	std::shared_ptr<index_buffer> index_buffer_object;
 
+	uint32_t* indices;
 	uint32_t count;
 };

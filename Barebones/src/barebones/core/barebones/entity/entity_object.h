@@ -1,7 +1,6 @@
 #pragma once
 
 #include "mesh.h"
-
 #include "material.h"
 
 #include "barebones/rendering/core/array.h"
@@ -25,29 +24,14 @@ public:
 
 	virtual std::shared_ptr<material> get_material() const { return entity_material; }
 	virtual std::shared_ptr<vertex_array> get_entity_vertex_array() const { return entity_vertex_array; }
-	virtual std::shared_ptr<vertex_array> get_lines_vertex_array() const { return lines_vertex_array; }
 
 	virtual glm::vec3 get_normal() const { return normal; }
-private:
-	void fill_faces(const mesh& mesh);
-
-	struct edge 
-	{
-		unsigned int a, b;
-		bool operator==(const edge& other) const {
-			return (a == other.a && b == other.b) || (a == other.b && b == other.a);
-		}
-	};
 protected:
 	void update_model_matrix();
 protected:
 	std::shared_ptr<vertex_array> entity_vertex_array;
 	std::shared_ptr<vertex_buffer> entity_vertex_buffer;
 	std::shared_ptr<index_buffer> entity_index_buffer;
-	
-	std::vector<edge> unique_edges;
-	std::shared_ptr<vertex_array> lines_vertex_array;
-	std::shared_ptr<index_buffer> lines_index_buffer;
 
 	std::shared_ptr<material> entity_material;
 

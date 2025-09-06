@@ -1,5 +1,3 @@
-#include "barebones/rendering/shader/shader.h"
-
 #include "barebones/core/barebones/entity/entity_object.h"
 
 #include <glad/glad.h>

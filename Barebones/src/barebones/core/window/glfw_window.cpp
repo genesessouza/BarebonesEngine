@@ -69,6 +69,12 @@ void glfw_window::init(const window_properties& props)
 			event_queue::instance().push(std::make_unique<window_closed>());
 		});
 
+	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
+		{
+			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
+			event_queue::instance().push(std::make_unique<window_resized>());
+		});
+
 	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);

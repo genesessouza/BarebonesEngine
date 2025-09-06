@@ -38,26 +38,9 @@ void renderer::submit(const entity_object* entity_obj, const perspective_camera*
 	entity_obj->get_entity_vertex_array()->bind();
 
 	draw(entity_obj);
-
-	entity_obj->get_material()->get_debug_shader()->bind();
-
-	entity_obj->get_material()->get_debug_shader()->define_mat4("u_view", &scene_camera->get_view_matrix()[0][0]);
-	entity_obj->get_material()->get_debug_shader()->define_mat4("u_projection", &scene_camera->get_projection_matrix()[0][0]);
-
-	entity_obj->get_lines_vertex_array()->bind();
-
-	draw_debug(entity_obj);
 }
 
 void renderer::draw(const entity_object* entity_obj)
 {
 	glDrawElements(GL_TRIANGLES, entity_obj->get_entity_vertex_array()->get_index_buffer()->get_count(), GL_UNSIGNED_INT, 0);
-}
-
-void renderer::draw_debug(const entity_object* entity_obj)
-{
-	uint32_t index_count = entity_obj->get_lines_vertex_array()->get_index_buffer()->get_count();
-	glLineWidth(1.5);
-	glDrawElements(GL_LINES, index_count, GL_UNSIGNED_INT, 0);
-	glLineWidth(1);
 }
