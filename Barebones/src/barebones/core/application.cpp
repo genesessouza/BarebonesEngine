@@ -1,4 +1,5 @@
 #include "application.h"
+#include "barebones/events/event_queue.h"
 
 application* application::s_instance = nullptr;
 
@@ -19,7 +20,7 @@ application::application() : m_event_layer(new event_layer()), m_input_layer(new
 	push_layer(m_event_layer);
 
 	m_input_layer = new input_layer();
-	push_layer(m_input_layer);
+	push_overlay(m_input_layer);
 }
 
 void application::push_layer(layer* layer)
@@ -46,15 +47,25 @@ void application::run()
 		delta_time = time - m_last_frame_time;
 		m_last_frame_time = time;
 
+		static float current_time = 0;
+		current_time += delta_time;
+
 		// FPS for debugging
-		if (m_show_fps)
-			std::cout << "Delta Time: " << delta_time << " | FPS: " << 1 / delta_time << std::endl;
+		if (current_time >= 0.016)
+		{
+			if (m_show_fps)
+				std::cout << "Delta Time: " << delta_time << " | FPS: " << 1 / delta_time << std::endl;
+
+			current_time = 0;
+		}
 
 		for (layer* layer : m_layer_stack)
 			layer->on_update(delta_time);
 
 		m_window->on_update();
 		on_update_application();
+
+		event_queue::instance().run();
 	}
 }
 

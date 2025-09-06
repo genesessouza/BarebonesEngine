@@ -1,4 +1,5 @@
 #include "mesh.h"
+
 #include <iostream>
 
 mesh::mesh()

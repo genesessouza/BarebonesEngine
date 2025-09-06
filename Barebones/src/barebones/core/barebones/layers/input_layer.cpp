@@ -6,14 +6,16 @@
 
 input_layer::input_layer()
 {
+	previous_key_state = current_key_state;
+
 	event_dispatcher::instance().subscribe<key_pressed>([this](key_pressed& ev)
 		{
-			key_state[ev.get_code()] = true;
+			current_key_state[ev.get_code()] = true;
 		});
 
 	event_dispatcher::instance().subscribe<key_released>([this](key_released& ev)
 		{
-			key_state[ev.get_code()] = false;
+			current_key_state[ev.get_code()] = false;
 		});
 
 	event_dispatcher::instance().subscribe<mouse_clicked>([this](mouse_clicked& ev)
@@ -27,7 +29,11 @@ input_layer::input_layer()
 		});
 }
 
+input_layer::~input_layer()
+{
+
+}
+
 void input_layer::on_update(timestep delta_time)
 {
-	event_queue::instance().run();
 }

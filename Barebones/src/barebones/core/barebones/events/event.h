@@ -1,8 +1,7 @@
-#pragma once
+﻿#pragma once
 
 #include "keymap.h"
 
-#include <iostream>
 #include <unordered_map>
 #include <typeindex>
 #include <functional>
@@ -42,14 +41,9 @@ public:
 		if (it != listeners.end())
 		{
 			for (auto& listener : it->second)
-			{
 				listener(ev);
-				ev.m_handled = true;
-			}
 		}
 	}
-public:
-	std::unordered_map<int, bool> key_state;
 private:
 	event_dispatcher() = default;
 	std::unordered_map<std::type_index, std::vector<std::function<void(event&)>>> listeners;

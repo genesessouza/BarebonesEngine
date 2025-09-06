@@ -3,6 +3,7 @@
 #include "event.h"
 
 #include <queue>
+#include <iostream>
 
 class event_queue
 {

@@ -15,5 +15,4 @@ event_layer::event_layer()
 
 void event_layer::on_update(timestep delta_time)
 {
-	event_queue::instance().run();
 }

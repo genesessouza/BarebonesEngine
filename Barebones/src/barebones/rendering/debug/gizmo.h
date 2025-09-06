@@ -1,5 +1,3 @@
-#include "barebones/rendering/shader/shader.h"
-
 #include "barebones/core/barebones/entity/entity_object.h"
 
 #include <glad/glad.h>
@@ -10,7 +8,7 @@
 
 #include <iostream>
 
-struct arrow 
+struct arrow
 {
 	std::shared_ptr<vertex_array> vao;
 	std::shared_ptr<vertex_buffer> vbo;
@@ -24,7 +22,7 @@ struct arrow
 	glm::vec3 dir;
 };
 
-enum class gizmo_axis 
+enum class gizmo_axis
 {
 	none,
 	x,

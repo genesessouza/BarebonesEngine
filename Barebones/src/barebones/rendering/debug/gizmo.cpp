@@ -66,9 +66,9 @@ void gizmo::render(const glm::mat4& view, const glm::mat4& proj)
 	for (auto& arrow : arrows)
 	{
 		get_material()->set_model_matrix(&model_matrix[0][0]);
-		get_material()->get_shader()->define_mat4("u_view", &view[0][0]);
-		get_material()->get_shader()->define_mat4("u_projection", &proj[0][0]);
-		get_material()->get_shader()->define_vec3("u_color", arrow.color);
+		get_material()->get_debug_shader()->define_mat4("u_view", &view[0][0]);
+		get_material()->get_debug_shader()->define_mat4("u_projection", &proj[0][0]);
+		get_material()->get_debug_shader()->define_vec3("u_color", arrow.color);
 
 		arrow.vao->bind();
 		glDrawArrays(GL_LINES, 0, 2);
@@ -79,7 +79,7 @@ void gizmo::render(const glm::mat4& view, const glm::mat4& proj)
 		if (arrow.dir == glm::vec3(1, 0, 0)) coneModel *= glm::rotate(glm::mat4(1.0f), glm::half_pi<float>(), glm::vec3(0, 1, 0));
 		if (arrow.dir == glm::vec3(0, 1, 0)) coneModel *= glm::rotate(glm::mat4(1.0f), -glm::half_pi<float>(), glm::vec3(1, 0, 0));
 
-		get_material()->get_shader()->define_mat4("u_model", &coneModel[0][0]);
+		get_material()->get_debug_shader()->define_mat4("u_model", &coneModel[0][0]);
 
 		arrow.cone_vao->bind();
 		glDrawArrays(GL_TRIANGLES, 0, arrow.coneVertexCount);

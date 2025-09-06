@@ -22,8 +22,6 @@ app::app()
 		quad1.get_material()->set_color(glm::vec4(0, 0, 0.7, 1)); // blue
 		cube1.get_material()->set_color(glm::vec4(0.7, 0, 0, 1)); // red
 
-		glm::vec3 sun = glm::vec3(1.0f, 0.9f, 0.7f);
-
 		light_source = new light(light_type::directional, sun, 1);
 		light_source->set_position(glm::vec3(3, 5, 0));
 		light_source->set_color(sun, 1);
@@ -37,10 +35,7 @@ app::app()
 		m_rendering_layer->add_object(*light_source, true);
 		push_overlay(m_rendering_layer);
 
-		m_debug_layer = new gizmos_layer(m_rendering_layer->get_scene_objects(), *camera);
-		push_overlay(m_debug_layer);
-
-		m_show_fps = true;
+		//m_show_fps = true;
 	}
 }
 
@@ -59,7 +54,7 @@ void app::on_update_application()
 	else if (input_system()->get_key(GLFW_KEY_RIGHT))
 		yRot -= 180 * delta_time;
 
-	if (input_system()->get_key(GLFW_KEY_F))
+	if (input_system()->get_key_down(GLFW_KEY_F))
 	{
 		if (light_source->get_light_type() == light_type::directional)
 			light_source->set_light_type(light_type::point);
@@ -67,7 +62,15 @@ void app::on_update_application()
 			light_source->set_light_type(light_type::directional);
 	}
 
-	//light_source->set_rotation(glm::vec3(xRot, yRot, zRot));
-	cube1.set_rotation(glm::vec3(xRot, yRot, zRot));
+	if (input_system()->get_key_down(GLFW_KEY_G))
+		m_rendering_layer->set_show_objects_on_scene_gizmo(!m_rendering_layer->get_show_objects_on_scene_gizmo());
+
+	if (input_system()->get_key_down(GLFW_KEY_B))
+		m_rendering_layer->set_show_objects_on_scene_bounds(!m_rendering_layer->get_show_objects_on_scene_bounds());
+
+	//light_source->set_position(glm::vec3(xRot, yRot, zRot));
+
+	light_source->set_rotation(glm::vec3(xRot, yRot, zRot));
+	//cube1.set_rotation(glm::vec3(xRot, yRot, zRot));
 	//quad1.set_rotation(glm::vec3(xRot, yRot, zRot));
 }

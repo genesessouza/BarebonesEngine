@@ -2,15 +2,14 @@
 
 entity::entity(mesh mesh) : entity_object(mesh)
 {
-	entity_gizmo = new gizmo(GIZMO_UNLIT_SOURCE);
+	entity_gizmo = new gizmo(DEBUG_SHADER_SOURCE);
+	entity_bounds = new bounds(mesh, DEBUG_SHADER_SOURCE);
 
-	update_gizmo();
-}
-
-void entity::update_gizmo()
-{
 	glm::vec3 center = getWorldCenter();
 
 	entity_gizmo->set_position(center);
 	entity_gizmo->set_rotation(get_rotation());
+
+	entity_bounds->set_position(center);
+	entity_bounds->set_rotation(get_rotation());
 }

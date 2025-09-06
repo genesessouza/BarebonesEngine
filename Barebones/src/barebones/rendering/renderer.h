@@ -14,7 +14,6 @@ public:
 	void begin_scene(const perspective_camera* camera);
 
 	void submit(const entity_object* entity_obj, const perspective_camera* scene_camera, const glm::mat4& transform = glm::mat4(1.0f));
-	void draw_debug(const entity_object* entity_obj);
 private:
 	void draw(const entity_object* entity_obj);
 

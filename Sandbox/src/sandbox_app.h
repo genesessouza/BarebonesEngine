@@ -20,9 +20,10 @@ private:
 	// SCENE CAMERAS
 	perspective_camera* camera;
 private:
-	gizmos_layer* m_debug_layer;
 	rendering_layer* m_rendering_layer;
 private:
 	float xPos = 0, yPos = 0, zPos = 0;
 	float xRot = 0, yRot = 0, zRot = 0;
+
+	glm::vec3 sun = glm::vec3(1.0f, 0.9f, 0.7f);
 };

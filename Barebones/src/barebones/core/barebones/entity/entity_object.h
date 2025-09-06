@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "mesh.h"
@@ -31,7 +32,7 @@ public:
 private:
 	void fill_faces(const mesh& mesh);
 
-	struct edge 
+	struct edge
 	{
 		unsigned int a, b;
 		bool operator==(const edge& other) const {
@@ -44,7 +45,7 @@ protected:
 	std::shared_ptr<vertex_array> entity_vertex_array;
 	std::shared_ptr<vertex_buffer> entity_vertex_buffer;
 	std::shared_ptr<index_buffer> entity_index_buffer;
-	
+
 	std::vector<edge> unique_edges;
 	std::shared_ptr<vertex_array> lines_vertex_array;
 	std::shared_ptr<index_buffer> lines_index_buffer;

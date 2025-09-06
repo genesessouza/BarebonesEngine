@@ -7,8 +7,8 @@ D:\Dev\BarebonesEngine\Barebones\src\barebones\core\barebones\entity\mesh.cpp;D:
 D:\Dev\BarebonesEngine\Barebones\src\barebones\rendering\core\array.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\array.obj
 D:\Dev\BarebonesEngine\Barebones\src\barebones\rendering\core\buffer.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\buffer.obj
 D:\Dev\BarebonesEngine\Barebones\src\barebones\core\window\glfw_window.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\glfw_window.obj
+D:\Dev\BarebonesEngine\Barebones\src\barebones\rendering\debug\bounds.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\bounds.obj
 D:\Dev\BarebonesEngine\Barebones\src\barebones\rendering\debug\gizmo.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\gizmo.obj
-D:\Dev\BarebonesEngine\Barebones\src\barebones\rendering\debug\gizmos_layer.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\gizmos_layer.obj
 D:\Dev\BarebonesEngine\Barebones\src\barebones\core\barebones\layers\event_layer.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\event_layer.obj
 D:\Dev\BarebonesEngine\Barebones\src\barebones\core\barebones\layers\input_layer.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\input_layer.obj
 D:\Dev\BarebonesEngine\Barebones\src\barebones\core\layer.cpp;D:\Dev\BarebonesEngine\bin-int\Barebones\Debug-x64\layer.obj
