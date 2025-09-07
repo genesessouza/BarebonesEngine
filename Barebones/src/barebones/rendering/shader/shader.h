@@ -1,6 +1,7 @@
 #pragma once
 
 #include "barebones/core/core.h"
+#include "barebones/core/barebones/entity/mesh.h"
 
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float4.hpp>
@@ -43,6 +44,12 @@ public:
 
 	glm::mat3 get_mat3(const std::string& name);
 	glm::mat4 get_mat4(const std::string& name);
+
+	// ------------------------------ EXPERIMENTAL -------------------------------- //
+	
+	void define_ubo(const std::string& blockName, const std::vector<sdf_primitive>& primitives) const;
+
+	// ---------------------------------------------------------------------------- //
 
 	uint32_t get_shader() const { return renderer_id; }
 private:

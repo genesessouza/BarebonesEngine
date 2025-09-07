@@ -33,6 +33,9 @@ uniform vec3 u_lightDir;
 uniform vec4 u_lightColor;
 uniform vec4 u_color;
 
+// Novo: resultado do SDF / shadow calculado globalmente
+uniform float u_shadow; // 0.0 = total sombra, 1.0 = totalmente iluminado
+
 void main()
 {
     vec3 norm = normalize(Normal);
@@ -46,10 +49,8 @@ void main()
     float diff = max(dot(lightDir, norm), 0.0);
     vec3 diffuse = diff * u_lightColor.rgb;
 
-    vec3 result = (ambient + diffuse) * u_color.rgb;
-
-    // Normal debug
-    // FragColor = vec4(normalize(Normal) * 0.5 + 0.5, 1.0);
+    // Multiplica diffuse pelo shadow
+    vec3 result = (ambient + diffuse * u_shadow) * u_color.rgb;
 
     FragColor = vec4(result, u_color.a);
 };
