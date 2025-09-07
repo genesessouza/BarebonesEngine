@@ -33,6 +33,9 @@ uniform vec3 u_lightDir;
 uniform vec4 u_lightColor;
 uniform vec4 u_color;
 
+// Novo: resultado do SDF / shadow calculado globalmente
+uniform float u_shadow; // 0.0 = total sombra, 1.0 = totalmente iluminado
+
 void main()
 {
     vec3 norm = normalize(Normal);
