@@ -46,10 +46,8 @@ void main()
     float diff = max(dot(lightDir, norm), 0.0);
     vec3 diffuse = diff * u_lightColor.rgb;
 
+    // Multiplica diffuse pelo shadow
     vec3 result = (ambient + diffuse) * u_color.rgb;
-
-    // Normal debug
-    // FragColor = vec4(normalize(Normal) * 0.5 + 0.5, 1.0);
 
     FragColor = vec4(result, u_color.a);
 };

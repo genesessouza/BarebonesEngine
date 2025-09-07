@@ -146,8 +146,10 @@
     <ClInclude Include="src\barebones\core\barebones\camera\perspective_camera.h" />
     <ClInclude Include="src\barebones\rendering\shader\shader.h" />
     <ClInclude Include="src\barebones\barebones_src.h" />
+    <ClInclude Include="src\barebones\rendering\tests\sdf\sdf.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\barebones\rendering\shader\sources\lit_sdf_sample.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\debug_shader.shader" />

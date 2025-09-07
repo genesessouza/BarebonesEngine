@@ -7,7 +7,7 @@
 entity_object::entity_object(const mesh& mesh, const char* shader_filepath)
 {
     if (shader_filepath == nullptr || std::strlen(shader_filepath) == 0)
-        entity_material = material::instantiate(LIT_SHADER_SOURCE);
+        entity_material = material::instantiate(LIT_SDF_SAMPLE_SOURCE);
     else
         entity_material = material::instantiate(shader_filepath);
 

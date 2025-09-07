@@ -3,6 +3,20 @@
 #include <vector>
 #include <cstdint>
 
+#include <glm/gtc/matrix_transform.hpp>
+
+// ------------------------------ EXPERIMENTING -------------------------------- //
+
+struct sdf_primitive {
+	int type; // Plane=0, Triangle=1, Cube=2, etc.
+	glm::vec3 position = glm::vec3(0);
+	glm::vec3 scale = glm::vec3(1);
+	glm::vec3 rotation = glm::vec3(0);
+	float padding;
+};
+
+// ----------------------------------------------------------------------------- //
+
 struct mesh_data
 {
 	std::vector<float> vertices;
@@ -25,8 +39,12 @@ public:
 
 	float get_vertex_size() const { return data.vertex_size; }
 	uint32_t get_indices_count() const { return data.index_size; }
+
+	sdf_primitive& get_sdf_data() { return sdf_data; }
 protected:
 	mesh_data data;
+
+	sdf_primitive sdf_data;
 };
 
 class quad : public mesh
@@ -46,6 +64,8 @@ public:
 
 		set_vertices(vertices, vertex_size);
 		set_indices(indices, index_size);
+
+		sdf_data.type = 0; // Plane
 	}
 };
 
@@ -65,6 +85,8 @@ public:
 
 		set_vertices(vertices, vertex_size);
 		set_indices(indices, index_size);
+
+		sdf_data.type = 1; // Triangle
 	}
 };
 
@@ -123,5 +145,7 @@ public:
 
 		set_vertices(vertices, vertex_size);
 		set_indices(indices, index_size);
+
+		sdf_data.type = 2;
 	}
 };

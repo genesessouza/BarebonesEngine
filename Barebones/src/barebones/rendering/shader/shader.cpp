@@ -247,3 +247,27 @@ glm::mat4 shader::get_mat4(const std::string& name)
 	return glm::mat4(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5], matrix[6], matrix[7],
 		matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15]);
 }
+
+void shader::define_ubo(const std::string& blockName, const std::vector<sdf_primitive>& primitives) const
+{
+	GLuint blockIndex = glGetUniformBlockIndex(renderer_id, blockName.c_str());
+	if (blockIndex == GL_INVALID_INDEX) return;
+
+	GLuint ubo;
+	glGenBuffers(1, &ubo);
+	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(int) + primitives.size() * sizeof(sdf_primitive), nullptr, GL_DYNAMIC_DRAW);
+
+	// Mapeia buffer
+	GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+	if (ptr)
+	{
+		int count = (int)primitives.size();
+		memcpy(ptr, &count, sizeof(int));
+		memcpy((char*)ptr + sizeof(int), primitives.data(), primitives.size() * sizeof(sdf_primitive));
+		glUnmapBuffer(GL_UNIFORM_BUFFER);
+	}
+
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo); // binding 0 no shader
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
