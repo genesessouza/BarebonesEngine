@@ -8,12 +8,26 @@
 // ------------------------------ EXPERIMENTING -------------------------------- //
 
 struct sdf_primitive {
-	int type; // Plane=0, Triangle=1, Cube=2, etc.
-	glm::vec3 position = glm::vec3(0);
-	glm::vec3 scale = glm::vec3(1);
-	glm::vec3 rotation = glm::vec3(0);
-	float padding;
+	int type = 0; // Plane = 0, Triangle = 1, Cube = 2	// 4
+	int pad0;											// 4
+	int pad1;											// 4
+	int pad2;											// 4
+
+	glm::vec4 position = glm::vec4(0.0f);				// 16
+	glm::vec4 rotation = glm::vec4(0.0f);				// 16
+	glm::vec4 scale = glm::vec4(1.0f);					// 16
 };
+static_assert(sizeof(sdf_primitive) == 64, "sdf_primitive deve ter 64 bytes em std140");
+
+struct sdf_primitive_block {
+	int primitiveCount = 0;								// 4
+	int pad0;											// 4
+	int pad1;											// 4
+	int pad2;											// 4  -> 16 bytes (slot completo para o count)
+
+	sdf_primitive primitives[128];						// 128 * 64 = 8192 bytes
+};
+static_assert(sizeof(sdf_primitive_block) == 8208, "sdf_block deve ter 8208 bytes em std140");
 
 // ----------------------------------------------------------------------------- //
 
@@ -41,6 +55,14 @@ public:
 	uint32_t get_indices_count() const { return data.index_size; }
 
 	sdf_primitive& get_sdf_data() { return sdf_data; }
+
+	void set_sdf_data(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale) 
+	{ 
+		sdf_data.position = glm::vec4(pos, 1); 
+		sdf_data.rotation = glm::vec4(rot, 1); 
+		sdf_data.scale = glm::vec4(scale, 1);
+	}
+
 protected:
 	mesh_data data;
 

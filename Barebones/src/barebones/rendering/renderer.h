@@ -22,7 +22,7 @@ public:
 		const glm::mat4& transform,
 		const glm::vec3& lightDir,
 		const glm::vec4& lightColor,
-		const std::vector<sdf_primitive>& primitives);
+		std::vector<sdf_primitive*>& primitives);
 
 	// ------------------------------------------------------------------------------------- //
 private:

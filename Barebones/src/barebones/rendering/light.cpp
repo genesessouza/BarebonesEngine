@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-light::light(light_type type, const glm::vec3& color, const float& intensity) : entity(triangle())
+light::light(light_type type, const glm::vec3& color, const float& intensity) : entity(new triangle())
 {
 	this->base_color = color;
 	this->type = type;

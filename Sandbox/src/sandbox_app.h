@@ -11,8 +11,8 @@ private:
 	virtual void on_update_application() override;
 private:
 	// SCENE OBJECTS
-	entity quad1 = entity(quad());
-	entity cube1 = entity(cube());
+	entity quad1 = entity(new quad());
+	entity cube1 = entity(new cube());
 
 	// SCENE LIGHTS
 	light* light_source;

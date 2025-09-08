@@ -12,6 +12,7 @@
 class entity_object
 {
 public:
+	entity_object(const mesh* mesh, const char* shader_filepath = nullptr);
 	entity_object(const mesh& mesh, const char* shader_filepath = nullptr);
 	entity_object(const char* shader_filepath = nullptr) : entity_object(mesh{}, shader_filepath) {}
 

@@ -33,7 +33,7 @@ void renderer::submit_sdf(const entity_object* entity_obj,
 	const glm::mat4& transform,
 	const glm::vec3& lightDir,
 	const glm::vec4& lightColor,
-	const std::vector<sdf_primitive>& primitives)
+	std::vector<sdf_primitive*>& primitives)
 {
 	auto shader = entity_obj->get_material()->get_shader();
 	shader->bind();
@@ -45,8 +45,7 @@ void renderer::submit_sdf(const entity_object* entity_obj,
 	shader->define_vec3("u_lightDir", lightDir);
 	shader->define_vec4("u_lightColor", lightColor);
 
-	// === Popula o UBO com as primitivas SDF ===
-	shader->define_ubo("SDFPrimitivesBlock", primitives);
+	shader->define_ubo("SDFPrimitiveBlock", primitives);
 
 	entity_obj->get_entity_vertex_array()->bind();
 	draw(entity_obj);

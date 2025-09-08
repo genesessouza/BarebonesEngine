@@ -17,7 +17,7 @@ void rendering_layer::add_object(entity& object_to_render, bool is_main_light)
 	objects_on_scene_gizmo.push_back(*object_to_render.expose_gizmo());
 	objects_on_scene_bounds.push_back(*object_to_render.expose_bounds());
 
-	primitives.push_back(object_to_render.expose_sdf_data());
+	primitives.push_back(&object_to_render.expose_sdf_data());
 }
 
 void rendering_layer::on_update(timestep deltatime)
@@ -26,12 +26,14 @@ void rendering_layer::on_update(timestep deltatime)
 
 	scene_renderer->begin_scene(scene_camera);
 
-	glm::vec3 light_normal = glm::normalize(main_light->get_normal());
+	glm::vec3 light_normal = main_light->get_normal();
 
 	for (auto& obj : objects_on_scene)
 	{
-		scene_renderer->submit(obj, scene_camera, glm::mat4(1.0f));
-		main_light->shine_on_objects(obj);
+		//scene_renderer->submit(obj, scene_camera, glm::mat4(1.0f));
+		//main_light->shine_on_objects(obj);
+
+		obj->update_sdf_data(obj->get_position(), obj->get_rotation(), obj->get_scale());
 
 		if (show_objects_on_scene_gizmo)
 		{

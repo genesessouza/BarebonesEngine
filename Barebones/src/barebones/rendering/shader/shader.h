@@ -47,7 +47,7 @@ public:
 
 	// ------------------------------ EXPERIMENTAL -------------------------------- //
 	
-	void define_ubo(const std::string& blockName, const std::vector<sdf_primitive>& primitives) const;
+	void define_ubo(const std::string& blockName, const std::vector<sdf_primitive*>& primitives) const;
 
 	// ---------------------------------------------------------------------------- //
 

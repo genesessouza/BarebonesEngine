@@ -16,16 +16,20 @@ struct mesh_bounds
 class entity : public entity_object
 {
 public:
-	entity(mesh mesh);
+	entity(mesh* mesh);
 
 	const gizmo* expose_gizmo() { return entity_gizmo; }
 	const bounds* expose_bounds() { return entity_bounds; }
 
-	sdf_primitive expose_sdf_data() { return m_mesh.get_sdf_data(); }
+	sdf_primitive& expose_sdf_data() { return m_mesh->get_sdf_data(); }
+
+	void update_sdf_data(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale) { m_mesh->set_sdf_data(pos, rot, scale); }
+
 private:
 	glm::vec3 getWorldCenter() const { return glm::vec3(model_matrix * glm::vec4(m_mesh_bounds.local_center, 1.0f)); }
 private:
-	mesh m_mesh;
+	mesh* m_mesh;
+	int m_primitive_type;
 
 	gizmo* entity_gizmo;
 	bounds* entity_bounds;

@@ -10,10 +10,10 @@
 class bounds : public entity_object
 {
 public:
-	bounds(const mesh& mesh, const char* shader_filepath)
+	bounds(const mesh* mesh, const char* shader_filepath)
 		: entity_object(mesh, shader_filepath)
 	{
-		fill_faces(mesh);
+		fill_faces(*mesh);
 	}
 
 	void render(const glm::mat4& view, const glm::mat4& proj);

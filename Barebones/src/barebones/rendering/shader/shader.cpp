@@ -248,26 +248,51 @@ glm::mat4 shader::get_mat4(const std::string& name)
 		matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15]);
 }
 
-void shader::define_ubo(const std::string& blockName, const std::vector<sdf_primitive>& primitives) const
+void shader::define_ubo(const std::string& blockName, const std::vector<sdf_primitive*>& primitives) const
 {
 	GLuint blockIndex = glGetUniformBlockIndex(renderer_id, blockName.c_str());
-	if (blockIndex == GL_INVALID_INDEX) return;
+
+	if (blockIndex == GL_INVALID_INDEX || blockIndex == -1)
+		get_shader_info_log(blockName);
+	
+	int primitives_size = sizeof(int) + primitives.size() * sizeof(sdf_primitive);
+	//std::cout << "primitives_size: " << primitives_size << std::endl;
+
+	GLint block_size = 0;
+	glGetActiveUniformBlockiv(renderer_id, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &block_size);
+
+	//std::cout << "[" << blockName << "] has size of " << block_size << " bytes" << std::endl;
+
+	GLubyte* block_buffer = (GLubyte*)malloc(block_size);
 
 	GLuint ubo;
 	glGenBuffers(1, &ubo);
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(int) + primitives.size() * sizeof(sdf_primitive), nullptr, GL_DYNAMIC_DRAW);
 
-	// Mapeia buffer
+	glBufferData(GL_UNIFORM_BUFFER, block_size, nullptr, GL_DYNAMIC_DRAW);
+	glUseProgram(renderer_id);
+
 	GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
 	if (ptr)
 	{
-		int count = (int)primitives.size();
+		// count (16 bytes in std140)
+		int count = static_cast<int>(primitives.size());
 		memcpy(ptr, &count, sizeof(int));
-		memcpy((char*)ptr + sizeof(int), primitives.data(), primitives.size() * sizeof(sdf_primitive));
+		memset(reinterpret_cast<char*>(ptr) + 4, 0, 12);
+
+		// initial offset = 16 (count to vec4)
+		char* offset = reinterpret_cast<char*>(ptr) + 16;
+		for (size_t i = 0; i < primitives.size(); i++)
+		{
+			memcpy(offset, primitives[i], sizeof(sdf_primitive));
+			offset += sizeof(sdf_primitive); // 64 bytes each
+		}
+
 		glUnmapBuffer(GL_UNIFORM_BUFFER);
 	}
 
-	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo); // binding 0 no shader
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	free(block_buffer);
 }

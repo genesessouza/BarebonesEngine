@@ -41,5 +41,5 @@ private:
 	bool show_objects_on_scene_gizmo;
 	bool show_objects_on_scene_bounds;
 private:
-	std::vector<sdf_primitive> primitives;
+	std::vector<sdf_primitive*> primitives;
 };
