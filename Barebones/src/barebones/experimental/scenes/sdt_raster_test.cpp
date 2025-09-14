@@ -36,11 +36,14 @@ sdf_raster_test::sdf_raster_test()
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
 	{
 		m_rendering_layer = new rendering_layer(*camera);
+
 		m_rendering_layer->add_object(quad1, false);
 		m_rendering_layer->add_object(cube1, false);
 		m_rendering_layer->add_object(*light_source, true);
+
 		push_overlay(m_rendering_layer);
 
+		get_window().set_vsync(false);
 		m_show_fps = true;
 	}
 }
@@ -108,9 +111,9 @@ void sdf_raster_test::on_update_application()
 	glm::vec3 cubePos = cube1.get_position();
 
 	// --------------------------- GETS CUBE SCALE AND POS FOR RAY EXIT - DOESNT SUPPORT OBJECT ROTATION (YET!) ------------------------------ //
-	
+
 	quad1.get_material()->get_shader()->define_vec3("u_cubeMin", glm::vec3(-(cubeScl.x / 2) + (cubePos.x / 2), (cubeScl.y / 2) + (cubePos.y / 2), -(cubeScl.z / 2) + (cubePos.z / 2))); // -0.5, 0.5, -0.5
-	quad1.get_material()->get_shader()->define_vec3("u_cubeMax", glm::vec3((cubeScl.x / 2) + (cubePos.x / 2), cubePos.y / 2, (cubeScl.z / 2) + (cubePos.z / 2))); 
+	quad1.get_material()->get_shader()->define_vec3("u_cubeMax", glm::vec3((cubeScl.x / 2) + (cubePos.x / 2), cubePos.y / 2, (cubeScl.z / 2) + (cubePos.z / 2)));
 
 	// --------------------------------------------------------------------------------------------------------------------------------------- //
 

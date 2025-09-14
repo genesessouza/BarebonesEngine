@@ -4,8 +4,6 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <iostream>
-
 renderer::scene_data* renderer::m_scene_data = new renderer::scene_data;
 
 renderer::renderer(glm::vec4 color)

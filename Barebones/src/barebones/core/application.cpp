@@ -14,7 +14,7 @@ application::application() : m_event_layer(new event_layer()), m_input_layer(new
 	s_instance = this;
 
 	m_window = std::unique_ptr<glfw_window>(glfw_window::create());
-	m_window->set_vsync(false);
+	m_window->set_vsync(true);
 
 	m_event_layer = new event_layer();
 	push_layer(m_event_layer);

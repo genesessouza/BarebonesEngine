@@ -1,11 +1,9 @@
 #include "entity.h"
 
-entity::entity(const mesh* mesh, bool sdf) : entity_object(mesh)
+entity::entity(mesh* mesh, const char* shader_filepath) : entity_object(mesh, shader_filepath)
 {
-	if (sdf)
-		entity_material = material::instantiate(SDF_INTEGRATION_SOURCE);
+	entity_material->set_shader(shader::instantiate(shader_filepath));
 
-	/*
 	entity_gizmo = new gizmo(DEBUG_SHADER_SOURCE);
 	entity_bounds = new bounds(mesh, DEBUG_SHADER_SOURCE);
 
@@ -16,5 +14,4 @@ entity::entity(const mesh* mesh, bool sdf) : entity_object(mesh)
 
 	entity_bounds->set_position(center);
 	entity_bounds->set_rotation(get_rotation());
-	*/
 }

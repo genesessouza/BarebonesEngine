@@ -16,17 +16,15 @@ struct mesh_bounds
 class entity : public entity_object
 {
 public:
-	entity(const mesh* mesh, bool sdf);
+	entity(mesh* mesh, const char* shader_filepath);
 
-	virtual std::shared_ptr<material> get_material() const { return entity_material; }
-
-	//gizmo expose_gizmo() const override { return entity_gizmo; }
-	//bounds expose_bounds() const override { return entity_bounds; }
+	gizmo* expose_gizmo() { return entity_gizmo; }
+	bounds* expose_bounds() { return entity_bounds; }
 private:
 	glm::vec3 getWorldCenter() const { return glm::vec3(model_matrix * glm::vec4(m_mesh_bounds.local_center, 1.0f)); }
 private:
-	//gizmo* entity_gizmo;
-	//bounds* entity_bounds;
+	gizmo* entity_gizmo;
+	bounds* entity_bounds;
 
 	mesh_bounds m_mesh_bounds;
 };

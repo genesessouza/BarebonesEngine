@@ -63,7 +63,7 @@ void main()
     {
         if(u_directionalLight)
         {
-            vec3 rd = normalize(u_lightDir);
+            vec3 rd = normalize(-u_lightDir);
             float maxDist = 100.0;
 
             bool blocked = intersectAABB(FragPos, rd, u_cubeMin, u_cubeMax, maxDist);

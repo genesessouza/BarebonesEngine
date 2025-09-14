@@ -10,8 +10,8 @@
 class bounds : public entity_object
 {
 public:
-	bounds(const mesh* mesh, const char* m_shader_filepath)
-		: entity_object(mesh, m_shader_filepath)
+	bounds(const mesh* mesh, const char* shader_filepath)
+		: entity_object(mesh, shader_filepath)
 	{
 		fill_faces(*mesh);
 	}

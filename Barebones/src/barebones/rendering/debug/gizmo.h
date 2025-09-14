@@ -33,7 +33,8 @@ enum class gizmo_axis
 class gizmo : public entity_object
 {
 public:
-	gizmo(const char* m_shader_filepath) : entity_object(m_shader_filepath)
+	gizmo(const char* shader_filepath)
+		: entity_object(shader_filepath), gizmo_material(get_material()), gizmo_shader(gizmo_material->get_debug_shader())
 	{
 		create_arrow(glm::vec3(1, 0, 0), glm::vec3(1, 0, 0));
 		create_arrow(glm::vec3(0, 1, 0), glm::vec3(0, 1, 0));
@@ -56,4 +57,7 @@ private:
 private:
 	std::vector<arrow> arrows;
 	gizmo_axis selected = gizmo_axis::none;
+
+	std::shared_ptr<material> gizmo_material;
+	std::shared_ptr<shader> gizmo_shader;
 };

@@ -1,7 +1,11 @@
 #pragma once
 
-#include "barebones/barebones_src.h"
+#include "barebones/core/entry.h"
 #include "barebones/core/application.h"
+#include "barebones/core/barebones/camera/perspective_camera.h"
+#include "barebones/core/barebones/entity/entity.h"
+
+#include "barebones/rendering/rendering_layer.h"
 
 class sdf_raster_test : public application
 {
@@ -11,8 +15,8 @@ private:
 	virtual void on_update_application() override;
 private:
 	// SCENE OBJECTS
-	entity quad1 = entity(new quad(), true);
-	entity cube1 = entity(new cube(), true);
+	entity quad1 = entity(new quad(), SDF_INTEGRATION_SOURCE);
+	entity cube1 = entity(new cube(), SDF_INTEGRATION_SOURCE);
 
 	// SCENE LIGHTS
 	light* light_source;
