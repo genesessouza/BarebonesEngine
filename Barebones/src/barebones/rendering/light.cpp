@@ -2,9 +2,7 @@
 
 #include <glm/ext/vector_float3.hpp>
 
-#include <iostream>
-
-light::light(light_type type, const glm::vec3& color, const float& intensity) : entity(new triangle())
+light::light(light_type type, const glm::vec4& color, const float& intensity) : entity(new triangle(), false)
 {
 	this->base_color = color;
 	this->type = type;
@@ -33,5 +31,5 @@ void light::shine_on_objects(const entity_object* scene_entity_obj)
 	}
 
 	set_color(base_color, intensity);
-	scene_entity_obj->get_material()->get_shader()->define_vec4("u_lightColor", glm::vec4(get_color(), 1));
+	scene_entity_obj->get_material()->get_shader()->define_vec4("u_lightColor", get_color());
 }

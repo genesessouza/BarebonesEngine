@@ -1,18 +1,18 @@
 #pragma once
 
 #include "barebones/barebones_src.h"
+#include "barebones/core/application.h"
 
-class app : 
-	public application
+class sdf_raster_test : public application
 {
 public:
-	app();
+	sdf_raster_test();
 private:
 	virtual void on_update_application() override;
 private:
 	// SCENE OBJECTS
-	entity quad1 = entity(new quad(), false);
-	entity cube1 = entity(new cube(), false);
+	entity quad1 = entity(new quad(), true);
+	entity cube1 = entity(new cube(), true);
 
 	// SCENE LIGHTS
 	light* light_source;
@@ -22,8 +22,6 @@ private:
 private:
 	rendering_layer* m_rendering_layer;
 private:
-	float xPos = 0, yPos = 0, zPos = 0;
+	float xPos = 0, yPos = 3, zPos = 7;
 	float xRot = 0, yRot = 0, zRot = 0;
-
-	glm::vec3 sun = glm::vec3(1.0f, 0.9f, 0.7f);
 };

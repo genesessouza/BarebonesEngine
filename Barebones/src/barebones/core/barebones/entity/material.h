@@ -7,8 +7,8 @@
 class material
 {
 public:
-	material(const char* shader_filepath = nullptr);
-	static std::shared_ptr<material> instantiate(const char* shader_filepath = nullptr);
+	material(const char* m_shader_filepath = nullptr);
+	static std::shared_ptr<material> instantiate(const char* m_shader_filepath = nullptr);
 	~material();
 
 	void bind() const;

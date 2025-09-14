@@ -11,18 +11,18 @@ std::shared_ptr<vertex_array> vertex_array::create()
 
 vertex_array::vertex_array()
 {
-	glGenVertexArrays(1, &renderer_id);
-	glBindVertexArray(renderer_id);
+	glGenVertexArrays(1, &m_renderer_id);
+	glBindVertexArray(m_renderer_id);
 }
 
 vertex_array::~vertex_array()
 {
-	glDeleteVertexArrays(1, &renderer_id);
+	glDeleteVertexArrays(1, &m_renderer_id);
 }
 
 void vertex_array::bind() const
 {
-	glBindVertexArray(renderer_id);
+	glBindVertexArray(m_renderer_id);
 }
 
 void vertex_array::unbind() const

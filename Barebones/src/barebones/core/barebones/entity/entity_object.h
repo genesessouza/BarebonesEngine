@@ -12,9 +12,9 @@
 class entity_object
 {
 public:
-	entity_object(const mesh* mesh, const char* shader_filepath = nullptr);
-	entity_object(const mesh& mesh, const char* shader_filepath = nullptr);
-	entity_object(const char* shader_filepath = nullptr) : entity_object(mesh{}, shader_filepath) {}
+	entity_object(const mesh* mesh, const char* m_shader_filepath = nullptr);
+	entity_object(const mesh& mesh, const char* m_shader_filepath = nullptr);
+	entity_object(const char* m_shader_filepath = nullptr) : entity_object(mesh{}, m_shader_filepath) {}
 
 	virtual void set_position(const glm::vec3& position) { this->position = position; update_model_matrix(); }
 	virtual glm::vec3 get_position() const { return position; }
@@ -30,6 +30,9 @@ public:
 	virtual std::shared_ptr<vertex_array> get_lines_vertex_array() const { return lines_vertex_array; }
 
 	virtual glm::vec3 get_normal() const { return normal; }
+
+	//virtual gizmo* expose_gizmo() const = 0;
+	//virtual bounds* expose_bounds() const = 0;
 private:
 	void fill_faces(const mesh& mesh);
 

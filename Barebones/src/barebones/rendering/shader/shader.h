@@ -21,8 +21,8 @@ struct shader_source
 class shader
 {
 public:
-	shader(const std::string& shader_filepath);
-	static std::shared_ptr<shader> instantiate(const char* shader_filepath);
+	shader(const std::string& m_shader_filepath);
+	static std::shared_ptr<shader> instantiate(const char* m_shader_filepath);
 	~shader();
 
 	void bind() const;
@@ -33,7 +33,8 @@ public:
 	int get_uniform_location(const std::string& name);
 
 	void define_float(const std::string& name, const float value);
-	void define_vec3(const std::string& name, const glm::vec3);
+	void define_bool(const std::string& name, const bool value);
+	void define_vec3(const std::string& name, const glm::vec3 value);
 	void define_mat4(const std::string& name, const float* matrix);
 	void define_vec4(const std::string& name, const glm::vec4&);
 
@@ -45,13 +46,7 @@ public:
 	glm::mat3 get_mat3(const std::string& name);
 	glm::mat4 get_mat4(const std::string& name);
 
-	// ------------------------------ EXPERIMENTAL -------------------------------- //
-	
-	void define_ubo(const std::string& blockName, const std::vector<sdf_primitive*>& primitives) const;
-
-	// ---------------------------------------------------------------------------- //
-
-	uint32_t get_shader() const { return renderer_id; }
+	uint32_t get_shader() const { return m_renderer_id; }
 private:
 	shader_source parse_file() const;
 	uint32_t compile(unsigned int type, const std::string& source);
@@ -59,8 +54,8 @@ private:
 private:
 	enum class shader_type { none = -1, vertex = 0, fragment = 1 };
 private:
-	std::string shader_filepath;
-	uint32_t renderer_id;
+	std::string m_shader_filepath;
+	uint32_t m_renderer_id = 0;
 
 	mutable std::unordered_map<std::string, int> m_uniform_location_cache;
 };

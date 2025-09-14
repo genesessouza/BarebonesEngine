@@ -7,7 +7,7 @@
 class perspective_camera
 {
 public:
-	perspective_camera(float fov, float aspect_ratio, float near_clip, float far_clip);
+	perspective_camera(float fov, float aspect_ratio, float near_clip, float far_clip, const char* shader_filepath);
 
 	void set_position(const glm::vec3& position);
 	const glm::vec3& get_position() const { return position; }

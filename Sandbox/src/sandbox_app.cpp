@@ -12,7 +12,7 @@ app::app()
 {
 	// -------------------------------- SCENE ENTITIES ---------------------------
 	{
-		camera = new perspective_camera(45.0f, 800.0f / 600.0f, 0.1f, 100.0f);
+		camera = new perspective_camera(45.0f, 800.0f / 600.0f, 0.1f, 100.0f, LIT_SHADER_SOURCE);
 		camera->set_position(glm::vec3(0, 3, 15));
 
 		cube1.set_position(glm::vec3(-2, 1.5, 3));
@@ -24,8 +24,8 @@ app::app()
 		cube1.get_material()->set_color(glm::vec4(0.7, 0, 0, 1)); // red
 
 		light_source = new light(light_type::directional, sun, 1);
-		light_source->set_position(glm::vec3(1, 3, 5));
 		light_source->set_color(sun, 1);
+		light_source->set_position(glm::vec3(1, 3, 5));
 	}
 
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
@@ -36,7 +36,7 @@ app::app()
 		m_rendering_layer->add_object(*light_source, true);
 		push_overlay(m_rendering_layer);
 
-		//m_show_fps = true;
+		m_show_fps = true;
 	}
 }
 

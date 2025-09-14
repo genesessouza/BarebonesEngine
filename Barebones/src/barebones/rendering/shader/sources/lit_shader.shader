@@ -38,15 +38,12 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(-u_lightDir);
 
-    // Ambient
     float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * u_lightColor.rgb;
 
-    // Diffuse
     float diff = max(dot(lightDir, norm), 0.0);
     vec3 diffuse = diff * u_lightColor.rgb;
 
-    // Multiplica diffuse pelo shadow
     vec3 result = (ambient + diffuse) * u_color.rgb;
 
     FragColor = vec4(result, u_color.a);

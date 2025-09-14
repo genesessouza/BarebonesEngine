@@ -19,13 +19,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -96,6 +96,8 @@
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\material.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\mesh.cpp" />
+    <ClCompile Include="src\barebones\experimental\scenes\playground.cpp" />
+    <ClCompile Include="src\barebones\experimental\scenes\sdt_raster_test.cpp" />
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
     <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
@@ -130,6 +132,8 @@
     <ClInclude Include="src\barebones\core\barebones\entity\entity_object.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\material.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\mesh.h" />
+    <ClInclude Include="src\barebones\experimental\scenes\playground.h" />
+    <ClInclude Include="src\barebones\experimental\scenes\sdf_raster_test.h" />
     <ClInclude Include="src\barebones\rendering\core\array.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer.h" />
     <ClInclude Include="src\barebones\core\window\glfw_window.h" />
@@ -149,8 +153,9 @@
     <ClInclude Include="src\barebones\rendering\tests\sdf\sdf.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\barebones\rendering\shader\sources\lit_sdf_sample.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
+    <None Include="src\barebones\rendering\shader\sources\sdf_integration_sample.shader" />
+    <None Include="src\barebones\rendering\shader\sources\sdf_sample_experimental.shader" />
     <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\debug_shader.shader" />
   </ItemGroup>

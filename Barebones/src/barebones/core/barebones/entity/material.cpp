@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-std::shared_ptr<material> material::instantiate(const char* shader_filepath)
+std::shared_ptr<material> material::instantiate(const char* m_shader_filepath)
 {
-	return std::make_shared<material>(shader_filepath);
+	return std::make_shared<material>(m_shader_filepath);
 }
 
-material::material(const char* shader_filepath)
+material::material(const char* m_shader_filepath)
 {
-	m_shader = shader::instantiate(shader_filepath);
+	m_shader = shader::instantiate(m_shader_filepath);
 	m_debug_shader = shader::instantiate(DEBUG_SHADER_SOURCE);
 }
 

@@ -33,8 +33,7 @@ enum class gizmo_axis
 class gizmo : public entity_object
 {
 public:
-	gizmo(const char* shader_filepath)
-		: entity_object(shader_filepath)
+	gizmo(const char* m_shader_filepath) : entity_object(m_shader_filepath)
 	{
 		create_arrow(glm::vec3(1, 0, 0), glm::vec3(1, 0, 0));
 		create_arrow(glm::vec3(0, 1, 0), glm::vec3(0, 1, 0));

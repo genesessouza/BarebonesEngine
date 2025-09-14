@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-perspective_camera::perspective_camera(float fov, float aspect_ratio, float near_clip, float far_clip) : scene_shader(shader(LIT_SHADER_SOURCE)), position(glm::vec3(0.0f))
+perspective_camera::perspective_camera(float fov, float aspect_ratio, float near_clip, float far_clip, const char* shader_filepath) : scene_shader(shader(shader_filepath)), position(glm::vec3(0.0f))
 {
 	view_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, near_clip, far_clip);

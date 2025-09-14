@@ -1,15 +1,15 @@
 #include "entity_object.h"
 
-#include <barebones/core/core.h>
+#include "barebones/core/core.h"
 
 #include <glad/glad.h>
 
-entity_object::entity_object(const mesh* mesh, const char* shader_filepath)
+entity_object::entity_object(const mesh* mesh, const char* m_shader_filepath)
 {
-    if (shader_filepath == nullptr || std::strlen(shader_filepath) == 0)
-        entity_material = material::instantiate(LIT_SDF_SAMPLE_SOURCE);
+    if (m_shader_filepath == nullptr || std::strlen(m_shader_filepath) == 0)
+        entity_material = material::instantiate(LIT_SHADER_SOURCE);
     else
-        entity_material = material::instantiate(shader_filepath);
+        entity_material = material::instantiate(m_shader_filepath);
 
     entity_vertex_array = vertex_array::create();
 
@@ -27,12 +27,12 @@ entity_object::entity_object(const mesh* mesh, const char* shader_filepath)
     fill_faces(*mesh);
 }
 
-entity_object::entity_object(const mesh& mesh, const char* shader_filepath)
+entity_object::entity_object(const mesh& mesh, const char* m_shader_filepath)
 {
-    if (shader_filepath == nullptr || std::strlen(shader_filepath) == 0)
-        entity_material = material::instantiate(LIT_SDF_SAMPLE_SOURCE);
+    if (m_shader_filepath == nullptr || std::strlen(m_shader_filepath) == 0)
+        entity_material = material::instantiate(LIT_SHADER_SOURCE);
     else
-        entity_material = material::instantiate(shader_filepath);
+        entity_material = material::instantiate(m_shader_filepath);
 
     entity_vertex_array = vertex_array::create();
 
