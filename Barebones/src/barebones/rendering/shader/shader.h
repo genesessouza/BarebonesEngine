@@ -32,6 +32,7 @@ public:
 
 	int get_uniform_location(const std::string& name);
 
+	void define_int(const std::string& name, const int value);
 	void define_float(const std::string& name, const float value);
 	void define_bool(const std::string& name, const bool value);
 	void define_vec3(const std::string& name, const glm::vec3 value);

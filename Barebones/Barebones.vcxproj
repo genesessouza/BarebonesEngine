@@ -101,6 +101,7 @@
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
     <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
+    <ClCompile Include="src\barebones\rendering\core\frame_buffer.cpp" />
     <ClCompile Include="src\barebones\rendering\debug\bounds.cpp" />
     <ClCompile Include="src\barebones\rendering\debug\gizmo.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\event_layer.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\barebones\rendering\core\buffer.h" />
     <ClInclude Include="src\barebones\core\window\glfw_window.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer_layout.h" />
+    <ClInclude Include="src\barebones\rendering\core\frame_buffer.h" />
     <ClInclude Include="src\barebones\rendering\debug\bounds.h" />
     <ClInclude Include="src\barebones\rendering\debug\gizmo.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\event_layer.h" />
@@ -152,6 +154,7 @@
     <ClInclude Include="src\barebones\barebones_src.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\barebones\rendering\shader\sources\debug_depth_buffer.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\sdf_integration_sample.shader" />
     <None Include="src\barebones\rendering\shader\sources\sdf_sample_experimental.shader" />

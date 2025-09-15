@@ -59,9 +59,9 @@ bool intersectAABB(vec3 ro, vec3 rd, vec3 minB, vec3 maxB, float maxDist) {
 
 void main()
 {
-    if(u_quad)
+    if(u_directionalLight)
     {
-        if(u_directionalLight)
+        if(u_quad)
         {
             vec3 rd = normalize(-u_lightDir);
             float maxDist = 100.0;
@@ -82,42 +82,31 @@ void main()
         }
         else
         {
-            vec3 rd = normalize(u_lightPos - FragPos);
-            float maxDist = length(u_lightPos - FragPos);
-
-            bool blocked = intersectAABB(FragPos, rd, u_cubeMin, u_cubeMax, maxDist);
+            vec3 norm = normalize(Normal);
+            vec3 lightDir = normalize(u_lightDir);
 
             float ambientStrength = 0.1;
-            vec3 ambient = ambientStrength * u_lightColor.xyz;
+            vec3 ambient = ambientStrength * u_lightColor.rgb;
 
-            vec3 color = blocked ? vec3(0.1, 0.1, 0.1) : vec3(0.0, 1.0, 1.0);
-            vec3 result = (ambient + color) * u_color.rgb * u_lightColor.xyz;
-            FragColor = vec4(result, u_color.a);
+            float diff = max(dot(lightDir, norm), 0.0);
+            vec3 diffuse = diff * u_lightColor.rgb;
+
+            vec3 result = (ambient + diffuse) * u_color.rgb;
+            FragColor = vec4(result, u_color.a);   
         }
     }
     else
     {
-        vec3 norm = normalize(Normal);
-        vec3 lightDir = normalize(u_lightDir);
+        vec3 rd = normalize(u_lightPos - FragPos);
+        float maxDist = length(u_lightPos - FragPos);
+
+        bool blocked = intersectAABB(FragPos, rd, u_cubeMin, u_cubeMax, maxDist);
 
         float ambientStrength = 0.1;
-        vec3 ambient = ambientStrength * u_lightColor.rgb;
+        vec3 ambient = ambientStrength * u_lightColor.xyz;
 
-        float diff = max(dot(lightDir, norm), 0.0);
-        vec3 diffuse = diff * u_lightColor.rgb;
-
-        vec3 result = (ambient + diffuse) * u_color.rgb;
+        vec3 color = blocked ? vec3(0.1, 0.1, 0.1) : vec3(0.0, 1.0, 1.0);
+        vec3 result = (ambient + color) * u_color.rgb * u_lightColor.xyz;
         FragColor = vec4(result, u_color.a);
-
-        // RAY CALCULATIONS (FOR SHADOW)
-    
-        // vec3 rayDir = normalize(u_lightPos - FragPos);
-        // float rayLength = length(u_lightPos - FragPos);
-    
-        // vec3 debugColor = (rayDir * 0.5) + 0.5;
-        // FragColor = vec4(debugColor, u_color.a);
-
-        // ------------------------------------------ //
-    
     }
 };

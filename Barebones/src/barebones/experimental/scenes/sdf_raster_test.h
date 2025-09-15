@@ -15,8 +15,8 @@ private:
 	virtual void on_update_application() override;
 private:
 	// SCENE OBJECTS
-	entity quad1 = entity(new quad(), SDF_INTEGRATION_SOURCE);
-	entity cube1 = entity(new cube(), SDF_INTEGRATION_SOURCE);
+	entity quad1 = entity(new quad(), LIT_SHADER_SOURCE);
+	entity cube1 = entity(new cube(), LIT_SHADER_SOURCE);
 
 	// SCENE LIGHTS
 	light* light_source;

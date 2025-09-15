@@ -2,13 +2,16 @@
 
 #include <glad/glad.h>
 
-perspective_camera::perspective_camera(float fov, float aspect_ratio, float near_clip, float far_clip, const char* shader_filepath) : scene_shader(shader(shader_filepath)), position(glm::vec3(0.0f))
+perspective_camera::perspective_camera(float fov, float width, float height, float near_clip, float far_clip, const char* shader_filepath) 
+	: scene_shader(shader(shader_filepath)), position(glm::vec3(0.0f))
 {
 	view_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-	projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, near_clip, far_clip);
+	projection_matrix = glm::perspective(glm::radians(fov), width / height, near_clip, far_clip);
 
 	scene_shader.define_mat4("u_view", &view_matrix[0][0]);
 	scene_shader.define_mat4("u_projection", &projection_matrix[0][0]);
+
+	m_fbo = new frame_buffer(width, height);
 }
 
 void perspective_camera::set_position(const glm::vec3& position)

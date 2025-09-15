@@ -169,6 +169,14 @@ void shader::define_mat4(const std::string& name, const float* matrix)
 	glUniformMatrix4fv(location, 1, GL_FALSE, matrix);
 }
 
+void shader::define_int(const std::string& name, const int value)
+{
+	int location = get_uniform_location(name);
+
+	glUseProgram(m_renderer_id);
+	glUniform1i(location, value);
+}
+
 void shader::define_float(const std::string& name, const float value)
 {
 	int location = get_uniform_location(name);

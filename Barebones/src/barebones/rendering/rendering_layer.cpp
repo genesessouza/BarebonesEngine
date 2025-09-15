@@ -22,13 +22,37 @@ void rendering_layer::on_update(timestep delta_time)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	scene_renderer->begin_scene(scene_camera);
+	int width = scene_camera->get_frame_buffer()->get_width();
+	int height = scene_camera->get_frame_buffer()->get_height();
 
-	for (auto* obj : objects_on_scene)
-	{
+	glBindFramebuffer(GL_FRAMEBUFFER, scene_camera->get_frame_buffer()->get());
+	glViewport(0, 0, width, height);
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	scene_renderer->begin_scene(scene_camera, main_light);
+
+	for (auto* obj : objects_on_scene) {
 		scene_renderer->submit(obj, scene_camera, glm::mat4(1.0f));
 		main_light->shine_on_objects(obj);
+	}
 
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glViewport(0, 0, width, height);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	scene_renderer->begin_scene(scene_camera, main_light);
+
+	for (auto* obj : objects_on_scene) 
+	{
+		obj->get_material()->get_shader()->bind();
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, scene_camera->get_frame_buffer()->get_depth_texture());
+		obj->get_material()->get_shader()->define_int("u_shadowMap", 1);
+
+		scene_renderer->submit(obj, scene_camera, glm::mat4(1.0f));
+		
 		if (show_objects_on_scene_gizmo)
 		{
 			obj->expose_gizmo()->set_position(obj->get_position());
