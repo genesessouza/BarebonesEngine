@@ -22,6 +22,7 @@ public:
 	const glm::vec4& get_color(const std::string& uniform_name) const;
 
 	void set_model_matrix(float* matrix) { m_shader->define_mat4("u_model", matrix); m_debug_shader->define_mat4("u_model", matrix); }
+	const glm::mat4& get_model_matrix() const { return m_shader->get_mat4("u_model"); }
 private:
 	std::shared_ptr<shader> m_shader;
 	std::shared_ptr<shader> m_debug_shader;

@@ -3,8 +3,8 @@
 #include "entity_object.h"
 #include "mesh.h"
 
-#include "barebones/rendering/debug/gizmo.h"
-#include "barebones/rendering/debug/bounds.h"
+#include "debug/gizmo.h"
+#include "debug/bounds.h"
 
 struct mesh_bounds
 {

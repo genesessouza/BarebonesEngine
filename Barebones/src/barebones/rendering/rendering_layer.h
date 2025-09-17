@@ -1,10 +1,10 @@
 #pragma once
 
 #include "renderer.h"
-#include "light.h"
 
 #include "barebones/core/layer.h"
 #include "barebones/core/barebones/entity/entity.h"
+#include "barebones/core/barebones/entity/light.h"
 
 class rendering_layer : public layer
 {
@@ -40,4 +40,6 @@ private:
 private:
 	bool show_objects_on_scene_gizmo;
 	bool show_objects_on_scene_bounds;
+private:
+	std::shared_ptr<shader> m_depth_shader;
 };

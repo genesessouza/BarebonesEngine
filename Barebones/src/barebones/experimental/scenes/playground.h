@@ -16,6 +16,6 @@ public:
 private:
 	unsigned int vao = 0, vbo = 0;
 
-	std::shared_ptr<shader> sdf_shader = shader::instantiate(EXPERIMENTAL_SDF_SOURCE);
+	std::shared_ptr<shader> sdf_shader = shader::instantiate(SDF_SHADER_SOURCE);
 };
 */

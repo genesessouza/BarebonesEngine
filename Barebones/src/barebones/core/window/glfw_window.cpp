@@ -42,6 +42,7 @@ void glfw_window::init(const window_properties& props)
 		s_glfw_initialized = true;
 	}
 
+	glfwWindowHint(GLFW_DEPTH_BITS, 24);
 	m_window = glfwCreateWindow(props.width, props.height, m_data.title.c_str(), nullptr, nullptr);
 
 	if (!m_window)
@@ -136,5 +137,9 @@ glm::vec2 glfw_window::get_mouse_ndc() const
 void glfw_window::shutdown()
 {
 	if (m_window)
+	{ 
 		glfwDestroyWindow(m_window);
+		glfwMakeContextCurrent(nullptr);
+	}
+	glfwTerminate();
 }

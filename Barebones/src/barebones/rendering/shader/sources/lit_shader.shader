@@ -38,6 +38,7 @@ out vec4 FragColor;
 uniform vec3 u_lightDir;
 uniform vec4 u_lightColor;
 uniform vec4 u_color;
+
 uniform sampler2D u_shadowMap;
 
 float ShadowCalculation(vec4 fragPosLightSpace)
@@ -71,8 +72,7 @@ void main()
 
     // shadow
     float shadow = ShadowCalculation(FragPosLightSpace);
-    float bias = max(0.005 * (1.0 - dot(norm, lightDir)), 0.0005);
 
-    vec3 lighting = (ambient + (1.0 - shadow + bias) * diffuse) * u_color.rgb;
+    vec3 lighting = (ambient + (1.0 - shadow) * diffuse) * u_color.rgb;
     FragColor = vec4(lighting, u_color.a);
 };

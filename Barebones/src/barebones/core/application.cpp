@@ -81,5 +81,6 @@ void application::on_event(event& e)
 
 void application::on_window_close(window_closed& e)
 {
-	m_running = false;
+	if (glfwWindowShouldClose(get_window().get_native_window()))
+		m_running = false;
 }

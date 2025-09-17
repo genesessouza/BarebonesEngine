@@ -102,14 +102,14 @@
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
     <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
     <ClCompile Include="src\barebones\rendering\core\frame_buffer.cpp" />
-    <ClCompile Include="src\barebones\rendering\debug\bounds.cpp" />
-    <ClCompile Include="src\barebones\rendering\debug\gizmo.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\debug\bounds.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\debug\gizmo.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\event_layer.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\input_layer.cpp" />
     <ClCompile Include="src\barebones\core\layer.cpp" />
     <ClCompile Include="src\barebones\core\layer_stack.cpp" />
     <ClCompile Include="src\barebones\rendering\rendering_layer.cpp" />
-    <ClCompile Include="src\barebones\rendering\light.cpp" />
+    <ClCompile Include="src\barebones\core\barebones\entity\light.cpp" />
     <ClCompile Include="src\barebones\rendering\renderer.cpp" />
     <ClCompile Include="src\barebones\core\barebones\camera\perspective_camera.cpp" />
     <ClCompile Include="src\barebones\rendering\shader\shader.cpp" />
@@ -140,24 +140,23 @@
     <ClInclude Include="src\barebones\core\window\glfw_window.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer_layout.h" />
     <ClInclude Include="src\barebones\rendering\core\frame_buffer.h" />
-    <ClInclude Include="src\barebones\rendering\debug\bounds.h" />
-    <ClInclude Include="src\barebones\rendering\debug\gizmo.h" />
+    <ClInclude Include="src\barebones\core\barebones\entity\debug\bounds.h" />
+    <ClInclude Include="src\barebones\core\barebones\entity\debug\gizmo.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\event_layer.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\input_layer.h" />
     <ClInclude Include="src\barebones\core\layer.h" />
     <ClInclude Include="src\barebones\core\layer_stack.h" />
     <ClInclude Include="src\barebones\rendering\rendering_layer.h" />
-    <ClInclude Include="src\barebones\rendering\light.h" />
+    <ClInclude Include="src\barebones\core\barebones\entity\light.h" />
     <ClInclude Include="src\barebones\rendering\renderer.h" />
     <ClInclude Include="src\barebones\core\barebones\camera\perspective_camera.h" />
     <ClInclude Include="src\barebones\rendering\shader\shader.h" />
     <ClInclude Include="src\barebones\barebones_src.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\barebones\rendering\shader\sources\debug_depth_buffer.shader" />
+    <None Include="src\barebones\rendering\shader\sources\camera_depth_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
-    <None Include="src\barebones\rendering\shader\sources\sdf_integration_sample.shader" />
-    <None Include="src\barebones\rendering\shader\sources\sdf_sample_experimental.shader" />
+    <None Include="src\barebones\rendering\shader\sources\lit_shadow_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\debug_shader.shader" />
   </ItemGroup>

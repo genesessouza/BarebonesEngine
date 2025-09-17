@@ -124,7 +124,7 @@ gizmo_axis gizmo::pick_axis(const glm::vec3& rayOrigin, const glm::vec3& rayDir)
 
 	float tHit;
 
-	if (intersect_ray_cone(rayOrigin, rayDir, position, glm::vec3(1, 0, 0), 1.0f, 0.1f, tHit))
+	if (intersect_ray_cone(rayOrigin, rayDir, m_position, glm::vec3(1, 0, 0), 1.0f, 0.1f, tHit))
 	{
 		if (tHit < tMin)
 		{
@@ -133,7 +133,7 @@ gizmo_axis gizmo::pick_axis(const glm::vec3& rayOrigin, const glm::vec3& rayDir)
 		}
 	}
 
-	if (intersect_ray_cone(rayOrigin, rayDir, position, glm::vec3(0, 1, 0), 1.0f, 0.7f, tHit))
+	if (intersect_ray_cone(rayOrigin, rayDir, m_position, glm::vec3(0, 1, 0), 1.0f, 0.7f, tHit))
 	{
 		if (tHit < tMin)
 		{
@@ -143,7 +143,7 @@ gizmo_axis gizmo::pick_axis(const glm::vec3& rayOrigin, const glm::vec3& rayDir)
 		}
 	}
 
-	if (intersect_ray_cone(rayOrigin, rayDir, position, glm::vec3(0, 0, 1), 1.0f, 0.1f, tHit))
+	if (intersect_ray_cone(rayOrigin, rayDir, m_position, glm::vec3(0, 0, 1), 1.0f, 0.1f, tHit))
 	{
 		if (tHit < tMin)
 		{
@@ -170,19 +170,19 @@ void gizmo::handle_mouse_pick(const glm::mat4& view, const glm::mat4& projection
 	gizmo_axis picked = gizmo_axis::none;
 	float tHit;
 
-	if (intersect_ray_cone(rayOrigin, rayDir, position, glm::vec3(1, 0, 0), 1.0f, 0.1f, tHit))
+	if (intersect_ray_cone(rayOrigin, rayDir, m_position, glm::vec3(1, 0, 0), 1.0f, 0.1f, tHit))
 	{
 		if (tHit < tMin)
 			tMin = tHit; picked = gizmo_axis::x;
 	}
 
-	if (intersect_ray_cone(rayOrigin, rayDir, position, glm::vec3(0, 1, 0), 1.0f, 0.1f, tHit))
+	if (intersect_ray_cone(rayOrigin, rayDir, m_position, glm::vec3(0, 1, 0), 1.0f, 0.1f, tHit))
 	{
 		if (tHit < tMin)
 			tMin = tHit; picked = gizmo_axis::y;
 	}
 
-	if (intersect_ray_cone(rayOrigin, rayDir, position, glm::vec3(0, 0, 1), 1.0f, 0.1f, tHit))
+	if (intersect_ray_cone(rayOrigin, rayDir, m_position, glm::vec3(0, 0, 1), 1.0f, 0.1f, tHit))
 	{
 		if (tHit < tMin)
 			tMin = tHit; picked = gizmo_axis::z;

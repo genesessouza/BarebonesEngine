@@ -15,8 +15,8 @@ private:
 	virtual void on_update_application() override;
 private:
 	// SCENE OBJECTS
-	entity quad1 = entity(new quad(), LIT_SHADER_SOURCE);
-	entity cube1 = entity(new cube(), LIT_SHADER_SOURCE);
+	entity floor = entity(new cube(), LIT_SHADER_SOURCE);
+	entity back_wall = entity(new cube(), LIT_SHADER_SOURCE);
 
 	// SCENE LIGHTS
 	light* light_source;
@@ -26,6 +26,6 @@ private:
 private:
 	rendering_layer* m_rendering_layer;
 private:
-	float xPos = 0, yPos = 3, zPos = 7;
+	float xPos = 0, yPos = 5, zPos = -20;
 	float xRot = 0, yRot = 0, zRot = 0;
 };

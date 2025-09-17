@@ -12,7 +12,7 @@ private:
 private:
 	// SCENE OBJECTS
 	entity quad1 = entity(new quad(), false);
-	entity cube1 = entity(new cube(), false);
+	entity floor = entity(new cube(), false);
 
 	// SCENE LIGHTS
 	light* light_source;

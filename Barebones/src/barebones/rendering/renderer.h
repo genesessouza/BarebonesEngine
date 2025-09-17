@@ -1,9 +1,8 @@
 #pragma once
 
-#include "light.h"
-
 #include "barebones/core/application.h"
 #include "barebones/core/barebones/entity/entity_object.h"
+#include "barebones/core/barebones/entity/light.h"
 #include "barebones/core/barebones/camera/perspective_camera.h"
 
 #include <glm/ext/matrix_float4x4.hpp>

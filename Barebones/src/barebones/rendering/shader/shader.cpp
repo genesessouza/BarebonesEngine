@@ -91,10 +91,13 @@ void shader::create(const std::string& vertex_source, const std::string& fragmen
 		char* message = (char*)_malloca(message_length * sizeof(char));
 		glGetProgramInfoLog(m_renderer_id, message_length, &message_length, &message[0]);
 
-		glDeleteProgram(m_renderer_id);
+		glDetachShader(m_renderer_id, vertex_shader);
+		glDetachShader(m_renderer_id, fragment_shader);
 
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);
+
+		glDeleteProgram(m_renderer_id);
 
 		std::cout << "Link compilation error!" << std::endl;
 		std::cout << message << std::endl;
@@ -105,6 +108,9 @@ void shader::create(const std::string& vertex_source, const std::string& fragmen
 
 	glDetachShader(m_renderer_id, vertex_shader);
 	glDetachShader(m_renderer_id, fragment_shader);
+
+	glDeleteShader(vertex_shader);
+	glDeleteShader(fragment_shader);
 }
 
 std::shared_ptr<shader> shader::instantiate(const char* m_shader_filepath)
