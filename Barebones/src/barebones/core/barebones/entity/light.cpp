@@ -21,7 +21,7 @@ void light::shine_on_objects(const entity_object* scene_entity_obj)
 	{
 		intensity = 1;
 		glm::vec3 light_normal = glm::normalize(get_normal());
-		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", light_normal);
+		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", -light_normal);
 	}
 
 	if (type == light_type::point)

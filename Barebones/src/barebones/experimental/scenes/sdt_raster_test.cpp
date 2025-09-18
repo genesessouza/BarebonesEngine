@@ -13,21 +13,24 @@ sdf_raster_test::sdf_raster_test()
 	// -------------------------------- SCENE ENTITIES ---------------------------
 	{
 		camera = new perspective_camera(45.0f, 800.0f, 600.0f, 0.1f, 100.0f);
-		camera->set_position(glm::vec3(0, 5, -20));
-		camera->set_rotation(glm::vec3(0, 0, 0));
+		camera->set_position(glm::vec3(0, 3, 15));
 
 		floor.set_position(glm::vec3(0, 0, 0));
 		floor.set_scale(glm::vec3(10, 0.3, 10));
-		floor.get_material()->set_color(glm::vec4(0.4, 0.4, 0.4, 1)); // red
+		floor.get_material()->set_color(glm::vec4(0.2, 0.2, 0.2, 1));
 
-		back_wall.set_position(glm::vec3(0, 2.3, -5)); // behind floor end
+		back_wall.set_position(glm::vec3(0, 2.35, -5.15)); // behind floor end
 		back_wall.set_scale(glm::vec3(10, 5, 0.3));
-		back_wall.get_material()->set_color(glm::vec4(0.4, 0.4, 0.4, 1)); // red
+		back_wall.get_material()->set_color(glm::vec4(0.2, 0.2, 0.2, 1));
+
+		cube1.set_position(glm::vec3(0, 3, 0));
+		cube1.get_material()->set_color(glm::vec4(0.7, 0.3, 0.2, 1));
 
 		glm::vec4 sun = glm::vec4(1.0f, 0.9f, 0.7f, 1.0f);
 
 		light_source = new light(light_type::directional, sun, 1);
-		light_source->set_position(glm::vec3(5, 3, 5));
+		light_source->set_position(glm::vec3(-3, 5, -5));
+		light_source->set_rotation(glm::vec3(0, 180, 0));
 	}
 
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
@@ -35,51 +38,55 @@ sdf_raster_test::sdf_raster_test()
 		m_rendering_layer = new rendering_layer(*camera);
 
 		m_rendering_layer->set_show_objects_on_scene_gizmo(true);
-		m_rendering_layer->set_show_objects_on_scene_bounds(false);
+		m_rendering_layer->set_show_objects_on_scene_bounds(true);
 
 		m_rendering_layer->add_object(floor, false);
 		m_rendering_layer->add_object(back_wall, false);
+		m_rendering_layer->add_object(cube1, false);
 
 		m_rendering_layer->add_object(*light_source, true);
 
 		push_overlay(m_rendering_layer);
 
 		get_window().set_vsync(false);
-		m_show_fps = true;
+		//m_show_fps = true;
 	}
 }
 
 void sdf_raster_test::on_update_application()
 {
+	static glm::vec3 pos = glm::vec3(-3, 5, -5); // for camera
+	static glm::vec3 eulerRotation = glm::vec3(0, 0, 0);
+
 	// ROTATION INPUT //
 	{
 		if (input_system()->get_key(GLFW_KEY_UP))
-			xRot -= 30 * delta_time;
+			eulerRotation.x += 180 * delta_time;
 		else if (input_system()->get_key(GLFW_KEY_DOWN))
-			xRot += 30 * delta_time;
+			eulerRotation.x -= 180 * delta_time;
 
 		if (input_system()->get_key(GLFW_KEY_LEFT))
-			yRot += 30 * delta_time;
+			eulerRotation.y -= 180 * delta_time;
 		else if (input_system()->get_key(GLFW_KEY_RIGHT))
-			yRot -= 30 * delta_time;
+			eulerRotation.y += 180 * delta_time;
 	}
 
 	// MOVEMENT INPUT //
 	{
 		if (input_system()->get_key(GLFW_KEY_W))
-			zPos += 30 * delta_time;
+			pos.z -= 30 * delta_time;
 		else if (input_system()->get_key(GLFW_KEY_S))
-			zPos -= 30 * delta_time;
+			pos.z += 30 * delta_time;
 
 		if (input_system()->get_key(GLFW_KEY_SPACE))
-			yPos += 30 * delta_time;
+			pos.y += 30 * delta_time;
 		else if (input_system()->get_key(GLFW_KEY_LEFT_SHIFT))
-			yPos -= 30 * delta_time;
+			pos.y -= 30 * delta_time;
 
 		if (input_system()->get_key(GLFW_KEY_A))
-			xPos -= 30 * delta_time;
+			pos.x -= 30 * delta_time;
 		else if (input_system()->get_key(GLFW_KEY_D))
-			xPos += 30 * delta_time;
+			pos.x += 30 * delta_time;
 	}
 
 	if (input_system()->get_key_down(GLFW_KEY_F))
@@ -90,6 +97,9 @@ void sdf_raster_test::on_update_application()
 			light_source->set_light_type(light_type::directional);
 	}
 
-	camera->set_position(camera->local_right() * -xPos + camera->local_up() * -yPos + camera->local_forward() * -zPos);
-	camera->set_rotation(camera->local_right() * -xRot + camera->local_up() * -yRot);
+	light_source->set_position(glm::vec3(pos));
+	light_source->set_rotation(eulerRotation);
+
+	//camera->set_rotation(eulerRotation);
+	//camera->set_position(glm::vec3(pos.x, pos.y, pos.z));
 }

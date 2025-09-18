@@ -154,9 +154,10 @@
     <ClInclude Include="src\barebones\barebones_src.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\barebones\rendering\shader\sources\camera_depth_shader.shader" />
+    <None Include="src\barebones\rendering\shader\sources\depth_debug_shader.shader" />
+    <None Include="src\barebones\rendering\shader\sources\depth_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
-    <None Include="src\barebones\rendering\shader\sources\lit_shadow_shader.shader" />
+    <None Include="src\barebones\rendering\shader\sources\sdf_sample_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\debug_shader.shader" />
   </ItemGroup>

@@ -48,12 +48,10 @@ entity_object::entity_object(const mesh& mesh, const char* shader_filepath)
 
 void entity_object::update_model_matrix()
 {
-	rotation_matrix =
-		glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation.x), glm::vec3(1, 0, 0)) *
-		glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation.y), glm::vec3(0, 1, 0)) *
-		glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation.z), glm::vec3(0, 0, 1));
+	rotation_matrix = glm::mat4_cast(m_orientation);
+	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), m_position);
 
-	model_matrix = glm::translate(glm::mat4(1.0f), m_position) * glm::scale(glm::mat4(1.0f), m_scale) * rotation_matrix;
+	model_matrix = rotation_matrix * translation_matrix * glm::scale(glm::mat4(1.0f), m_scale);
 
 	glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(model_matrix)));
 	normal = glm::normalize(normal_matrix * base_normal);

@@ -21,7 +21,7 @@ void main()
     FragPos = vec3(worldPos);
     Normal = mat3(transpose(inverse(u_model))) * aNormal;
 
-    FragPosLightSpace = u_lightSpaceMatrix * worldPos;
+    FragPosLightSpace = u_lightSpaceMatrix * vec4(FragPos, 1.0);
 
     gl_Position = u_projection * u_view * worldPos;
 };
@@ -32,6 +32,8 @@ void main()
 in vec3 FragPos;
 in vec3 Normal;
 in vec4 FragPosLightSpace;
+
+uniform sampler2D shadowMap;
 
 out vec4 FragColor;
 
@@ -67,12 +69,12 @@ void main()
     vec3 ambient = 0.1 * u_lightColor.rgb;
 
     // diffuse
-    float diff = max(dot(norm, lightDir), 0.0);
+    float diff = max(dot(lightDir, norm), 0.0);
     vec3 diffuse = diff * u_lightColor.rgb;
 
     // shadow
     float shadow = ShadowCalculation(FragPosLightSpace);
 
-    vec3 lighting = (ambient + (1.0 - shadow) * diffuse) * u_color.rgb;
+    vec3 lighting = (ambient + (1.0 - shadow) + diffuse) * u_color.rgb;
     FragColor = vec4(lighting, u_color.a);
 };

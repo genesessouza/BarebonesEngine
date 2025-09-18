@@ -12,7 +12,7 @@ public:
 	void set_projection(float fov, float aspect_ratio, float near_clip, float far_clip);
 
 	void set_position(const glm::vec3& position) override { m_position = position; update_view_matrix(); }
-	void set_rotation(const glm::vec3& rotation) override { m_rotation = rotation; update_view_matrix(); }
+	void set_rotation(const glm::vec3& rotation) override { m_orientation = glm::radians(-rotation); update_view_matrix(); }
 
 	const glm::mat4& get_view_matrix() const { return view_matrix; }
 	const glm::mat4& get_projection_matrix() const { return projection_matrix; }

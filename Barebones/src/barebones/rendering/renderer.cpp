@@ -31,14 +31,37 @@ void renderer::end_scene()
 {
 }
 
-void renderer::submit(const entity_object* entity_obj, const perspective_camera* scene_camera, const glm::mat4& transform)
+void renderer::submit(const entity_object* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo)
 {
 	entity_obj->get_material()->get_shader()->bind();
 
-	entity_obj->get_material()->get_shader()->define_mat4("u_view", &scene_camera->get_view_matrix()[0][0]);
-	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &scene_camera->get_projection_matrix()[0][0]);
+	entity_obj->get_material()->get_shader()->define_mat4("u_view", &m_scene_data->view_matrix[0][0]);
+	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &m_scene_data->projection_matrix[0][0]);
 
-	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &transform[0][0]);
+	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
+
+	// SHADOW MAPPING
+	{
+		entity_obj->get_material()->get_shader()->define_mat4("u_lightSpaceMatrix", &light_space_matrix[0][0]);
+		entity_obj->get_material()->get_shader()->define_int("u_shadowMap", 0);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, fbo->get_depth_texture());
+	}
+
+	entity_obj->get_entity_vertex_array()->bind();
+
+	draw(entity_obj);
+}
+
+void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj)
+{
+	entity_obj->get_material()->get_shader()->bind();
+
+	entity_obj->get_material()->get_shader()->define_mat4("u_view", &light_view[0][0]);
+	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &light_proj[0][0]);
+
+	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
 	entity_obj->get_entity_vertex_array()->bind();
 

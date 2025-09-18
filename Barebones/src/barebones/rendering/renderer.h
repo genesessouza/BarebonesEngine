@@ -4,6 +4,7 @@
 #include "barebones/core/barebones/entity/entity_object.h"
 #include "barebones/core/barebones/entity/light.h"
 #include "barebones/core/barebones/camera/perspective_camera.h"
+#include "core/frame_buffer.h"
 
 #include <glm/ext/matrix_float4x4.hpp>
 
@@ -16,7 +17,8 @@ public:
 	void begin_scene(const perspective_camera* camera, light* scene_light);
 	void end_scene();
 
-	void submit(const entity_object* entity_obj, const perspective_camera* scene_camera, const glm::mat4& transform = glm::mat4(1.0f));
+	void submit(const entity_object* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo);
+	void submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj);
 private:
 	void draw(const entity_object* entity_obj);
 private:
