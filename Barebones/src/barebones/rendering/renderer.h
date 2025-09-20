@@ -18,7 +18,7 @@ public:
 	void end_scene();
 
 	void submit(const entity_object* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo);
-	void submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj);
+	void submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj, const glm::mat4& light_space_pos);
 private:
 	void draw(const entity_object* entity_obj);
 private:

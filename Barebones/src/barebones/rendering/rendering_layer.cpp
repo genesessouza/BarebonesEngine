@@ -6,7 +6,7 @@ rendering_layer::rendering_layer(perspective_camera& camera)
 	scene_camera = &camera;
 	scene_renderer.reset(new renderer(skybox_color));
 
-	m_fbo = new frame_buffer(800, 600); // hard coded resolution for now
+	m_fbo = new frame_buffer(1024, 1024); // hard coded resolution for now
 }
 
 void rendering_layer::add_object(entity& object_to_render, bool is_main_light)
@@ -94,6 +94,8 @@ void rendering_layer::draw_depth_pass()
 	light_view_matrix = glm::lookAt(light_pos, target, glm::vec3(0.0f, -1.0f, 0.0f));
 	light_proj_matrix = lightProjection;
 
+	glm::mat4 light_space_pos = light_proj_matrix * light_view_matrix;
+
 	m_fbo->get_depth_shader()->bind();
 	m_fbo->get_depth_shader()->define_mat4("u_lightView", &light_view_matrix[0][0]);
 	m_fbo->get_depth_shader()->define_mat4("u_lightProjection", &light_proj_matrix[0][0]);
@@ -101,12 +103,12 @@ void rendering_layer::draw_depth_pass()
 	for (auto* obj : objects_on_scene)
 	{
 		m_fbo->get_depth_shader()->define_mat4("u_model", &obj->get_model_matrix()[0][0]);
-		scene_renderer->submit_depth(obj, light_view_matrix, light_proj_matrix);
+		scene_renderer->submit_depth(obj, light_view_matrix, light_proj_matrix, light_space_pos);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glViewport(0, 0, m_fbo->get_width(), m_fbo->get_height());
+	glViewport(0, 0, 800, 600); // set resolution back to window width/height
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	draw_screen_quad();

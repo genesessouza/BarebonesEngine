@@ -13,8 +13,8 @@ sdf_raster_test::sdf_raster_test()
 	// -------------------------------- SCENE ENTITIES ---------------------------
 	{
 		camera = new perspective_camera(45.0f, 800.0f, 600.0f, 0.1f, 100.0f);
-		camera->set_position(glm::vec3(0, 1, 25));
-		camera->set_rotation(glm::vec3(-90, 0, 0));
+		camera->set_position(glm::vec3(0, 3, 15));
+		camera->set_rotation(glm::vec3(0, 0, 0));
 
 		floor.set_position(glm::vec3(0, 0, 0));
 		floor.set_scale(glm::vec3(10, 0.3, 10));

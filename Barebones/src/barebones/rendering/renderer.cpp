@@ -54,12 +54,14 @@ void renderer::submit(const entity_object* entity_obj, const glm::mat4& light_sp
 	draw(entity_obj);
 }
 
-void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj)
+void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj, const glm::mat4& light_space_pos)
 {
 	entity_obj->get_material()->get_shader()->bind();
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &light_proj[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_view", &light_view[0][0]);
+
+	entity_obj->get_material()->get_shader()->define_mat4("u_lightSpaceMatrix", &light_space_pos[0][0]);
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 

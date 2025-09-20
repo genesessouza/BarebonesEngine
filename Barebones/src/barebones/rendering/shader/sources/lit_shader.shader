@@ -74,6 +74,6 @@ void main()
 
     float shadow = ShadowCalculation(FragPosLightSpace);
 
-    vec3 lighting = (ambient + (1.0 - shadow) + diffuse) * u_color.rgb;
+    vec3 lighting = (ambient + (1.0 - shadow) * diffuse) * u_color.rgb;
     FragColor = vec4(lighting, u_color.a);
 };
