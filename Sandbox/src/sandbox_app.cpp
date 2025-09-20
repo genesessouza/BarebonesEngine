@@ -12,7 +12,7 @@ app::app()
 {
 	// -------------------------------- SCENE ENTITIES ---------------------------
 	{
-		camera = new perspective_camera(45.0f, 800.0f / 600.0f, 0.1f, 100.0f, LIT_SHADER_SOURCE);
+		camera = new perspective_camera(45.0f, 800.0f, 600.0f, 0.1f, 100.0f);
 		camera->set_position(glm::vec3(0, 3, 15));
 
 		floor.set_position(glm::vec3(-2, 1.5, 3));

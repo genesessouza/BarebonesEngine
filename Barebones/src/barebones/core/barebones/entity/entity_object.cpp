@@ -53,8 +53,7 @@ void entity_object::update_model_matrix()
 
 	model_matrix = rotation_matrix * translation_matrix * glm::scale(glm::mat4(1.0f), m_scale);
 
-	glm::mat3 normal_matrix = glm::transpose(glm::inverse(glm::mat3(model_matrix)));
-	normal = glm::normalize(normal_matrix * base_normal);
+	normal = glm::vec3(model_matrix[2]);
 
 	entity_material->set_model_matrix(&model_matrix[0][0]);
 }

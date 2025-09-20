@@ -13,7 +13,8 @@ sdf_raster_test::sdf_raster_test()
 	// -------------------------------- SCENE ENTITIES ---------------------------
 	{
 		camera = new perspective_camera(45.0f, 800.0f, 600.0f, 0.1f, 100.0f);
-		camera->set_position(glm::vec3(0, 3, 15));
+		camera->set_position(glm::vec3(0, 1, 25));
+		camera->set_rotation(glm::vec3(-90, 0, 0));
 
 		floor.set_position(glm::vec3(0, 0, 0));
 		floor.set_scale(glm::vec3(10, 0.3, 10));
@@ -30,7 +31,7 @@ sdf_raster_test::sdf_raster_test()
 
 		light_source = new light(light_type::directional, sun, 1);
 		light_source->set_position(glm::vec3(-3, 5, -5));
-		light_source->set_rotation(glm::vec3(0, 180, 0));
+		light_source->set_rotation(glm::vec3(180, -15.5, 180));
 	}
 
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
@@ -55,7 +56,7 @@ sdf_raster_test::sdf_raster_test()
 
 void sdf_raster_test::on_update_application()
 {
-	static glm::vec3 pos = glm::vec3(-3, 5, -5); // for camera
+	static glm::vec3 pos = glm::vec3(0, 5, 0); // for camera
 	static glm::vec3 eulerRotation = glm::vec3(0, 0, 0);
 
 	// ROTATION INPUT //
@@ -97,9 +98,14 @@ void sdf_raster_test::on_update_application()
 			light_source->set_light_type(light_type::directional);
 	}
 
-	light_source->set_position(glm::vec3(pos));
+	//light_source->set_position(glm::vec3(pos));
 	light_source->set_rotation(eulerRotation);
 
-	//camera->set_rotation(eulerRotation);
+	//std::cout << light_source->get_rotation().x << ", " << light_source->get_rotation().y << ", " << light_source->get_rotation().z << std::endl;
+
+	//camera->set_rotation(glm::vec3(eulerRotation.x, 0, 0));
 	//camera->set_position(glm::vec3(pos.x, pos.y, pos.z));
+
+	//std::cout << camera->get_rotation().x << ", " << camera->get_rotation().y << ", " << camera->get_rotation().z << std::endl;
+	//std::cout << camera->get_position().x << ", " << camera->get_position().y << ", " << camera->get_position().z << std::endl;
 }

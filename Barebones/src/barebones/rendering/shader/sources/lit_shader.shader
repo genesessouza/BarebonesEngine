@@ -19,9 +19,9 @@ void main()
     vec4 worldPos = u_model * u_transform * vec4(aPos, 1.0);
 
     FragPos = vec3(worldPos);
-    Normal = mat3(transpose(inverse(u_model))) * aNormal;
+    Normal = normalize(mat3(transpose(inverse(u_model))) * aNormal);
 
-    FragPosLightSpace = u_lightSpaceMatrix * vec4(FragPos, 1.0);
+    FragPosLightSpace = u_lightSpaceMatrix * worldPos;
 
     gl_Position = u_projection * u_view * worldPos;
 };
@@ -47,32 +47,31 @@ float ShadowCalculation(vec4 fragPosLightSpace)
 {
     // NDC
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
 
-    // fora do shadow map → sem sombra
-    if(projCoords.z > 1.0)
-        return 0.0;
+    if(projCoords.z <= 1.0)
+    {
+        projCoords = (projCoords + 1.0) / 2.0;
+        
+        float closestDepth = texture(u_shadowMap, projCoords.xy).r;
+        float currentDepth = projCoords.z;
 
-    float closestDepth = texture(u_shadowMap, projCoords.xy).r;
-    float currentDepth = projCoords.z;
-
-    float bias = 0.005;
-    return (currentDepth - bias > closestDepth) ? 1.0 : 0.0;
+        // float bias = max(0.01f * (1.0f - dot(Normal, u_lightDir)), 0.0005f);
+        // float bias = max(0.005f, 0.05f * (1.0 - dot(Normal, u_lightDir)));
+        float bias = 0.005f;
+        return (currentDepth > closestDepth + bias) ? 0.9 : 0.0;
+    }
 }
 
 void main()
 {
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(-u_lightDir);
+    vec3 lightDir = u_lightDir;
 
-    // ambient
     vec3 ambient = 0.1 * u_lightColor.rgb;
 
-    // diffuse
-    float diff = max(dot(lightDir, norm), 0.0);
+    float diff = max(dot(norm, u_lightDir), 0.0);
     vec3 diffuse = diff * u_lightColor.rgb;
 
-    // shadow
     float shadow = ShadowCalculation(FragPosLightSpace);
 
     vec3 lighting = (ambient + (1.0 - shadow) + diffuse) * u_color.rgb;

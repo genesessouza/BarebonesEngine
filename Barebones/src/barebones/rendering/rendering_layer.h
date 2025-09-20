@@ -48,7 +48,6 @@ private:
 private:
 	frame_buffer* m_fbo;
 
-	glm::mat4 m_shadow_map_ortho_matrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
 	glm::mat4 light_view_matrix = glm::mat4(1.0f);
 	glm::mat4 light_proj_matrix = glm::mat4(1.0f);
 };

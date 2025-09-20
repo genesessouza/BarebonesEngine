@@ -35,8 +35,8 @@ void renderer::submit(const entity_object* entity_obj, const glm::mat4& light_sp
 {
 	entity_obj->get_material()->get_shader()->bind();
 
-	entity_obj->get_material()->get_shader()->define_mat4("u_view", &m_scene_data->view_matrix[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &m_scene_data->projection_matrix[0][0]);
+	entity_obj->get_material()->get_shader()->define_mat4("u_view", &m_scene_data->view_matrix[0][0]);
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
@@ -58,8 +58,8 @@ void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& li
 {
 	entity_obj->get_material()->get_shader()->bind();
 
-	entity_obj->get_material()->get_shader()->define_mat4("u_view", &light_view[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &light_proj[0][0]);
+	entity_obj->get_material()->get_shader()->define_mat4("u_view", &light_view[0][0]);
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
