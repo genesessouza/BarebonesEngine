@@ -127,3 +127,11 @@ public:
 		set_indices(indices, index_size);
 	}
 };
+
+class sphere : public mesh
+{
+public:
+	sphere() : mesh()
+	{
+	}
+};

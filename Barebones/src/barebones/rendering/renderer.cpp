@@ -19,12 +19,13 @@ renderer::renderer(glm::vec4 color)
 
 renderer::~renderer() {}
 
-void renderer::begin_scene(const perspective_camera* camera, light* scene_light)
+void renderer::begin_scene(perspective_camera* camera, light* scene_light)
 {
 	m_scene_data->view_matrix = camera->get_view_matrix();
 	m_scene_data->projection_matrix = camera->get_projection_matrix();
 
 	m_scene_data->scene_light = scene_light;
+	m_scene_data->scene_camera = camera;
 }
 
 void renderer::end_scene()
@@ -37,17 +38,9 @@ void renderer::submit(const entity_object* entity_obj, const glm::mat4& light_sp
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &m_scene_data->projection_matrix[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_view", &m_scene_data->view_matrix[0][0]);
-
 	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
-	// SHADOW MAPPING
-	{
-		entity_obj->get_material()->get_shader()->define_mat4("u_lightSpaceMatrix", &light_space_matrix[0][0]);
-		entity_obj->get_material()->get_shader()->define_int("u_shadowMap", 0);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, fbo->get_depth_texture());
-	}
+	entity_obj->get_material()->get_shader()->define_vec3("u_cameraPos", m_scene_data->scene_camera->get_position());
 
 	entity_obj->get_entity_vertex_array()->bind();
 
@@ -60,9 +53,7 @@ void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& li
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &light_proj[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_view", &light_view[0][0]);
-
 	entity_obj->get_material()->get_shader()->define_mat4("u_lightSpaceMatrix", &light_space_pos[0][0]);
-
 	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
 	entity_obj->get_entity_vertex_array()->bind();

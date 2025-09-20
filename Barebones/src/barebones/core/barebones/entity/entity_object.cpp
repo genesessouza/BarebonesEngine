@@ -49,11 +49,13 @@ entity_object::entity_object(const mesh& mesh, const char* shader_filepath)
 void entity_object::update_model_matrix()
 {
 	rotation_matrix = glm::mat4_cast(m_orientation);
+
 	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), m_position);
+	glm::mat4 scale_matrix = glm::scale(glm::mat4(1.0f), m_scale);
 
-	model_matrix = rotation_matrix * translation_matrix * glm::scale(glm::mat4(1.0f), m_scale);
+	model_matrix = rotation_matrix * translation_matrix * scale_matrix;
 
-	normal = glm::vec3(model_matrix[2]);
+	normal = glm::normalize(glm::vec3(model_matrix[2]));
 
 	entity_material->set_model_matrix(&model_matrix[0][0]);
 }

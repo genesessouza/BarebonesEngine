@@ -14,7 +14,7 @@ public:
 	renderer(glm::vec4 color);
 	~renderer();
 
-	void begin_scene(const perspective_camera* camera, light* scene_light);
+	void begin_scene(perspective_camera* camera, light* scene_light);
 	void end_scene();
 
 	void submit(const entity_object* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo);
@@ -28,6 +28,7 @@ private:
 		glm::mat4 view_matrix;
 
 		light* scene_light;
+		perspective_camera* scene_camera;
 	};
 
 	static scene_data* m_scene_data;

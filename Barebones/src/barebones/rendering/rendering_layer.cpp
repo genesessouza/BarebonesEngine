@@ -6,7 +6,7 @@ rendering_layer::rendering_layer(perspective_camera& camera)
 	scene_camera = &camera;
 	scene_renderer.reset(new renderer(skybox_color));
 
-	m_fbo = new frame_buffer(1024, 1024); // hard coded resolution for now
+	m_fbo = new frame_buffer(4096, 4096); // hard coded resolution for now
 }
 
 void rendering_layer::add_object(entity& object_to_render, bool is_main_light)
@@ -27,7 +27,7 @@ void rendering_layer::on_update(timestep delta_time)
 	draw_render_pass();
 }
 
-std::vector<glm::vec3> getFrustumCornersWorldSpace(const glm::mat4& proj, const glm::mat4& view)
+static std::vector<glm::vec3> getFrustumCornersWorldSpace(const glm::mat4& proj, const glm::mat4& view)
 {
 	glm::mat4 inv = glm::inverse(proj * view);
 
@@ -62,6 +62,16 @@ void rendering_layer::draw_depth_pass()
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo->get());
 	glClear(GL_DEPTH_BUFFER_BIT);
 
+	glm::vec3 light_dir = main_light->get_normal();
+
+	glm::vec3 target = glm::vec3(0.0f);
+
+	float distance = -1.0f;
+
+	glm::vec3 light_pos = target - light_dir * distance;
+
+	light_view_matrix = glm::lookAt(light_pos, target, glm::vec3(0.0f, -1.0f, 0.0f));
+
 	std::vector<glm::vec3> frustumCorners = getFrustumCornersWorldSpace(scene_camera->get_projection_matrix(), scene_camera->get_view_matrix());
 
 	for (auto& corner : frustumCorners) {
@@ -77,21 +87,14 @@ void rendering_layer::draw_depth_pass()
 		max = glm::max(max, frustumCorners[i]);
 	}
 
+	float margin = 10;
+
 	glm::mat4 lightProjection = glm::ortho(
 		min.x, max.x,
 		min.y, max.y,
-		min.z, max.z
+		min.z, max.z + margin // fix these somehow
 	);
 
-	glm::vec3 light_dir = glm::normalize(main_light->get_normal());
-
-	glm::vec3 target = glm::vec3(0.0f);
-
-	float distance = 20.0f;
-
-	glm::vec3 light_pos = target - light_dir * distance;
-
-	light_view_matrix = glm::lookAt(light_pos, target, glm::vec3(0.0f, -1.0f, 0.0f));
 	light_proj_matrix = lightProjection;
 
 	glm::mat4 light_space_pos = light_proj_matrix * light_view_matrix;
@@ -124,7 +127,9 @@ void rendering_layer::draw_render_pass()
 
 	for (auto* obj : objects_on_scene)
 	{
+		//glDisable(GL_CULL_FACE);
 		scene_renderer->submit(obj, light_space_matrix, m_fbo);
+		//glEnable(GL_CULL_FACE);
 		main_light->shine_on_objects(obj, scene_camera);
 
 		glDisable(GL_DEPTH_TEST);

@@ -20,8 +20,8 @@ void light::shine_on_objects(const entity_object* scene_entity_obj, const perspe
 	if (type == light_type::directional)
 	{
 		intensity = 1;
-		glm::vec3 light_normal = glm::normalize(get_normal());
-		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", light_normal);
+		scene_entity_obj->get_material()->get_shader()->define_bool("u_directionalLight", true);
+		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", get_normal());
 	}
 
 	if (type == light_type::point)
@@ -29,7 +29,8 @@ void light::shine_on_objects(const entity_object* scene_entity_obj, const perspe
 		float length = glm::length(get_position() - scene_entity_obj->get_position());
 
 		intensity = intensity / length;
-		//scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", get_position());
+		scene_entity_obj->get_material()->get_shader()->define_bool("u_directionalLight", false);
+		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", get_position());
 	}
 
 	set_color(base_color, intensity);

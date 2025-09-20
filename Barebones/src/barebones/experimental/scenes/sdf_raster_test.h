@@ -17,7 +17,10 @@ private:
 	// SCENE OBJECTS
 	entity floor = entity(new cube(), LIT_SHADER_SOURCE);
 	entity back_wall = entity(new cube(), LIT_SHADER_SOURCE);
+
 	entity cube1 = entity(new cube(), LIT_SHADER_SOURCE);
+	entity cube2 = entity(new cube(), LIT_SHADER_SOURCE);
+	entity cube3 = entity(new cube(), LIT_SHADER_SOURCE);
 
 	// SCENE LIGHTS
 	light* light_source;

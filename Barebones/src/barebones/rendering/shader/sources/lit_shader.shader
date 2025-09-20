@@ -10,8 +10,11 @@ uniform mat4 u_projection;
 uniform mat4 u_transform;
 uniform mat4 u_lightSpaceMatrix;
 
+uniform vec3 u_cameraPos;
+
 out vec3 FragPos;
 out vec3 Normal;
+out vec3 cameraPos;
 out vec4 FragPosLightSpace;
 
 void main()
@@ -19,7 +22,9 @@ void main()
     vec4 worldPos = u_model * u_transform * vec4(aPos, 1.0);
 
     FragPos = vec3(worldPos);
-    Normal = normalize(mat3(transpose(inverse(u_model))) * aNormal);
+    Normal = mat3(transpose(inverse(u_model))) * aNormal;
+    
+    cameraPos = u_cameraPos;
 
     FragPosLightSpace = u_lightSpaceMatrix * worldPos;
 
@@ -31,6 +36,8 @@ void main()
 
 in vec3 FragPos;
 in vec3 Normal;
+in vec3 cameraPos;
+
 in vec4 FragPosLightSpace;
 
 uniform sampler2D shadowMap;
@@ -40,12 +47,12 @@ out vec4 FragColor;
 uniform vec3 u_lightDir;
 uniform vec4 u_lightColor;
 uniform vec4 u_color;
+uniform bool u_directionalLight;
 
 uniform sampler2D u_shadowMap;
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
 {
-    // NDC
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 
     if(projCoords.z <= 1.0)
@@ -55,25 +62,73 @@ float ShadowCalculation(vec4 fragPosLightSpace)
         float closestDepth = texture(u_shadowMap, projCoords.xy).r;
         float currentDepth = projCoords.z;
 
-        // float bias = max(0.01f * (1.0f - dot(Normal, u_lightDir)), 0.0005f);
-        // float bias = max(0.005f, 0.05f * (1.0 - dot(Normal, u_lightDir)));
-        float bias = 0.005f;
-        return (currentDepth > closestDepth + bias) ? 0.9 : 0.0;
+        float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
+        float bias = max(0.005, 0.01 * (1.0 - cosTheta));
+
+        return (currentDepth - bias > closestDepth) ? intensity : 0.0;
+    }
+}
+
+float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
+{
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+
+    if(projCoords.z <= 1.0)
+    {
+        projCoords = (projCoords + 1.0) / 2.0;
+        
+        float closestDepth = texture(u_shadowMap, projCoords.xy).r;
+        float currentDepth = projCoords.z;
+
+        float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
+        float bias = max(0.0005, 0.005 * (1.0 - cosTheta));
+
+        float shadow = 0.0;
+
+        int pcfCount = 1;
+
+        vec2 texelSize = 1.0 / textureSize(u_shadowMap, 0);
+        for(int x = -pcfCount; x <= pcfCount; ++x) {
+            for(int y = -pcfCount; y <= pcfCount; ++y) {
+                float pcfDepth = texture(u_shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
+                shadow += projCoords.z - bias > pcfDepth ? intensity : 0.0;
+            }
+        }
+        return shadow /= 9.0;
     }
 }
 
 void main()
 {
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = u_lightDir;
+    vec3 viewPos = normalize(cameraPos);
+    
+    vec3 normal = normalize(Normal);
+    vec3 lightDir;
 
-    vec3 ambient = 0.1 * u_lightColor.rgb;
+    if(u_directionalLight)
+        lightDir = normalize(-u_lightDir);
+    else
+        lightDir = normalize(FragPos - u_lightDir);
 
-    float diff = max(dot(norm, u_lightDir), 0.0);
-    vec3 diffuse = diff * u_lightColor.rgb;
+    float ambientMultiplier = 0.1;
+    vec4 ambient = ambientMultiplier * u_lightColor;
 
-    float shadow = ShadowCalculation(FragPosLightSpace);
+    float diffuseMultiplier = 0.5;
+    float diffuseStrength = max(dot(lightDir, normal), 0);
+    vec4 diffuse = diffuseMultiplier * diffuseStrength * u_lightColor;
 
-    vec3 lighting = (ambient + (1.0 - shadow) * diffuse) * u_color.rgb;
-    FragColor = vec4(lighting, u_color.a);
+    float specularMultiplier = 0.3;
+    vec3 reflectDir = normalize(reflect(lightDir, normal));
+    float specularStrength = max(dot(viewPos, reflectDir), 0);
+    vec4 specular = specularMultiplier * specularStrength * u_lightColor;
+
+    float shadowIntensity = 1;
+    float shadow = ShadowCalculation(FragPosLightSpace, lightDir, shadowIntensity);
+
+    diffuse = diffuse * (1 - (shadow * shadowIntensity));
+
+    vec4 lighting = (ambient + diffuse + specular) * u_color;
+    FragColor = lighting;
+
+    // FragColor = vec4(normal * 0.5 + 0.5, 1.0); 
 };

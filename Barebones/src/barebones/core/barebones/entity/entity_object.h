@@ -28,9 +28,9 @@ public:
 
 	virtual glm::vec3 get_normal() const { return normal; }
 public:
-	const glm::vec3 forward() const { return glm::normalize(glm::vec3(glm::mat4(1.0f) * glm::vec4(0, 0, -1, 0))); }
-	const glm::vec3 right() const { return glm::normalize(glm::vec3(glm::mat4(1.0f) * glm::vec4(1, 0, 0, 0))); }
-	const glm::vec3 up() const { return glm::normalize(glm::vec3(glm::mat4(1.0f) * glm::vec4(0, 1, 0, 0))); }
+	const glm::vec3 right() const { return glm::normalize(glm::vec3(1, 0, 0)); }
+	const glm::vec3 up() const { return glm::normalize(glm::vec3(0, 1, 0)); }
+	const glm::vec3 forward() const { return glm::normalize(glm::vec3(0, 0, -1)); }
 public:
 	const glm::mat4& get_model_matrix() const { return model_matrix; }
 private:
