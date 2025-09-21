@@ -64,7 +64,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
         float currentDepth = projCoords.z;
 
         float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
-        float bias = max(0.005, 0.01 * (1.0 - cosTheta));
+        float bias = max(0.0005, 0.005 * (1.0 - cosTheta));
 
         return (currentDepth - bias > closestDepth) ? intensity : 0.0;
     }
@@ -93,7 +93,7 @@ float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float inte
         float currentDepth = projCoords.z;
 
         float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
-        float bias = max(0.0005, 0.01 * (1.0 - cosTheta));
+        float bias = max(0.0005, 0.005 * (1.0 - cosTheta));
 
         float shadow = 0.0;
 
@@ -105,12 +105,17 @@ float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float inte
                 vec2 jitter = randomOffset(projCoords.xy, x, y) * texelSize * 0.5;
 
                 float pcfDepth = texture(u_shadowMap, projCoords.xy + (vec2(x, y) * texelSize) + jitter).r;
-                shadow += projCoords.z - bias > pcfDepth ? intensity / pcfCount : 0.0;
+                shadow += projCoords.z - bias > pcfDepth ? intensity : 0.0;
             }
         }
         return shadow /= 9.0;
     }
 }
+
+uniform float u_ambientMultiplier;
+uniform float u_diffuseMultiplier;
+uniform float u_specularMultiplier;
+uniform float u_shadowStrength;
 
 void main()
 {
@@ -124,30 +129,28 @@ void main()
     else
         lightDir = normalize(FragPos - u_lightDir);
 
-    float ambientMultiplier = 0.1;
-    vec4 ambient = ambientMultiplier * u_lightColor;
+    vec4 ambient = u_ambientMultiplier * u_lightColor;
 
-    float diffuseMultiplier = 0.5;
     float diffuseStrength = max(dot(lightDir, normal), 0);
-    vec4 diffuse = diffuseMultiplier * diffuseStrength * u_lightColor;
+    vec4 diffuse = u_diffuseMultiplier * diffuseStrength * u_lightColor;
 
-    float specularMultiplier = 0.3;
     vec3 reflectDir = normalize(reflect(lightDir, normal));
     float specularStrength = max(dot(viewPos, reflectDir), 0);
-    vec4 specular = specularMultiplier * specularStrength * u_lightColor;
+    vec4 specular = u_specularMultiplier * specularStrength * u_lightColor;
 
-    float shadowIntensity = 0.9;
     float shadow = 0;
     
     if(u_softShadows)
-        shadow = ShadowCalculationWithPCF(FragPosLightSpace, lightDir, shadowIntensity);
+        shadow = ShadowCalculationWithPCF(FragPosLightSpace, lightDir, u_shadowStrength);
     else
-        shadow = ShadowCalculation(FragPosLightSpace, lightDir, shadowIntensity);
+        shadow = ShadowCalculation(FragPosLightSpace, lightDir, u_shadowStrength);
 
-    diffuse = diffuse * (1 - (shadow * shadowIntensity));
+    diffuse = diffuse * (1.0 - shadow);
 
     vec4 lighting = (ambient + diffuse + specular) * u_color;
     FragColor = lighting;
+
+    // FragColor = u_lightColor;
 
     // FragColor = vec4(normal * 0.5 + 0.5, 1.0); 
 };

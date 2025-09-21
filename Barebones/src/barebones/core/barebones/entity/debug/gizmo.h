@@ -15,7 +15,7 @@ struct arrow
 	std::shared_ptr<vertex_array> cone_vao;
 	std::shared_ptr<vertex_buffer> cone_vbo;
 
-	int coneVertexCount;
+	size_t coneVertexCount;
 
 	glm::vec3 color;
 	glm::vec3 dir;

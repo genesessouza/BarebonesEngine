@@ -21,6 +21,11 @@ public:
 	void set_color(const glm::vec4& color) { m_shader->define_vec4("u_color", color); }
 	const glm::vec4& get_color(const std::string& uniform_name) const;
 
+	void set_ambient(float ambient_strength) { m_shader->define_float("u_ambientMultiplier", ambient_strength); }
+	void set_diffuse(float diffuse_strength) { m_shader->define_float("u_diffuseMultiplier", diffuse_strength); }
+	void set_specular(float specular_strength) { m_shader->define_float("u_specularMultiplier", specular_strength); }
+	void set_shadow_strength(float shadow_strength) { m_shader->define_float("u_shadowStrength", shadow_strength); }
+
 	void set_model_matrix(float* matrix) { m_shader->define_mat4("u_model", matrix); m_debug_shader->define_mat4("u_model", matrix); }
 	const glm::mat4& get_model_matrix() const { return m_shader->get_mat4("u_model"); }
 private:

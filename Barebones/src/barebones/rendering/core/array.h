@@ -26,6 +26,7 @@ public:
 	const std::shared_ptr<index_buffer>& get_index_buffer() { return index_buffer_object; }
 private:
 	uint32_t m_renderer_id;
+
 	std::shared_ptr<vertex_array> vertex_array_object;
 	std::vector<std::shared_ptr<vertex_buffer>> vertex_buffer_objects;
 	std::shared_ptr<index_buffer> index_buffer_object;

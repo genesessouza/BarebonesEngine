@@ -1,3 +1,4 @@
+/*
 #include "sandbox_app.h"
 
 #include "glad/glad.h"
@@ -91,3 +92,4 @@ void app::on_update_application()
 	//floor.set_rotation(glm::vec3(xRot, yRot, zRot));
 	//quad1.set_rotation(glm::vec3(xRot, yRot, zRot));
 }
+*/

@@ -50,7 +50,6 @@ static std::vector<glm::vec3> getFrustumCornersWorldSpace(const glm::mat4& proj,
 
 void rendering_layer::draw_depth_pass()
 {
-
 	// CHECK ON RENDERER TO SEE HOW THOSE ARE SET
 	{
 		//glEnable(GL_DEPTH_TEST);
@@ -65,11 +64,11 @@ void rendering_layer::draw_depth_pass()
 
 	glm::vec3 target = glm::vec3(0.0f);
 
-	float distance = -1.0f;
+	float distance = -20.0f;
 
 	glm::vec3 light_pos = target - light_dir * distance;
 
-	light_view_matrix = glm::lookAt(light_pos, target, glm::vec3(0.0f, -1.0f, 0.0f));
+	light_view_matrix = glm::lookAt(light_pos, target, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	std::vector<glm::vec3> frustumCorners = getFrustumCornersWorldSpace(scene_camera->get_projection_matrix(), scene_camera->get_view_matrix());
 
@@ -86,7 +85,7 @@ void rendering_layer::draw_depth_pass()
 		max = glm::max(max, frustumCorners[i]);
 	}
 
-	float margin = 10;
+	float margin = 50;
 
 	glm::mat4 lightProjection = glm::ortho(
 		min.x, max.x,
@@ -128,9 +127,9 @@ void rendering_layer::draw_render_pass()
 
 	for (auto* obj : objects_on_scene)
 	{
-		//glDisable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
 		scene_renderer->submit(obj, light_space_matrix, m_fbo);
-		//glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 		main_light->shine_on_objects(obj, scene_camera);
 
 		glDisable(GL_DEPTH_TEST);

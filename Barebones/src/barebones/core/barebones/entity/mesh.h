@@ -8,25 +8,28 @@
 struct mesh_data
 {
 	std::vector<float> vertices;
-	float vertex_size;
 
 	std::vector<uint32_t> indices;
-	uint32_t index_size;
+
+	size_t elements_per_vertex = 6; // position/normal
 };
 
 class mesh
 {
 public:
-	mesh();
+	mesh() = default;
 
 	const std::vector<float>& get_vertices() const { return data.vertices; }
-	void set_vertices(std::vector<float> vertices, float vertex_size);
+	void set_vertices(std::vector<float> vertices) { data.vertices = vertices; }
 
 	std::vector<uint32_t> get_indices() const { return data.indices; }
-	void set_indices(std::vector<uint32_t> indices, uint32_t index_size);
+	void set_indices(std::vector<uint32_t> indices) { data.indices = indices; }
 
-	float get_vertex_size() const { return data.vertex_size; }
-	uint32_t get_indices_count() const { return data.index_size; }
+	const size_t get_vertex_count() const { return data.vertices.size() / data.elements_per_vertex; }
+	const size_t get_index_count() const { return data.indices.size(); }
+
+	const size_t get_vertex_buffer_size() const { return data.vertices.size() * sizeof(float); }
+	const size_t get_index_buffer_size() const { return data.indices.size() * sizeof(uint32_t); }
 protected:
 	mesh_data data;
 };
@@ -42,12 +45,10 @@ public:
 			 0.5f, 0.0f,  0.5f, 0, -1, 0,							// top-right		- 2
 			 0.5f, 0.0f, -0.5f, 0, -1, 0							// bottom-right		- 3
 		};
-		float vertex_size = sizeof(float) * 24;						// 4 vertices, each with 6 floats (position + normal) = 24
 		std::vector<uint32_t> indices = { 0, 1, 2, 2, 3, 0 };
-		uint32_t index_size = 6;									// 2 triangles, each with 3 indices = 6
 
-		set_vertices(vertices, vertex_size);
-		set_indices(indices, index_size);
+		set_vertices(vertices);
+		set_indices(indices);
 	}
 };
 
@@ -61,12 +62,10 @@ public:
 			 0.0f,  0.4f, 0.0f, 0, 0, 1,							// bottom-left	- 1
 			 0.3f, -0.4f, 0.0f, 0, 0, 1								// bottom-right	- 2
 		};
-		float vertex_size = sizeof(float) * 18;						// 3 vertices, each with 6 floats (position + normal) = 18
-		std::vector<uint32_t> indices = { 0, 2, 1 };
-		uint32_t index_size = 3;									// 1 triangle, with 3 indices = 3
+		std::vector<uint32_t> indices = { 0, 1, 2 };
 
-		set_vertices(vertices, vertex_size);
-		set_indices(indices, index_size);
+		set_vertices(vertices);
+		set_indices(indices);
 	}
 };
 
@@ -112,7 +111,6 @@ public:
 				 0.5f,  0.5f,  0.5f, -1, 0, 0,						// top-left-front			- 23	|
 				 0.5f, -0.5f,  0.5f, -1, 0, 0						// bottom-right-front		- 24	|
 		};
-		float vertex_size = sizeof(float) * 144;					// 24 vertices, each with 6 floats (position + normal) = 144
 		std::vector<uint32_t> indices = {
 			0, 1, 2, 2, 3, 0,										// front face 
 			4, 5, 6, 6, 7, 4,										// back face 
@@ -121,10 +119,9 @@ public:
 			16, 17, 18, 18, 19, 16,									// left face 
 			20, 21, 22, 22, 23, 20									// right face 
 		};
-		uint32_t index_size = 36;									// 12 triangles, each with 3 indices = 36
 
-		set_vertices(vertices, vertex_size);
-		set_indices(indices, index_size);
+		set_vertices(vertices);
+		set_indices(indices);
 	}
 };
 
