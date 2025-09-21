@@ -63,5 +63,5 @@ void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& li
 
 void renderer::draw(const entity_object* entity_obj)
 {
-	glDrawElements(GL_TRIANGLES, entity_obj->get_entity_vertex_array()->get_index_buffer()->get_count(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, (GLsizei)entity_obj->get_entity_vertex_array()->get_index_buffer()->get_count(), GL_UNSIGNED_INT, 0);
 }

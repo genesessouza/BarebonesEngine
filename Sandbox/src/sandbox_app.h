@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include "barebones/barebones_src.h"
@@ -27,3 +28,4 @@ private:
 
 	glm::vec3 sun = glm::vec3(1.0f, 0.9f, 0.7f);
 };
+*/

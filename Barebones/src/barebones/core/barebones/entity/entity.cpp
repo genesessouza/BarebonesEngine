@@ -1,6 +1,6 @@
 #include "entity.h"
 
-entity::entity(mesh* mesh, const char* shader_filepath) : entity_object(mesh, shader_filepath)
+entity::entity(const mesh& mesh, const char* shader_filepath) : entity_object(mesh, shader_filepath)
 {
 	entity_material->set_shader(shader::instantiate(shader_filepath));
 
@@ -14,4 +14,6 @@ entity::entity(mesh* mesh, const char* shader_filepath) : entity_object(mesh, sh
 
 	entity_bounds->set_position(center);
 	entity_bounds->set_rotation(get_rotation());
+
+	m_coll = new box_collider(entity_vertex_buffer->get_vertices(), mesh.get_vertex_count(), model_matrix);
 }

@@ -8,8 +8,8 @@
 class vertex_buffer
 {
 public:
-	vertex_buffer(const float* vertices, uint32_t size);
-	static std::shared_ptr<vertex_buffer> create(const float* vertices, uint32_t size);
+	vertex_buffer(const float* vertices, size_t size);
+	static std::shared_ptr<vertex_buffer> create(const float* vertices, size_t size);
 	~vertex_buffer();
 
 	void bind() const;
@@ -21,20 +21,22 @@ public:
 	uint32_t get_vertex_buffer_id() const { return m_renderer_id; }
 	std::shared_ptr<vertex_buffer> get_vertex_buffer_object() const { return vertex_buffer_object; }
 
-	const float* get_vertices() const { return vertices; }
+	const float* get_vertices() const { return m_vertices; }
+	size_t get_buffer_size() const { return m_buffer_size; }
 private:
 	uint32_t m_renderer_id;
 	std::shared_ptr<vertex_buffer> vertex_buffer_object;
 
-	const float* vertices;
+	const float* m_vertices;
+	size_t m_buffer_size;
 	buffer_layout layout;
 };
 
 class index_buffer
 {
 public:
-	index_buffer(const uint32_t* indices, uint32_t count);
-	static std::shared_ptr<index_buffer> create(const uint32_t* indices, uint32_t count);
+	index_buffer(uint32_t* indices, size_t count);
+	static std::shared_ptr<index_buffer> create(uint32_t* indices, size_t count);
 	~index_buffer();
 
 	void bind() const;
@@ -43,13 +45,14 @@ public:
 	uint32_t get_index_buffer_id() const { return m_renderer_id; }
 	std::shared_ptr<index_buffer> get_index_buffer_object() const { return index_buffer_object; }
 
-	uint32_t* get_indices() const { return indices; }
+	uint32_t* get_indices() const { return m_indices; }
 
-	uint32_t get_count() const { return count; }
+	size_t get_count() const { return m_count; }
 private:
 	uint32_t m_renderer_id;
 	std::shared_ptr<index_buffer> index_buffer_object;
 
-	uint32_t* indices;
-	uint32_t count;
+	uint32_t* m_indices;
+	size_t m_count;
+	size_t m_buffer_size;
 };

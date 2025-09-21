@@ -3,6 +3,8 @@
 #include <numbers>
 #include <iostream>
 
+const float PI = 3.14f;
+
 void gizmo::create_arrow(glm::vec3 dir, glm::vec3 color)
 {
 	arrow arrow{};
@@ -32,6 +34,8 @@ void gizmo::create_arrow(glm::vec3 dir, glm::vec3 color)
 	arrow.cone_vao->add_vertex_buffers(arrow.cone_vbo);
 
 	arrows.push_back(arrow);
+
+	//std::cout << "Gizmo: Arrow vertex_count [" << arrow.coneVertexCount / sizeof(float) << "] | " << "Cone vertex_count [" << coneVertices.size() / sizeof(float) << "]" << std::endl;
 }
 
 void gizmo::generate_cone(std::vector<float>& vertices, float radius, float height, int segments)
@@ -41,7 +45,7 @@ void gizmo::generate_cone(std::vector<float>& vertices, float radius, float heig
 	glm::vec3 tip(0, 0, height);
 	glm::vec3 baseCenter(0, 0, 0);
 
-	const float TWO_PI = 2.0f * std::numbers::pi_v<float>;
+	float TWO_PI = PI * 2;
 
 	for (int i = 0; i < segments; i++)
 	{
@@ -76,13 +80,13 @@ void gizmo::render(const glm::mat4& view, const glm::mat4& proj)
 
 		glm::mat4 coneModel = glm::translate(model_matrix, arrow.dir);
 
-		if (arrow.dir == glm::vec3(1, 0, 0)) coneModel *= glm::rotate(glm::mat4(1.0f), glm::half_pi<float>(), glm::vec3(0, 1, 0));
-		if (arrow.dir == glm::vec3(0, 1, 0)) coneModel *= glm::rotate(glm::mat4(1.0f), -glm::half_pi<float>(), glm::vec3(1, 0, 0));
+		if (arrow.dir == glm::vec3(1, 0, 0)) coneModel *= glm::rotate(glm::mat4(1.0f), PI * 0.5f, glm::vec3(0, 1, 0));
+		if (arrow.dir == glm::vec3(0, 1, 0)) coneModel *= glm::rotate(glm::mat4(1.0f), -PI * 0.5f, glm::vec3(1, 0, 0));
 
 		gizmo_material->set_model_matrix(&coneModel[0][0]);
 
 		arrow.cone_vao->bind();
-		glDrawArrays(GL_TRIANGLES, 0, arrow.coneVertexCount);
+		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)arrow.coneVertexCount);
 	}
 }
 
