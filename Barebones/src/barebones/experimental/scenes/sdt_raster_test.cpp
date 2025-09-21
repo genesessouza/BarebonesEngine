@@ -38,8 +38,9 @@ sdf_raster_test::sdf_raster_test()
 		glm::vec4 sun = glm::vec4(1.0f, 0.9f, 0.7f, 1.0f);
 
 		light_source = new light(light_type::directional, sun, 1);
+		light_source->set_use_soft_shadows(true);
 		light_source->set_position(glm::vec3(0, 5, 0));
-		//light_source->set_rotation(glm::vec3(-30, -77, 5));
+		light_source->set_rotation(glm::vec3(10, 10, 0));
 	}
 
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
@@ -60,7 +61,7 @@ sdf_raster_test::sdf_raster_test()
 		push_overlay(m_rendering_layer);
 
 		get_window().set_vsync(false);
-		//m_show_fps = true;
+		m_show_fps = true;
 	}
 }
 
@@ -85,6 +86,14 @@ void sdf_raster_test::on_update_application()
 			light_source->set_light_type(light_type::point);
 		else
 			light_source->set_light_type(light_type::directional);
+	}
+
+	if (input_system()->get_key_down(GLFW_KEY_C))
+	{
+		if (light_source->get_use_soft_shadows())
+			light_source->set_use_soft_shadows(false);
+		else
+			light_source->set_use_soft_shadows(true);
 	}
 
 	if (handle_input)
@@ -125,8 +134,8 @@ void sdf_raster_test::on_update_application()
 				pos.x += 30 * delta_time;
 		}
 	}
-	
-	light_source->set_position(glm::vec3(pos));
+
+	//light_source->set_position(glm::vec3(pos));
 	light_source->set_rotation(eulerRotation);
 
 	//std::cout << light_source->get_rotation().x << ", " << light_source->get_rotation().y << ", " << light_source->get_rotation().z << std::endl;

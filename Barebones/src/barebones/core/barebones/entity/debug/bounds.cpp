@@ -52,7 +52,7 @@ void bounds::render(const glm::mat4& view, const glm::mat4& proj)
 
 	bounds_vertex_array->bind();
 
-	glLineWidth(1.5);
+	glLineWidth(1);
 	glDrawElements(GL_LINES, bounds_vertex_array->get_index_buffer()->get_count(), GL_UNSIGNED_INT, 0);
 	glLineWidth(1);
 }

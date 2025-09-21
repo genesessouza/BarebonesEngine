@@ -22,8 +22,12 @@ public:
 
 	void set_light_type(const light_type& new_type) { type = new_type; }
 	light_type get_light_type() const { return type; }
+
+	void set_use_soft_shadows(bool enabled) { m_use_soft_shadows = enabled; }
+	const bool get_use_soft_shadows() const { return m_use_soft_shadows; }
 private:
 	glm::vec3 base_color;
 
 	light_type type = light_type::directional;
+	bool m_use_soft_shadows;
 };

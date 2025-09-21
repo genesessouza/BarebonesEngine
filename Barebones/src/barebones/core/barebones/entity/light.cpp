@@ -33,6 +33,8 @@ void light::shine_on_objects(const entity_object* scene_entity_obj, const perspe
 		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", get_position());
 	}
 
+	scene_entity_obj->get_material()->get_shader()->define_bool("u_softShadows", m_use_soft_shadows);
+
 	set_color(base_color, intensity);
 	scene_entity_obj->get_material()->get_shader()->define_vec4("u_lightColor", glm::vec4(get_color(), 1));
 }

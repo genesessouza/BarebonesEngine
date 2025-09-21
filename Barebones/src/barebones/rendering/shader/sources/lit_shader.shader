@@ -50,6 +50,7 @@ uniform vec4 u_color;
 uniform bool u_directionalLight;
 
 uniform sampler2D u_shadowMap;
+uniform bool u_softShadows;
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
 {
@@ -69,6 +70,17 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
     }
 }
 
+float rand(vec2 co) {
+    return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec2 randomOffset(vec2 uv, int x, int y) {
+    float r1 = rand(uv + float(x) * 0.123);
+    float r2 = rand(uv + float(y) * 0.456);
+    // centraliza em torno de [-0.5, 0.5]
+    return vec2(r1 - 0.5, r2 - 0.5);
+}
+
 float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
 {
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -81,7 +93,7 @@ float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float inte
         float currentDepth = projCoords.z;
 
         float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
-        float bias = max(0.0005, 0.005 * (1.0 - cosTheta));
+        float bias = max(0.0005, 0.01 * (1.0 - cosTheta));
 
         float shadow = 0.0;
 
@@ -90,8 +102,10 @@ float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float inte
         vec2 texelSize = 1.0 / textureSize(u_shadowMap, 0);
         for(int x = -pcfCount; x <= pcfCount; ++x) {
             for(int y = -pcfCount; y <= pcfCount; ++y) {
-                float pcfDepth = texture(u_shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
-                shadow += projCoords.z - bias > pcfDepth ? intensity : 0.0;
+                vec2 jitter = randomOffset(projCoords.xy, x, y) * texelSize * 0.5;
+
+                float pcfDepth = texture(u_shadowMap, projCoords.xy + (vec2(x, y) * texelSize) + jitter).r;
+                shadow += projCoords.z - bias > pcfDepth ? intensity / pcfCount : 0.0;
             }
         }
         return shadow /= 9.0;
@@ -122,8 +136,13 @@ void main()
     float specularStrength = max(dot(viewPos, reflectDir), 0);
     vec4 specular = specularMultiplier * specularStrength * u_lightColor;
 
-    float shadowIntensity = 1;
-    float shadow = ShadowCalculation(FragPosLightSpace, lightDir, shadowIntensity);
+    float shadowIntensity = 0.9;
+    float shadow = 0;
+    
+    if(u_softShadows)
+        shadow = ShadowCalculationWithPCF(FragPosLightSpace, lightDir, shadowIntensity);
+    else
+        shadow = ShadowCalculation(FragPosLightSpace, lightDir, shadowIntensity);
 
     diffuse = diffuse * (1 - (shadow * shadowIntensity));
 

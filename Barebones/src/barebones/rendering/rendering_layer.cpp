@@ -50,7 +50,6 @@ static std::vector<glm::vec3> getFrustumCornersWorldSpace(const glm::mat4& proj,
 
 void rendering_layer::draw_depth_pass()
 {
-	scene_renderer->begin_scene(scene_camera, main_light);
 
 	// CHECK ON RENDERER TO SEE HOW THOSE ARE SET
 	{
@@ -102,6 +101,8 @@ void rendering_layer::draw_depth_pass()
 	m_fbo->get_depth_shader()->bind();
 	m_fbo->get_depth_shader()->define_mat4("u_lightView", &light_view_matrix[0][0]);
 	m_fbo->get_depth_shader()->define_mat4("u_lightProjection", &light_proj_matrix[0][0]);
+	
+	scene_renderer->begin_scene(scene_camera, main_light);
 
 	for (auto* obj : objects_on_scene)
 	{
@@ -140,7 +141,6 @@ void rendering_layer::draw_render_pass()
 
 			obj->expose_gizmo()->render(scene_camera->get_view_matrix(), scene_camera->get_projection_matrix());
 		}
-		glEnable(GL_DEPTH_TEST);
 
 		if (show_objects_on_scene_bounds)
 		{
@@ -150,6 +150,7 @@ void rendering_layer::draw_render_pass()
 
 			obj->expose_bounds()->render(scene_camera->get_view_matrix(), scene_camera->get_projection_matrix());
 		}
+		glEnable(GL_DEPTH_TEST);
 	}
 }
 
