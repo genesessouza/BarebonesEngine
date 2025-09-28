@@ -95,16 +95,11 @@
     <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\material.cpp" />
-    <ClCompile Include="src\barebones\physics\physics_layer.cpp" />
-    <ClCompile Include="src\barebones\experimental\scenes\playground.cpp" />
     <ClCompile Include="src\barebones\experimental\scenes\sdt_raster_test.cpp" />
-    <ClCompile Include="src\barebones\physics\collider.cpp" />
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
     <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
     <ClCompile Include="src\barebones\rendering\core\frame_buffer.cpp" />
-    <ClCompile Include="src\barebones\core\barebones\entity\debug\bounds.cpp" />
-    <ClCompile Include="src\barebones\core\barebones\entity\debug\gizmo.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\event_layer.cpp" />
     <ClCompile Include="src\barebones\core\barebones\layers\input_layer.cpp" />
     <ClCompile Include="src\barebones\core\layer.cpp" />
@@ -118,7 +113,6 @@
   <ItemGroup>
     <ClInclude Include="dependencies\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="src\barebones\core\application.h" />
-    <ClInclude Include="src\barebones\physics\physics_layer.h" />
     <ClInclude Include="src\barebones\core\core.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -135,16 +129,12 @@
     <ClInclude Include="src\barebones\core\barebones\entity\entity_object.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\material.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\mesh.h" />
-    <ClInclude Include="src\barebones\experimental\scenes\playground.h" />
     <ClInclude Include="src\barebones\experimental\scenes\sdf_raster_test.h" />
-    <ClInclude Include="src\barebones\physics\collider.h" />
     <ClInclude Include="src\barebones\rendering\core\array.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer.h" />
     <ClInclude Include="src\barebones\core\window\glfw_window.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer_layout.h" />
     <ClInclude Include="src\barebones\rendering\core\frame_buffer.h" />
-    <ClInclude Include="src\barebones\core\barebones\entity\debug\bounds.h" />
-    <ClInclude Include="src\barebones\core\barebones\entity\debug\gizmo.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\event_layer.h" />
     <ClInclude Include="src\barebones\core\barebones\layers\input_layer.h" />
     <ClInclude Include="src\barebones\core\layer.h" />
@@ -160,7 +150,6 @@
     <None Include="src\barebones\rendering\shader\sources\depth_debug_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\depth_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\lit_shader.shader" />
-    <None Include="src\barebones\rendering\shader\sources\sdf_sample_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\unlit_shader.shader" />
     <None Include="src\barebones\rendering\shader\sources\debug_shader.shader" />
   </ItemGroup>

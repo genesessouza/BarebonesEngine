@@ -1,19 +1,14 @@
 #include "entity.h"
 
-entity::entity(const mesh& mesh, const char* shader_filepath) : entity_object(mesh, shader_filepath)
+entity::entity(mesh& mesh, const char* shader_filepath) : entity_object(mesh)
 {
-	entity_material->set_shader(shader::instantiate(shader_filepath));
+	if (shader_filepath == nullptr || std::strlen(shader_filepath) == 0)
+		entity_material = material::instantiate(LIT_SHADER_SOURCE);
+	else
+		entity_material = material::instantiate(shader_filepath);
 
-	entity_gizmo = new gizmo(DEBUG_SHADER_SOURCE);
-	entity_bounds = new bounds(mesh, DEBUG_SHADER_SOURCE);
+	entity_material->set_model_matrix(&model_matrix[0][0]);
 
-	glm::vec3 center = getWorldCenter();
-
-	entity_gizmo->set_position(center);
-	entity_gizmo->set_rotation(get_rotation());
-
-	entity_bounds->set_position(center);
-	entity_bounds->set_rotation(get_rotation());
-
-	m_coll = new box_collider(entity_vertex_buffer->get_vertices(), mesh.get_vertex_count(), model_matrix);
+	get_material()->get_shader()->define_float("u_shadowStrength", 2.0f);
+	get_material()->get_shader()->define_float("u_ambientMultiplier", 0.3f);
 }

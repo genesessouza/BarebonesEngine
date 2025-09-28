@@ -27,6 +27,8 @@ sdf_raster_test::sdf_raster_test()
 			floor.get_material()->set_color(glm::vec4(0.2, 0.2, 0.2, 1));
 			floor.get_material()->set_diffuse(0.5f);
 			floor.get_material()->set_specular(0.1f);
+
+			floor.set_static(true);
 		}
 		
 		// BACK WALL
@@ -37,6 +39,8 @@ sdf_raster_test::sdf_raster_test()
 			back_wall.get_material()->set_color(glm::vec4(0.2, 0.2, 0.2, 1));
 			back_wall.get_material()->set_diffuse(0.5f);
 			back_wall.get_material()->set_specular(0.3f);
+
+			back_wall.set_static(true);
 		}
 
 		// RED CUBE
@@ -66,6 +70,8 @@ sdf_raster_test::sdf_raster_test()
 			cube3.get_material()->set_color(glm::vec4(0.3, 0.7, 0.2, 1));
 			cube3.get_material()->set_diffuse(0.5f);
 			cube3.get_material()->set_specular(0.7f);
+			
+			cube3.set_static(true);
 		}
 		
 		glm::vec4 sun = glm::vec4(1.0f, 0.9f, 0.7f, 1.0f);
@@ -73,15 +79,12 @@ sdf_raster_test::sdf_raster_test()
 		light_source = new light(light_type::directional, sun, 1);
 		light_source->set_use_soft_shadows(true);
 		light_source->set_position(glm::vec3(0, 5, 0));
-		light_source->set_rotation(glm::vec3(10, 10, 0));
+		light_source->set_rotation(glm::vec3(0, 0, 0));
 	}
 
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
 	{
 		m_rendering_layer = new rendering_layer(*camera);
-
-		//m_rendering_layer->set_show_objects_on_scene_gizmo(false);
-		m_rendering_layer->set_show_objects_on_scene_bounds(false);
 
 		m_rendering_layer->add_object(floor, false);
 		m_rendering_layer->add_object(back_wall, false);
@@ -93,16 +96,8 @@ sdf_raster_test::sdf_raster_test()
 
 		push_overlay(m_rendering_layer);
 
-		m_physics_layer = new physics_layer();
-
-		m_physics_layer->add_object(floor);
-		m_physics_layer->add_object(back_wall);
-		m_physics_layer->add_object(cube1);
-
-		//push_layer(m_physics_layer);
-
 		get_window().set_vsync(false);
-		//m_show_fps = true;
+		m_show_fps = true;
 	}
 }
 
@@ -110,12 +105,12 @@ bool handle_input = true;
 
 void sdf_raster_test::on_update_application()
 {
-	static glm::vec3 pos = glm::vec3(0, 5, 0); // for camera
+	static glm::vec3 pos = glm::vec3(0, 3, 15); // for camera
 	static glm::vec3 eulerRotation = glm::vec3(0, 0, 0);
 
 	// INPUT HANDLING
 	{
-		if (input_system()->get_key_down(GLFW_KEY_F))
+		if (input_layer::get_key_down(GLFW_KEY_F))
 		{
 			if (handle_input)
 				handle_input = false;
@@ -123,7 +118,7 @@ void sdf_raster_test::on_update_application()
 				handle_input = true;
 		}
 
-		if (input_system()->get_key_down(GLFW_KEY_L))
+		if (input_layer::get_key_down(GLFW_KEY_L))
 		{
 			if (light_source->get_light_type() == light_type::directional)
 				light_source->set_light_type(light_type::point);
@@ -131,7 +126,7 @@ void sdf_raster_test::on_update_application()
 				light_source->set_light_type(light_type::directional);
 		}
 
-		if (input_system()->get_key_down(GLFW_KEY_C))
+		if (input_layer::get_key_down(GLFW_KEY_C))
 		{
 			if (light_source->get_use_soft_shadows())
 				light_source->set_use_soft_shadows(false);
@@ -143,37 +138,37 @@ void sdf_raster_test::on_update_application()
 		{
 			// ROTATION INPUT //
 			{
-				if (input_system()->get_key(GLFW_KEY_UP))
+				if (input_layer::get_key(GLFW_KEY_UP))
 					eulerRotation.x += 180 * delta_time;
-				else if (input_system()->get_key(GLFW_KEY_DOWN))
+				else if (input_layer::get_key(GLFW_KEY_DOWN))
 					eulerRotation.x -= 180 * delta_time;
 
-				if (input_system()->get_key(GLFW_KEY_LEFT))
+				if (input_layer::get_key(GLFW_KEY_LEFT))
 					eulerRotation.y -= 180 * delta_time;
-				else if (input_system()->get_key(GLFW_KEY_RIGHT))
+				else if (input_layer::get_key(GLFW_KEY_RIGHT))
 					eulerRotation.y += 180 * delta_time;
 
-				if (input_system()->get_key(GLFW_KEY_Q))
+				if (input_layer::get_key(GLFW_KEY_Q))
 					eulerRotation.z -= 180 * delta_time;
-				else if (input_system()->get_key(GLFW_KEY_E))
+				else if (input_layer::get_key(GLFW_KEY_E))
 					eulerRotation.z += 180 * delta_time;
 			}
 
 			// MOVEMENT INPUT //
 			{
-				if (input_system()->get_key(GLFW_KEY_W))
+				if (input_layer::get_key(GLFW_KEY_W))
 					pos.z -= 30 * delta_time;
-				else if (input_system()->get_key(GLFW_KEY_S))
+				else if (input_layer::get_key(GLFW_KEY_S))
 					pos.z += 30 * delta_time;
 
-				if (input_system()->get_key(GLFW_KEY_SPACE))
+				if (input_layer::get_key(GLFW_KEY_SPACE))
 					pos.y += 30 * delta_time;
-				else if (input_system()->get_key(GLFW_KEY_LEFT_SHIFT))
+				else if (input_layer::get_key(GLFW_KEY_LEFT_SHIFT))
 					pos.y -= 30 * delta_time;
 
-				if (input_system()->get_key(GLFW_KEY_A))
+				if (input_layer::get_key(GLFW_KEY_A))
 					pos.x -= 30 * delta_time;
-				else if (input_system()->get_key(GLFW_KEY_D))
+				else if (input_layer::get_key(GLFW_KEY_D))
 					pos.x += 30 * delta_time;
 			}
 		}

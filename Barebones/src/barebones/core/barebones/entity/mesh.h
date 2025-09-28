@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -25,6 +26,7 @@ public:
 	std::vector<uint32_t> get_indices() const { return data.indices; }
 	void set_indices(std::vector<uint32_t> indices) { data.indices = indices; }
 
+	// Gets element count on vertices and divides by 6 to get vertex count (3 floats for x,y,z + 3 for normal)
 	const size_t get_vertex_count() const { return data.vertices.size() / data.elements_per_vertex; }
 	const size_t get_index_count() const { return data.indices.size(); }
 
@@ -75,41 +77,41 @@ public:
 	cube() : mesh()
 	{
 		std::vector<float> vertices = {
-			// front face
+			// top face
 			-0.5f, 0.5f, -0.5f, 0, -1, 0,							// bottom-left-front		- 0		---------
-			-0.5f, 0.5f,  0.5f, 0, -1, 0,							// top-left-front			- 1		|		|
-			 0.5f, 0.5f,  0.5f, 0, -1, 0,							// top-right-front			- 2		|		|
-			 0.5f, 0.5f, -0.5f, 0, -1, 0,							// bottom-right-front		- 3		---------
+			-0.5f, 0.5f,  0.5f, 0, -1, 0,							// top-left-front			- 1
+			 0.5f, 0.5f,  0.5f, 0, -1, 0,							// top-right-front			- 2
+			 0.5f, 0.5f, -0.5f, 0, -1, 0,							// bottom-right-front		- 3
 
-			 // back face
-			 -0.5f, -0.5f,  0.5f, 0, 1, 0,							// bottom-left-back			- 4		---------
-			 -0.5f, -0.5f, -0.5f, 0, 1, 0,							// top-left-back			- 5		|		|
-			  0.5f, -0.5f, -0.5f, 0, 1, 0,							// top-right-back			- 6		|		|
+			 // bottom face
+			 -0.5f, -0.5f,  0.5f, 0, 1, 0,							// bottom-left-back			- 4
+			 -0.5f, -0.5f, -0.5f, 0, 1, 0,							// top-left-back			- 5
+			  0.5f, -0.5f, -0.5f, 0, 1, 0,							// top-right-back			- 6
 			  0.5f, -0.5f,  0.5f, 0, 1, 0,							// bottom-right-back		- 7		---------
 
-			  // top face
+			  // front face
 			  -0.5f,  0.5f, 0.5f, 0, 0, -1,							// top-left-front			- 8		---------
-			  -0.5f, -0.5f, 0.5f, 0, 0, -1,							// top-left-back			- 9			
-			   0.5f, -0.5f, 0.5f, 0, 0, -1,							// top-right-back			- 10
-			   0.5f,  0.5f, 0.5f, 0, 0, -1,							// top-right-front			- 11
+			  -0.5f, -0.5f, 0.5f, 0, 0, -1,							// top-left-back			- 9		|		|
+			   0.5f, -0.5f, 0.5f, 0, 0, -1,							// top-right-back			- 10	|		|
+			   0.5f,  0.5f, 0.5f, 0, 0, -1,							// top-right-front			- 11	---------
 
-			   // bottom face
-			   -0.5f, -0.5f, -0.5f, 0, 0, 1,						// top-left-front			- 12		
-			   -0.5f,  0.5f, -0.5f, 0, 0, 1,						// top-left-back			- 13			
-				0.5f,  0.5f, -0.5f, 0, 0, 1,						// top-right-back			- 14
+			   // back face
+			   -0.5f, -0.5f, -0.5f, 0, 0, 1,						// top-left-front			- 12	---------	
+			   -0.5f,  0.5f, -0.5f, 0, 0, 1,						// top-left-back			- 13	|		|
+				0.5f,  0.5f, -0.5f, 0, 0, 1,						// top-right-back			- 14	|		|
 				0.5f, -0.5f, -0.5f, 0, 0, 1,						// top-right-front			- 15	---------
 
 				// left face
-				-0.5f, -0.5f,  0.5f, 1, 0, 0,						// bottom-left-back			- 17			|
-				-0.5f,  0.5f,  0.5f, 1, 0, 0,						// top-left-back			- 18			|
-				-0.5f,  0.5f, -0.5f, 1, 0, 0,						// top-left-front			- 19			|
-				-0.5f, -0.5f, -0.5f, 1, 0, 0,						// bottom-right-front		- 20			|
+				-0.5f, -0.5f,  0.5f, 1, 0, 0,						// bottom-left-back			- 17	|
+				-0.5f,  0.5f,  0.5f, 1, 0, 0,						// top-left-back			- 18	|
+				-0.5f,  0.5f, -0.5f, 1, 0, 0,						// top-left-front			- 19	|
+				-0.5f, -0.5f, -0.5f, 1, 0, 0,						// bottom-right-front		- 20	|
 
 				// right face
-				 0.5f, -0.5f, -0.5f, -1, 0, 0,						// bottom-left-back			- 21	|
-				 0.5f,  0.5f, -0.5f, -1, 0, 0,						// top-left-back			- 22	|
-				 0.5f,  0.5f,  0.5f, -1, 0, 0,						// top-left-front			- 23	|
-				 0.5f, -0.5f,  0.5f, -1, 0, 0						// bottom-right-front		- 24	|
+				 0.5f, -0.5f, -0.5f, -1, 0, 0,						// bottom-left-back			- 21			|
+				 0.5f,  0.5f, -0.5f, -1, 0, 0,						// top-left-back			- 22			|
+				 0.5f,  0.5f,  0.5f, -1, 0, 0,						// top-left-front			- 23			|
+				 0.5f, -0.5f,  0.5f, -1, 0, 0						// bottom-right-front		- 24			|
 		};
 		std::vector<uint32_t> indices = {
 			0, 1, 2, 2, 3, 0,										// front face 

@@ -5,13 +5,8 @@
 #include <glad/glad.h>
 #include <iostream>
 
-entity_object::entity_object(const mesh& mesh, const char* shader_filepath)
+entity_object::entity_object(const mesh& mesh)
 {
-	if (shader_filepath == nullptr || std::strlen(shader_filepath) == 0)
-		entity_material = material::instantiate(LIT_SHADER_SOURCE);
-	else
-		entity_material = material::instantiate(shader_filepath);
-
 	entity_vertex_array = vertex_array::create();
 
 	entity_vertex_buffer = vertex_buffer::create(mesh.get_vertices().data(), mesh.get_vertex_buffer_size());
@@ -23,7 +18,6 @@ entity_object::entity_object(const mesh& mesh, const char* shader_filepath)
 	entity_vertex_array->set_index_buffer(entity_index_buffer);
 
 	model_matrix = glm::mat4(1.0f);
-	entity_material->set_model_matrix(&model_matrix[0][0]);
 }
 
 void entity_object::update_model_matrix()
@@ -36,6 +30,4 @@ void entity_object::update_model_matrix()
 	model_matrix = rotation_matrix * translation_matrix * scale_matrix;
 
 	normal = glm::normalize(glm::vec3(model_matrix[2]));
-
-	entity_material->set_model_matrix(&model_matrix[0][0]);
 }

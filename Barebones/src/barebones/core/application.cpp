@@ -3,7 +3,8 @@
 
 application* application::s_instance = nullptr;
 
-application::application() : m_event_layer(new event_layer()), m_input_layer(new input_layer())
+application::application() 
+	: m_event_layer(nullptr), m_input_layer(nullptr)
 {
 	if (s_instance)
 	{
@@ -16,9 +17,10 @@ application::application() : m_event_layer(new event_layer()), m_input_layer(new
 	m_window = std::unique_ptr<glfw_window>(glfw_window::create());
 	m_window->set_vsync(true);
 
+	m_window->set_event_callback([this](event& e) { this->on_event(e); });
 	m_event_layer = new event_layer();
 	push_layer(m_event_layer);
-
+	
 	m_input_layer = new input_layer();
 	push_overlay(m_input_layer);
 }

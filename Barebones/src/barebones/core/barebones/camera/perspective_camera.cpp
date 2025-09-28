@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 
 perspective_camera::perspective_camera(float fov, float width, float height, float near_clip, float far_clip) 
-	: camera_shader(shader::instantiate(UNLIT_SHADER_SOURCE))
+	: entity_object(mesh{}), camera_shader(shader::instantiate(UNLIT_SHADER_SOURCE))
 {
 	view_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	projection_matrix = glm::perspective(glm::radians(fov), width / height, near_clip, far_clip);
@@ -15,7 +15,7 @@ perspective_camera::perspective_camera(float fov, float width, float height, flo
 void perspective_camera::update_view_matrix()
 {
 	rotation_matrix = glm::mat4_cast(m_orientation);
-	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), -m_position);
+	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), m_position);
 
 	view_matrix = translation_matrix * rotation_matrix;
 

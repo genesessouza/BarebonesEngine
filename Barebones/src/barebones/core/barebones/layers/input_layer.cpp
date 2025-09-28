@@ -4,6 +4,10 @@
 #include "barebones/core/barebones/events/mouse_event.h"
 #include "barebones/core/barebones/events/key_event.h"
 
+std::unordered_map<int, bool> input_layer::previous_key_state;
+std::unordered_map<int, bool> input_layer::current_key_state;
+std::unordered_map<int, bool> input_layer::bttn_state;
+
 input_layer::input_layer()
 {
 	previous_key_state = current_key_state;

@@ -6,7 +6,6 @@
 #include "barebones/core/barebones/entity/entity.h"
 
 #include "barebones/rendering/rendering_layer.h"
-#include "barebones/physics/physics_layer.h"
 
 class sdf_raster_test : public application
 {
@@ -16,12 +15,12 @@ private:
 	virtual void on_update_application() override;
 private:
 	// SCENE OBJECTS
-	entity floor = entity(cube(), LIT_SHADER_SOURCE);
-	entity back_wall = entity(cube(), LIT_SHADER_SOURCE);
+	entity floor = entity(*new cube(), LIT_SHADER_SOURCE);
+	entity back_wall = entity(*new cube(), LIT_SHADER_SOURCE);
 
-	entity cube1 = entity(cube(), LIT_SHADER_SOURCE);
-	entity cube2 = entity(cube(), LIT_SHADER_SOURCE);
-	entity cube3 = entity(cube(), LIT_SHADER_SOURCE);
+	entity cube1 = entity(*new cube(), LIT_SHADER_SOURCE);
+	entity cube2 = entity(*new cube(), LIT_SHADER_SOURCE);
+	entity cube3 = entity(*new cube(), LIT_SHADER_SOURCE);
 
 	// SCENE LIGHTS
 	light* light_source;
@@ -30,5 +29,4 @@ private:
 	perspective_camera* camera;
 private:
 	rendering_layer* m_rendering_layer;
-	physics_layer* m_physics_layer;
 };

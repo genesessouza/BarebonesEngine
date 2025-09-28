@@ -1,7 +1,7 @@
 #include "rendering_layer.h"
 
 rendering_layer::rendering_layer(perspective_camera& camera)
-	: main_light(nullptr), show_objects_on_scene_gizmo(true), show_objects_on_scene_bounds(true)
+	: main_light(nullptr)
 {
 	scene_camera = &camera;
 	scene_renderer.reset(new renderer(skybox_color));
@@ -15,9 +15,6 @@ void rendering_layer::add_object(entity& object_to_render, bool is_main_light)
 		main_light = static_cast<light*>(&object_to_render);
 
 	objects_on_scene.push_back(&object_to_render);
-
-	objects_on_scene_gizmo.push_back(object_to_render.expose_gizmo());
-	objects_on_scene_bounds.push_back(object_to_render.expose_bounds());
 }
 
 void rendering_layer::on_update(timestep delta_time)
@@ -127,29 +124,8 @@ void rendering_layer::draw_render_pass()
 
 	for (auto* obj : objects_on_scene)
 	{
-		glDisable(GL_CULL_FACE);
 		scene_renderer->submit(obj, light_space_matrix, m_fbo);
-		glEnable(GL_CULL_FACE);
 		main_light->shine_on_objects(obj, scene_camera);
-
-		glDisable(GL_DEPTH_TEST);
-		if (show_objects_on_scene_gizmo)
-		{
-			obj->expose_gizmo()->set_position(obj->get_position());
-			obj->expose_gizmo()->set_rotation(obj->get_rotation());
-
-			obj->expose_gizmo()->render(scene_camera->get_view_matrix(), scene_camera->get_projection_matrix());
-		}
-
-		if (show_objects_on_scene_bounds)
-		{
-			obj->expose_bounds()->set_position(obj->get_position());
-			obj->expose_bounds()->set_rotation(obj->get_rotation());
-			obj->expose_bounds()->set_scale(obj->get_scale());
-
-			obj->expose_bounds()->render(scene_camera->get_view_matrix(), scene_camera->get_projection_matrix());
-		}
-		glEnable(GL_DEPTH_TEST);
 	}
 }
 

@@ -17,15 +17,6 @@ public:
 
 	std::vector<entity*>& get_objects_on_scene() { return objects_on_scene; }
 
-	//std::vector<gizmo>& get_objects_on_scene_gizmo() { return objects_on_scene_gizmo; }
-	//std::vector<bounds>& get_objects_on_scene_bounds() { return objects_on_scene_bounds; }
-
-	void set_show_objects_on_scene_gizmo(bool enabled) { show_objects_on_scene_gizmo = enabled; }
-	void set_show_objects_on_scene_bounds(bool enabled) { show_objects_on_scene_bounds = enabled; }
-
-	bool get_show_objects_on_scene_gizmo() const { return show_objects_on_scene_gizmo; }
-	bool get_show_objects_on_scene_bounds() const { return show_objects_on_scene_bounds; }
-
 	const std::shared_ptr<renderer>& get_scene_renderer() const { return scene_renderer; }
 private:
 	void draw_depth_pass();
@@ -40,11 +31,6 @@ private:
 	light* main_light;
 
 	std::vector<entity*> objects_on_scene;
-	std::vector<gizmo*> objects_on_scene_gizmo;
-	std::vector<bounds*> objects_on_scene_bounds;
-private:
-	bool show_objects_on_scene_gizmo;
-	bool show_objects_on_scene_bounds;
 private:
 	frame_buffer* m_fbo;
 

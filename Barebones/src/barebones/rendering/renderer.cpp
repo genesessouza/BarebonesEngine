@@ -32,7 +32,7 @@ void renderer::end_scene()
 {
 }
 
-void renderer::submit(const entity_object* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo)
+void renderer::submit(const entity* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo)
 {
 	entity_obj->get_material()->get_shader()->bind();
 
@@ -47,7 +47,7 @@ void renderer::submit(const entity_object* entity_obj, const glm::mat4& light_sp
 	draw(entity_obj);
 }
 
-void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj, const glm::mat4& light_space_pos)
+void renderer::submit_depth(const entity* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj, const glm::mat4& light_space_pos)
 {
 	entity_obj->get_material()->get_shader()->bind();
 
@@ -61,7 +61,7 @@ void renderer::submit_depth(const entity_object* entity_obj, const glm::mat4& li
 	draw(entity_obj);
 }
 
-void renderer::draw(const entity_object* entity_obj)
+void renderer::draw(const entity* entity_obj)
 {
 	glDrawElements(GL_TRIANGLES, (GLsizei)entity_obj->get_entity_vertex_array()->get_index_buffer()->get_count(), GL_UNSIGNED_INT, 0);
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "barebones/core/application.h"
-#include "barebones/core/barebones/entity/entity_object.h"
+#include "barebones/core/barebones/entity/entity.h"
 #include "barebones/core/barebones/entity/light.h"
 #include "barebones/core/barebones/camera/perspective_camera.h"
 #include "core/frame_buffer.h"
@@ -17,10 +17,10 @@ public:
 	void begin_scene(perspective_camera* camera, light* scene_light);
 	void end_scene();
 
-	void submit(const entity_object* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo);
-	void submit_depth(const entity_object* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj, const glm::mat4& light_space_pos);
+	void submit(const entity* entity_obj, const glm::mat4& light_space_matrix, const frame_buffer* fbo);
+	void submit_depth(const entity* entity_obj, const glm::mat4& light_view, const glm::mat4& light_proj, const glm::mat4& light_space_pos);
 private:
-	void draw(const entity_object* entity_obj);
+	void draw(const entity* entity_obj);
 private:
 	struct scene_data
 	{

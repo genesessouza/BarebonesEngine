@@ -64,7 +64,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 lightDir, float intensity)
         float currentDepth = projCoords.z;
 
         float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
-        float bias = max(0.0005, 0.005 * (1.0 - cosTheta));
+        float bias = max(0.0005, 0.003 * (1.0 - cosTheta));
 
         return (currentDepth - bias > closestDepth) ? intensity : 0.0;
     }
@@ -77,7 +77,6 @@ float rand(vec2 co) {
 vec2 randomOffset(vec2 uv, int x, int y) {
     float r1 = rand(uv + float(x) * 0.123);
     float r2 = rand(uv + float(y) * 0.456);
-    // centraliza em torno de [-0.5, 0.5]
     return vec2(r1 - 0.5, r2 - 0.5);
 }
 
@@ -93,7 +92,7 @@ float ShadowCalculationWithPCF(vec4 fragPosLightSpace, vec3 lightDir, float inte
         float currentDepth = projCoords.z;
 
         float cosTheta = max(dot(lightDir, normalize(Normal)), 0.0);
-        float bias = max(0.0005, 0.005 * (1.0 - cosTheta));
+        float bias = max(0.0005, 0.003 * (1.0 - cosTheta));
 
         float shadow = 0.0;
 
@@ -125,13 +124,13 @@ void main()
     vec3 lightDir;
 
     if(u_directionalLight)
-        lightDir = normalize(-u_lightDir);
+        lightDir = normalize(u_lightDir);
     else
         lightDir = normalize(FragPos - u_lightDir);
 
     vec4 ambient = u_ambientMultiplier * u_lightColor;
 
-    float diffuseStrength = max(dot(lightDir, normal), 0);
+    float diffuseStrength = max(dot(-lightDir, normal), 0);
     vec4 diffuse = u_diffuseMultiplier * diffuseStrength * u_lightColor;
 
     vec3 reflectDir = normalize(reflect(lightDir, normal));
