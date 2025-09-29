@@ -7,7 +7,6 @@ layout (location = 1) in vec3 aNormal;
 uniform mat4 u_model;
 uniform mat4 u_view;
 uniform mat4 u_projection;
-uniform mat4 u_transform;
 uniform mat4 u_lightSpaceMatrix;
 
 uniform vec3 u_cameraPos;
@@ -19,7 +18,7 @@ out vec4 FragPosLightSpace;
 
 void main()
 {
-    vec4 worldPos = u_model * u_transform * vec4(aPos, 1.0);
+    vec4 worldPos = u_model * vec4(aPos, 1.0);
 
     FragPos = vec3(worldPos);
     Normal = mat3(transpose(inverse(u_model))) * aNormal;
@@ -44,6 +43,7 @@ uniform sampler2D shadowMap;
 
 out vec4 FragColor;
 
+uniform vec3 u_lightPos;
 uniform vec3 u_lightDir;
 uniform vec4 u_lightColor;
 uniform vec4 u_color;
@@ -124,18 +124,24 @@ void main()
     vec3 lightDir;
 
     if(u_directionalLight)
-        lightDir = normalize(u_lightDir);
+        lightDir = normalize(-u_lightDir);
     else
-        lightDir = normalize(FragPos - u_lightDir);
+        lightDir = normalize(FragPos - u_lightPos);
 
     vec4 ambient = u_ambientMultiplier * u_lightColor;
 
-    float diffuseStrength = max(dot(-lightDir, normal), 0);
+    float diffuseStrength = max(dot(normal, lightDir), 0);
     vec4 diffuse = u_diffuseMultiplier * diffuseStrength * u_lightColor;
 
-    vec3 reflectDir = normalize(reflect(lightDir, normal));
-    float specularStrength = max(dot(viewPos, reflectDir), 0);
-    vec4 specular = u_specularMultiplier * specularStrength * u_lightColor;
+    float aa = u_specularMultiplier;
+
+    vec4 specular = vec4(0);
+    if(diffuse != vec4(0))
+    {
+        vec3 reflectDir = normalize(reflect(normal, lightDir));
+        float specularStrength = pow(max(dot(viewPos, reflectDir), 0), 16);
+        specular = specularStrength * u_lightColor;
+    }
 
     float shadow = 0;
     

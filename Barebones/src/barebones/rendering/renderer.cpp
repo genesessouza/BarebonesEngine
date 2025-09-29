@@ -13,7 +13,7 @@ renderer::renderer(glm::vec4 color)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 }
 
@@ -38,7 +38,6 @@ void renderer::submit(const entity* entity_obj, const glm::mat4& light_space_mat
 
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &m_scene_data->projection_matrix[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_view", &m_scene_data->view_matrix[0][0]);
-	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
 	entity_obj->get_material()->get_shader()->define_vec3("u_cameraPos", m_scene_data->scene_camera->get_position());
 
@@ -54,7 +53,6 @@ void renderer::submit_depth(const entity* entity_obj, const glm::mat4& light_vie
 	entity_obj->get_material()->get_shader()->define_mat4("u_projection", &light_proj[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_view", &light_view[0][0]);
 	entity_obj->get_material()->get_shader()->define_mat4("u_lightSpaceMatrix", &light_space_pos[0][0]);
-	entity_obj->get_material()->get_shader()->define_mat4("u_transform", &glm::mat4(1.0f)[0][0]);
 
 	entity_obj->get_entity_vertex_array()->bind();
 

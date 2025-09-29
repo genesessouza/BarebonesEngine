@@ -24,6 +24,8 @@ void light::shine_on_objects(const entity* scene_entity_obj, const perspective_c
 		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", get_normal());
 	}
 
+	glm::vec3 light_pos = get_position();
+
 	if (type == light_type::point)
 	{
 		float length = glm::length(get_position() - scene_entity_obj->get_position());
@@ -31,9 +33,9 @@ void light::shine_on_objects(const entity* scene_entity_obj, const perspective_c
 		m_intensity /= length;
 
 		scene_entity_obj->get_material()->get_shader()->define_bool("u_directionalLight", false);
-		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightDir", get_position());
+		scene_entity_obj->get_material()->get_shader()->define_vec3("u_lightPos", light_pos);
 	}
 
-	//scene_entity_obj->get_material()->get_shader()->define_bool("u_softShadows", m_use_soft_shadows);
+	scene_entity_obj->get_material()->get_shader()->define_bool("u_softShadows", m_use_soft_shadows);
 	scene_entity_obj->get_material()->get_shader()->define_vec4("u_lightColor", glm::vec4(get_color(), 1));
 }

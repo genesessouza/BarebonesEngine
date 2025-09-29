@@ -97,6 +97,12 @@ void glfw_window::init(const window_properties& props)
 			else if (action == GLFW_RELEASE)
 				event_queue::instance().push(std::make_unique<mouse_released>(button));
 		});
+
+	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos)
+		{
+			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
+			event_queue::instance().push(std::make_unique<mouse_moved>(xpos, ypos));
+		});
 }
 
 void glfw_window::on_update()

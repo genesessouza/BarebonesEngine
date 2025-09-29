@@ -16,7 +16,7 @@ public:
 
 	const bool Handled() const { return m_handled; }
 private:
-	bool m_handled;
+	bool m_handled = false;
 };
 
 class event_dispatcher

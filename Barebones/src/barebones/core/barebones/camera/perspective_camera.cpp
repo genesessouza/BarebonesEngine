@@ -12,18 +12,43 @@ perspective_camera::perspective_camera(float fov, float width, float height, flo
 	camera_shader->define_mat4("u_projection", &projection_matrix[0][0]);
 }
 
-void perspective_camera::update_view_matrix()
-{
-	rotation_matrix = glm::mat4_cast(m_orientation);
-	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), m_position);
-
-	view_matrix = translation_matrix * rotation_matrix;
-
-	camera_shader->define_mat4("u_view", &view_matrix[0][0]);
-}
-
 void perspective_camera::set_projection(float fov, float aspect_ratio, float near_clip, float far_clip)
 {
 	projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, near_clip, far_clip);
 	camera_shader->define_mat4("u_projection", &projection_matrix[0][0]);
+}
+
+void perspective_camera::set_position(const glm::vec3& position, const axis axis)
+{
+	if (axis == axis::local)
+		m_position = m_orientation * position;
+	else
+		m_position = position;
+
+	update_view_matrix();
+}
+
+void perspective_camera::set_rotation(const glm::vec3& rotation, const axis axis)
+{
+	m_rotation = glm::radians(rotation);
+
+	glm::quat qx = glm::angleAxis(m_rotation.x, glm::vec3(1, 0, 0));
+	glm::quat qy = glm::angleAxis(m_rotation.y, glm::vec3(0, 1, 0));
+	glm::quat qz = glm::angleAxis(m_rotation.z, glm::vec3(0, 0, 1));
+	glm::quat delta = qx * qy * qz;
+
+	m_orientation = glm::normalize(delta);
+
+	update_view_matrix();
+}
+
+void perspective_camera::update_view_matrix()
+{
+	glm::mat4 rotation_matrix = glm::mat4_cast(m_orientation);
+	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), m_position);
+	glm::mat4 scale_matrix = glm::scale(glm::mat4(1.0f), m_scale);
+
+	view_matrix = glm::inverse(translation_matrix * rotation_matrix);
+
+	camera_shader->define_mat4("u_view", &view_matrix[0][0]);
 }

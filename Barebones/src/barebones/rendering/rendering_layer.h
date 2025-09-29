@@ -21,7 +21,6 @@ public:
 private:
 	void draw_depth_pass();
 	void draw_render_pass();
-	void draw_screen_quad();
 private:
 	const glm::vec4& skybox_color = glm::vec4(0.329f, 0.608f, 0.722f, 1);
 
@@ -33,7 +32,4 @@ private:
 	std::vector<entity*> objects_on_scene;
 private:
 	frame_buffer* m_fbo;
-
-	glm::mat4 light_view_matrix = glm::mat4(1.0f);
-	glm::mat4 light_proj_matrix = glm::mat4(1.0f);
 };

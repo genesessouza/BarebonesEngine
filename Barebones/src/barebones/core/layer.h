@@ -13,6 +13,7 @@ public:
 
 	virtual void on_attach();
 	virtual void on_detach();
+
 	virtual void on_update(timestep timestep);
 	virtual void on_event(event& event);
 

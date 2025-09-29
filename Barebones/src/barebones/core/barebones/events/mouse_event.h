@@ -31,3 +31,15 @@ public:
 
 	inline void invoke() override { std::cout << "Mouse Button: [" << button_name << "] released." << std::endl; }
 };
+
+class mouse_moved : public mouse_event
+{
+public:
+	inline mouse_moved(double xpos, double ypos) : mouse_event(-1), x(xpos), y(ypos) {}
+	inline void invoke() override { std::cout << "Mouse moved to: [" << x << ", " << y << "]." << std::endl; }
+	
+	inline double get_x() const { return x; }
+	inline double get_y() const { return y; }
+private:
+	double x, y;
+};

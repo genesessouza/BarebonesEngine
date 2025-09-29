@@ -95,7 +95,9 @@
     <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\material.cpp" />
-    <ClCompile Include="src\barebones\experimental\scenes\sdt_raster_test.cpp" />
+    <ClCompile Include="src\barebones\experimental\scenes\global_illumination_sample.cpp" />
+    <ClCompile Include="src\barebones\experimental\scenes\physics_sample.cpp" />
+    <ClCompile Include="src\barebones\physics\physics_layer.cpp" />
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
     <ClCompile Include="src\barebones\core\window\glfw_window.cpp" />
@@ -129,7 +131,10 @@
     <ClInclude Include="src\barebones\core\barebones\entity\entity_object.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\material.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\mesh.h" />
-    <ClInclude Include="src\barebones\experimental\scenes\sdf_raster_test.h" />
+    <ClInclude Include="src\barebones\experimental\scenes\global_illumination_sample.h" />
+    <ClInclude Include="src\barebones\experimental\scenes\physics_sample.h" />
+    <ClInclude Include="src\barebones\physics\physics.h" />
+    <ClInclude Include="src\barebones\physics\physics_layer.h" />
     <ClInclude Include="src\barebones\rendering\core\array.h" />
     <ClInclude Include="src\barebones\rendering\core\buffer.h" />
     <ClInclude Include="src\barebones\core\window\glfw_window.h" />
