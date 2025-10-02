@@ -38,7 +38,7 @@ void rendering_layer::draw_depth_pass()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glViewport(0, 0, 800, 600); // set resolution back to window width/height
+	glViewport(0, 0, app.get_window().get_data().width, app.get_window().get_data().height); // set resolution back to window width/height
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_fbo->draw_screen_quad();

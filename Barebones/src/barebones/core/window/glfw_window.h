@@ -59,6 +59,8 @@ private:
 
 		event_callback_fn event_callback;
 	};
+public:
+	window_data& get_data() { return m_data; }
 private:
 	GLFWwindow* m_window;
 	bool m_vsync;

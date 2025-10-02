@@ -135,6 +135,8 @@ void global_illumination_sample::on_update_application()
 	static glm::vec3 pos = glm::vec3(0, 3, 15); // for camera
 	static glm::vec3 euler_rotation = glm::vec3(0, 0, 0);
 
+	get_event_layer().update_aspect_ratio(camera, get_window().get_width(), get_window().get_height());
+
 	// INPUT HANDLING
 	{
 		if (input_layer::get_key_down(GLFW_KEY_F))

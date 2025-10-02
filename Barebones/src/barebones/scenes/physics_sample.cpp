@@ -132,23 +132,22 @@ void physics_sample::on_update_application()
 			movement_vector.x -= 30 * delta_time;
 		else if (input_layer::get_key(GLFW_KEY_D))
 			movement_vector.x += 30 * delta_time;
-	
+
 		camera->set_position(movement_vector, local);
 	}
 
 	// TOGGLE CUBES STATIC/PHYSICS
 	{
-		if (input_layer::get_key(GLFW_KEY_R))
+		if (input_layer::get_key(GLFW_KEY_G))
 		{
 			red_cube.set_static(!red_cube.is_static_entity());
-
-			if (red_cube.is_static_entity())
-				red_cube.set_position(red_cube_initial_position, world);
-
 			blue_cube.set_static(!blue_cube.is_static_entity());
-
-			if (blue_cube.is_static_entity())
-				blue_cube.set_position(blue_cube_initial_position, world);
 		}
 	}
+
+	if (red_cube.is_static_entity())
+		red_cube.set_position(red_cube_initial_position, world);
+
+	if (blue_cube.is_static_entity())
+		blue_cube.set_position(blue_cube_initial_position, world);
 }

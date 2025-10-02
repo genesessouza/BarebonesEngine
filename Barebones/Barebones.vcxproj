@@ -95,8 +95,6 @@
     <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\material.cpp" />
-    <ClCompile Include="src\barebones\experimental\scenes\global_illumination_sample.cpp" />
-    <ClCompile Include="src\barebones\experimental\scenes\physics_sample.cpp" />
     <ClCompile Include="src\barebones\physics\physics_layer.cpp" />
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
@@ -111,9 +109,12 @@
     <ClCompile Include="src\barebones\rendering\renderer.cpp" />
     <ClCompile Include="src\barebones\core\barebones\camera\perspective_camera.cpp" />
     <ClCompile Include="src\barebones\rendering\shader\shader.cpp" />
+    <ClCompile Include="src\barebones\scenes\global_illumination_sample.cpp" />
+    <ClCompile Include="src\barebones\scenes\physics_sample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="src\barebones\barebones.h" />
     <ClInclude Include="src\barebones\core\application.h" />
     <ClInclude Include="src\barebones\core\core.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -131,8 +132,6 @@
     <ClInclude Include="src\barebones\core\barebones\entity\entity_object.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\material.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\mesh.h" />
-    <ClInclude Include="src\barebones\experimental\scenes\global_illumination_sample.h" />
-    <ClInclude Include="src\barebones\experimental\scenes\physics_sample.h" />
     <ClInclude Include="src\barebones\physics\physics.h" />
     <ClInclude Include="src\barebones\physics\physics_layer.h" />
     <ClInclude Include="src\barebones\rendering\core\array.h" />
@@ -150,6 +149,8 @@
     <ClInclude Include="src\barebones\core\barebones\camera\perspective_camera.h" />
     <ClInclude Include="src\barebones\rendering\shader\shader.h" />
     <ClInclude Include="src\barebones\barebones_src.h" />
+    <ClInclude Include="src\barebones\scenes\global_illumination_sample.h" />
+    <ClInclude Include="src\barebones\scenes\physics_sample.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\barebones\rendering\shader\sources\depth_debug_shader.shader" />

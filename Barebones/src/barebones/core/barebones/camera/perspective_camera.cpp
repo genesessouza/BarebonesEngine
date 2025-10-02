@@ -8,13 +8,22 @@ perspective_camera::perspective_camera(float fov, float width, float height, flo
 	view_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	projection_matrix = glm::perspective(glm::radians(fov), width / height, near_clip, far_clip);
 
+	m_fov = fov;
+	m_near_clip = near_clip;
+	m_far_clip = far_clip;
+
 	camera_shader->define_mat4("u_view", &view_matrix[0][0]);
 	camera_shader->define_mat4("u_projection", &projection_matrix[0][0]);
 }
 
 void perspective_camera::set_projection(float fov, float aspect_ratio, float near_clip, float far_clip)
 {
+	m_fov = fov;
+	m_near_clip = near_clip;
+	m_far_clip = far_clip;
+
 	projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, near_clip, far_clip);
+	camera_shader->bind();
 	camera_shader->define_mat4("u_projection", &projection_matrix[0][0]);
 }
 

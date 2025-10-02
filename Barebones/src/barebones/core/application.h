@@ -27,6 +27,8 @@ public:
 	inline static application& get() { return *s_instance; }
 	inline glfw_window& get_window() { return *m_window; }
 
+	event_layer& get_event_layer() { return *m_event_layer; }
+
 	void on_window_close(window_closed& e);
 protected:
 	virtual void on_update_application() = 0;

@@ -32,4 +32,6 @@ private:
 	std::vector<entity*> objects_on_scene;
 private:
 	frame_buffer* m_fbo;
+
+	application& app = application::get();
 };
