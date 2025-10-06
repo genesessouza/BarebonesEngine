@@ -28,6 +28,9 @@ glfw_window::~glfw_window()
 static bool s_glfw_initialized = false;
 void glfw_window::init(const window_properties& props)
 {
+	m_initial_width = props.width;
+	m_initial_height = props.height;
+
 	m_data.title = props.title;
 	m_data.width = props.width;
 	m_data.height = props.height;
@@ -43,7 +46,7 @@ void glfw_window::init(const window_properties& props)
 	}
 
 	glfwWindowHint(GLFW_DEPTH_BITS, 24);
-	m_window = glfwCreateWindow(props.width, props.height, m_data.title.c_str(), nullptr, nullptr);
+	m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
 
 	if (!m_window)
 	{
@@ -107,6 +110,7 @@ void glfw_window::init(const window_properties& props)
 
 void glfw_window::on_update()
 {
+	glfwSetWindowTitle(m_window, m_data.title.c_str());
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
 }

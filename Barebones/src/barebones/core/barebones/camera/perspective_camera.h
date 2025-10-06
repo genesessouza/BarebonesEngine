@@ -11,8 +11,7 @@ public:
 
 	void set_projection(float fov, float aspect_ratio, float near_clip, float far_clip);
 
-	void set_position(const glm::vec3& position, const axis axis) override;
-	void set_rotation(const glm::vec3& rotation, const axis axis) override;
+	void set_position_and_rotation(const glm::vec3& position, const glm::vec3& rotation);
 
 	float get_fov() const { return m_fov; }
 	float get_near_clip() const { return m_near_clip; }

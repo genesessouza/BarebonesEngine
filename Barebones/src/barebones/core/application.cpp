@@ -3,7 +3,7 @@
 
 application* application::s_instance = nullptr;
 
-application::application() 
+application::application()
 	: m_event_layer(nullptr), m_input_layer(nullptr)
 {
 	if (s_instance)
@@ -20,7 +20,7 @@ application::application()
 	m_window->set_event_callback([this](event& e) { this->on_event(e); });
 	m_event_layer = new event_layer();
 	push_layer(m_event_layer);
-	
+
 	m_input_layer = new input_layer();
 	push_overlay(m_input_layer);
 }
@@ -49,16 +49,18 @@ void application::run()
 		delta_time = time - m_last_frame_time;
 		m_last_frame_time = time;
 
-		static float current_time = 0;
-		current_time += delta_time;
+		static float fps_timer = 0.0f;
+		static int frame_count = 0;
 
-		// FPS for debugging
-		if (current_time >= 0.016)
+		fps_timer += delta_time;
+		frame_count++;
+
+		if (fps_timer >= 0.1f) // Updates at 0.1 second intervals
 		{
-			if (m_show_fps)
-				std::cout << "Delta Time: " << delta_time << " | FPS: " << 1 / delta_time << std::endl;
-
-			current_time = 0;
+			int fps = frame_count;
+			m_window->get_data().title = "Barebones Engine - FPS: " + std::to_string(fps * 10); // Multiply by 10 to get frame rate per second
+			fps_timer = 0.0f;
+			frame_count = 0;
 		}
 
 		for (layer* layer : m_layer_stack)

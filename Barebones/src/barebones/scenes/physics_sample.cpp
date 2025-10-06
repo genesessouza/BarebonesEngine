@@ -11,7 +11,7 @@ static glm::vec3 red_cube_initial_position = glm::vec3(0, 4.5, 0);
 physics_sample::physics_sample()
 {
 	camera = new perspective_camera(45.0f, 800.0f, 600.0f, 0.1f, 50.0f);
-	camera->set_position(glm::vec3(0, 3, 15), world);
+	camera->set_position_and_rotation(glm::vec3(0, 3, 15), glm::vec3(0.0f));
 
 	// FLOOR
 	{
@@ -88,32 +88,35 @@ static bool mouse_rotating = false;
 
 void physics_sample::on_update_application()
 {
+	float sensitivity = 10.0f;
+	glm::vec3 rotation_vector;
+
 	// CAMERA ORBIT WITH MOUSE CONTROLS
 	{
-		if (input_layer::get_button(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		auto& window = get_window();
+		GLFWwindow* native_window = window.get_native_window();
+
+		double center_x = window.get_width() / 2.0;
+		double center_y = window.get_height() / 2.0;
+
+		if (input_layer::get_button(GLFW_MOUSE_BUTTON_LEFT))
 		{
-			auto& window = get_window();
-			GLFWwindow* native_window = window.get_native_window();
-
-			double center_x = window.get_width() / 2.0;
-			double center_y = window.get_height() / 2.0;
-
 			auto mouse_pos = input_layer::get_mouse_position();
-
-			if (!mouse_rotating)
-			{
-				//glfwSetCursorPos(native_window, mouse_delta_x, mouse_delta_y);
-				mouse_rotating = true;
-			}
 
 			mouse_delta_x = mouse_pos.first - center_x;
 			mouse_delta_y = mouse_pos.second - center_y;
+
+			mouse_rotating = true;
+		}
+		else if (input_layer::get_button_up(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			mouse_delta_x = 0.0f;
+			mouse_delta_y = 0.0f;
+
+			mouse_rotating = false;
 		}
 
-		if (input_layer::get_button(GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-			mouse_rotating = false;
-
-		camera->set_rotation(glm::vec3(-mouse_delta_y * 0.1f, -mouse_delta_x * 0.1f, 0), world);
+		rotation_vector = glm::vec3(-mouse_delta_y * sensitivity, -mouse_delta_x * sensitivity, 0);
 	}
 
 	// CAMERA KEYBOARD MOVEMENT CONTROLS
@@ -132,13 +135,13 @@ void physics_sample::on_update_application()
 			movement_vector.x -= 30 * delta_time;
 		else if (input_layer::get_key(GLFW_KEY_D))
 			movement_vector.x += 30 * delta_time;
-
-		camera->set_position(movement_vector, local);
 	}
+
+	camera->set_position_and_rotation(movement_vector, rotation_vector);
 
 	// TOGGLE CUBES STATIC/PHYSICS
 	{
-		if (input_layer::get_key(GLFW_KEY_G))
+		if (input_layer::get_key_down(GLFW_KEY_G))
 		{
 			red_cube.set_static(!red_cube.is_static_entity());
 			blue_cube.set_static(!blue_cube.is_static_entity());

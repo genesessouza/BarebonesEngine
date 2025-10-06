@@ -153,8 +153,8 @@ void frame_buffer::create_screen_quad()
 
 void frame_buffer::draw_screen_quad() const
 {
-	get_debug_shader()->bind();
-	get_debug_shader()->define_int("depthMap", 0);
+	get_depth_debug_shader()->bind();
+	get_depth_debug_shader()->define_int("depthMap", 0);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, get_depth_texture());

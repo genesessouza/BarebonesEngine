@@ -15,7 +15,7 @@ global_illumination_sample::global_illumination_sample()
 		// CAMERA
 		{
 			camera = new perspective_camera(45.0f, 800.0f, 600.0f, 0.1f, 50.0f);
-			camera->set_position(glm::vec3(0, 3, 25), world);
+			camera->set_position_and_rotation(glm::vec3(0, 3, 25), glm::vec3(0.0f));
 		}
 
 		// FLOOR
@@ -47,7 +47,7 @@ global_illumination_sample::global_illumination_sample()
 		// LEFT WALL
 		{
 			left_wall.set_position(glm::vec3(-5, 2.5, 0), world); // behind floor end
-			left_wall.set_rotation(glm::vec3(0, 0, 0), local);
+			//left_wall.set_rotation(glm::vec3(0, 0, 0), local);
 			left_wall.set_scale(glm::vec3(0.3, 5, 10));
 
 			left_wall.get_material()->set_color(glm::vec4(0.2, 0.2, 0.2, 1));
@@ -57,7 +57,7 @@ global_illumination_sample::global_illumination_sample()
 		// RIGHT WALL
 		{
 			right_wall.set_position(glm::vec3(5, 2.5, 0), world); // behind floor end
-			right_wall.set_rotation(glm::vec3(0, 0, 0), local);
+			//right_wall.set_rotation(glm::vec3(0, 0, 0), local);
 			right_wall.set_scale(glm::vec3(0.3, 5, 10));
 
 			right_wall.get_material()->set_color(glm::vec4(0.2, 0.2, 0.2, 1));
@@ -90,7 +90,7 @@ global_illumination_sample::global_illumination_sample()
 		// GREEN CUBE
 		{
 			green_cube.set_position(glm::vec3(3, 2, 1), world);
-			green_cube.set_rotation(glm::vec3(45, 0, 0), local);
+			//green_cube.set_rotation(glm::vec3(45, 0, 0), local);
 			green_cube.set_scale(glm::vec3(2, 1, 3));
 
 			green_cube.get_material()->set_color(glm::vec4(0.3, 0.7, 0.2, 1));
@@ -134,8 +134,6 @@ void global_illumination_sample::on_update_application()
 {
 	static glm::vec3 pos = glm::vec3(0, 3, 15); // for camera
 	static glm::vec3 euler_rotation = glm::vec3(0, 0, 0);
-
-	get_event_layer().update_aspect_ratio(camera, get_window().get_width(), get_window().get_height());
 
 	// INPUT HANDLING
 	{
@@ -201,38 +199,45 @@ void global_illumination_sample::on_update_application()
 					pos.x += 30 * delta_time;
 			}
 		}
+	}
 
-		if (input_layer::get_button(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	float sensitivity = 10.0f;
+	glm::vec3 rotation_vector;
+
+	// CAMERA ORBIT WITH MOUSE CONTROLS
+	{
+		auto& window = get_window();
+		GLFWwindow* native_window = window.get_native_window();
+
+		double center_x = window.get_width() / 2.0;
+		double center_y = window.get_height() / 2.0;
+
+		if (input_layer::get_button(GLFW_MOUSE_BUTTON_LEFT))
 		{
-			auto& window = get_window();
-			GLFWwindow* native_window = window.get_native_window();
-
-			double center_x = window.get_width() / 2.0;
-			double center_y = window.get_height() / 2.0;
-
 			auto mouse_pos = input_layer::get_mouse_position();
-
-			if (!mouse_rotating)
-			{
-				//glfwSetCursorPos(native_window, mouse_delta_x, mouse_delta_y);
-				mouse_rotating = true;
-			}
 
 			mouse_delta_x = mouse_pos.first - center_x;
 			mouse_delta_y = mouse_pos.second - center_y;
+
+			mouse_rotating = true;
+		}
+		else if (input_layer::get_button_up(GLFW_MOUSE_BUTTON_LEFT))
+		{
+			mouse_delta_x = 0.0f;
+			mouse_delta_y = 0.0f;
+
+			mouse_rotating = false;
 		}
 
-		if (input_layer::get_button(GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-			mouse_rotating = false;
+		rotation_vector = glm::vec3(-mouse_delta_y * sensitivity, -mouse_delta_x * sensitivity, 0);
 	}
 
-	light_source->set_rotation(euler_rotation, local);
+	//light_source->set_rotation(euler_rotation, local);
 	//light_source->set_position(pos, world);
 
 	//std::cout << light_source->get_rotation().x << ", " << light_source->get_rotation().y << ", " << light_source->get_rotation().z << std::endl;
 
-	camera->set_rotation(glm::vec3(-mouse_delta_y * 0.1f, -mouse_delta_x * 0.1f, 0), world);
-	camera->set_position(pos, local);
+	camera->set_position_and_rotation(pos, rotation_vector);
 
 	//std::cout << camera->get_rotation().x << ", " << camera->get_rotation().y << ", " << camera->get_rotation().z << std::endl;
 	//std::cout << camera->get_position().x << ", " << camera->get_position().y << ", " << camera->get_position().z << std::endl;

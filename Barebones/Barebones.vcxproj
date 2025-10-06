@@ -95,6 +95,7 @@
     <ClCompile Include="src\barebones\core\barebones\entity\entity.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\entity_object.cpp" />
     <ClCompile Include="src\barebones\core\barebones\entity\material.cpp" />
+    <ClCompile Include="src\barebones\physics\collider.cpp" />
     <ClCompile Include="src\barebones\physics\physics_layer.cpp" />
     <ClCompile Include="src\barebones\rendering\core\array.cpp" />
     <ClCompile Include="src\barebones\rendering\core\buffer.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="src\barebones\core\barebones\entity\entity_object.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\material.h" />
     <ClInclude Include="src\barebones\core\barebones\entity\mesh.h" />
+    <ClInclude Include="src\barebones\physics\collider.h" />
     <ClInclude Include="src\barebones\physics\physics.h" />
     <ClInclude Include="src\barebones\physics\physics_layer.h" />
     <ClInclude Include="src\barebones\rendering\core\array.h" />

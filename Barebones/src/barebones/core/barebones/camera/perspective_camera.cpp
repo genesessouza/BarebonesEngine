@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-perspective_camera::perspective_camera(float fov, float width, float height, float near_clip, float far_clip) 
+perspective_camera::perspective_camera(float fov, float width, float height, float near_clip, float far_clip)
 	: entity_object(mesh{}), camera_shader(shader::instantiate(UNLIT_SHADER_SOURCE))
 {
 	view_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
@@ -27,26 +27,19 @@ void perspective_camera::set_projection(float fov, float aspect_ratio, float nea
 	camera_shader->define_mat4("u_projection", &projection_matrix[0][0]);
 }
 
-void perspective_camera::set_position(const glm::vec3& position, const axis axis)
+void perspective_camera::set_position_and_rotation(const glm::vec3& position, const glm::vec3& rotation)
 {
-	if (axis == axis::local)
-		m_position = m_orientation * position;
-	else
-		m_position = position;
+	m_position = position;
 
-	update_view_matrix();
-}
-
-void perspective_camera::set_rotation(const glm::vec3& rotation, const axis axis)
-{
 	m_rotation = glm::radians(rotation);
 
-	glm::quat qx = glm::angleAxis(m_rotation.x, glm::vec3(1, 0, 0));
-	glm::quat qy = glm::angleAxis(m_rotation.y, glm::vec3(0, 1, 0));
-	glm::quat qz = glm::angleAxis(m_rotation.z, glm::vec3(0, 0, 1));
-	glm::quat delta = qx * qy * qz;
+	glm::mat4 rx = glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation.x), glm::vec3(1, 0, 0));
+	glm::mat4 ry = glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation.y), glm::vec3(0, 1, 0));
+	glm::mat4 rz = glm::rotate(glm::mat4(1.0f), glm::radians(m_rotation.z), glm::vec3(0, 0, 1));
 
-	m_orientation = glm::normalize(delta);
+	glm::mat4 delta = rz * ry * rx;
+
+	m_orientation = glm::quat_cast(delta);
 
 	update_view_matrix();
 }
@@ -55,9 +48,8 @@ void perspective_camera::update_view_matrix()
 {
 	glm::mat4 rotation_matrix = glm::mat4_cast(m_orientation);
 	glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), m_position);
-	glm::mat4 scale_matrix = glm::scale(glm::mat4(1.0f), m_scale);
 
-	view_matrix = glm::inverse(translation_matrix * rotation_matrix);
+	view_matrix = glm::inverse(rotation_matrix * translation_matrix);
 
 	camera_shader->define_mat4("u_view", &view_matrix[0][0]);
 }

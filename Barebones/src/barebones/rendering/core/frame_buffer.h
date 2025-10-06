@@ -30,7 +30,7 @@ public:
     const std::shared_ptr<vertex_array>& get_vao() const { return m_fbo_vao; }
 
     const std::shared_ptr<shader>& get_depth_shader() const { return m_depth_shader; }
-    const std::shared_ptr<shader>& get_debug_shader() const { return m_debug_shader; }
+    const std::shared_ptr<shader>& get_depth_debug_shader() const { return m_debug_shader; }
 public:
     void create_screen_quad();
 private:

@@ -114,12 +114,12 @@ public:
 				 0.5f, -0.5f,  0.5f, -1, 0, 0						// bottom-right-front		- 24			|
 		};
 		std::vector<uint32_t> indices = {
-			0, 1, 2, 2, 3, 0,										// front face 
-			4, 5, 6, 6, 7, 4,										// back face 
-			8, 9, 10, 10, 11, 8,									// top face 
-			12, 13, 14, 14, 15, 12,									// bottom face 
-			16, 17, 18, 18, 19, 16,									// left face 
-			20, 21, 22, 22, 23, 20									// right face 
+			0, 1, 2, 0, 2, 3,			// top face (0, 1, 2, 3)
+			4, 5, 6, 4, 6, 7,			// bottom face (4, 5, 6, 7)
+			8, 9, 10, 8, 10, 11,		// front face (8, 9, 10, 11)
+			12, 13, 14, 12, 14, 15,		// back face (12, 13, 14, 15)
+			16, 17, 18, 16, 18, 19,		// left face (16, 17, 18, 19)
+			20, 21, 22, 20, 22, 23		// right face (20, 21, 22, 23)
 		};
 
 		set_vertices(vertices);

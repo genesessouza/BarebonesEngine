@@ -21,6 +21,7 @@ public:
 private:
 	void draw_depth_pass();
 	void draw_render_pass();
+	void update_aspect_ratio();
 private:
 	const glm::vec4& skybox_color = glm::vec4(0.329f, 0.608f, 0.722f, 1);
 

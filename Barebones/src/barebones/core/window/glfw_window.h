@@ -13,12 +13,12 @@
 struct window_properties
 {
 	std::string title;
-	unsigned int width;
-	unsigned int height;
+	float width;
+	float height;
 
 	window_properties(const std::string& title = "TRASH! Engine",
-		unsigned int width = 800,
-		unsigned int height = 600)
+		float width = 800,
+		float height = 600)
 		: title(title), width(width), height(height)
 	{
 	}
@@ -36,8 +36,11 @@ public:
 
 	void on_update();
 
-	inline unsigned int get_width() const { return m_data.width; }
-	inline unsigned int get_height() const { return m_data.height; }
+	inline float get_initial_width() const { return m_initial_width; }
+	inline float get_initial_height() const { return m_initial_height; }
+
+	inline float get_width() const { return m_data.width; }
+	inline float get_height() const { return m_data.height; }
 
 	inline void set_event_callback(const event_callback_fn& callback) { m_data.event_callback = callback; }
 	void set_vsync(bool enabled);
@@ -53,12 +56,15 @@ private:
 	struct window_data
 	{
 		std::string title = "";
-		unsigned int width = 0;
-		unsigned int height = 0;
+		float width = 0;
+		float height = 0;
 		bool vsync = false;
 
 		event_callback_fn event_callback;
 	};
+
+	float m_initial_width;
+	float m_initial_height;
 public:
 	window_data& get_data() { return m_data; }
 private:

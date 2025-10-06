@@ -13,4 +13,11 @@ entity::entity(mesh& mesh, const char* shader_filepath) : entity_object(mesh)
 	get_material()->set_ambient(0.3f);
 	get_material()->set_diffuse(0.7f);
 	get_material()->set_specular(0.3f);
+
+	m_coll = new collider(mesh);
+}
+
+void entity::update_debug(const glm::mat4& view_matrix, const glm::mat4& proj_matrix)
+{
+	m_coll->draw_collider(view_matrix, proj_matrix, model_matrix);
 }

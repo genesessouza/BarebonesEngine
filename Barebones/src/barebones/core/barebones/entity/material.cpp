@@ -10,7 +10,7 @@ std::shared_ptr<material> material::instantiate(const char* m_shader_filepath)
 material::material(const char* m_shader_filepath)
 {
 	m_shader = shader::instantiate(m_shader_filepath);
-	m_debug_shader = shader::instantiate(DEBUG_SHADER_SOURCE);
+	m_debug_shader = shader::instantiate(UNLIT_SHADER_SOURCE);
 }
 
 material::~material()

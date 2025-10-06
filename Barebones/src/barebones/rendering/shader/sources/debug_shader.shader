@@ -3,9 +3,9 @@
 
 layout (location = 0) in vec3 aPos;
 
-uniform mat4 u_model;
-uniform mat4 u_view;
 uniform mat4 u_projection;
+uniform mat4 u_view;
+uniform mat4 u_model;
 
 void main()
 {
@@ -17,11 +17,9 @@ void main()
 
 out vec4 FragColor;
 
-uniform vec3 u_color;
+uniform vec4 u_color;
 
 void main()
 {
-    FragColor = vec4(u_color, 1);
-
-    // FragColor = vec4(1.00, 0.71, 0.00, 1.0);
+    FragColor = u_color;
 };
