@@ -21,8 +21,8 @@ public:
 	virtual void run();
 	virtual void on_event(event& e);
 
-	void push_layer(layer* layer);
-	void push_overlay(layer* overlay);
+	void push_layer(std::unique_ptr<layer> layer);
+	void push_overlay(std::unique_ptr<layer> overlay);
 
 	inline static application& get() { return *s_instance; }
 	inline glfw_window& get_window() { return *m_window; }
@@ -34,17 +34,16 @@ protected:
 	virtual void on_update_application() = 0;
 protected:
 	bool m_running = true;
-	float m_last_frame_time = 0.0f;
-	bool m_show_fps = false;
 
 	timestep delta_time;
 private:
 	static application* s_instance;
 	std::unique_ptr<glfw_window> m_window;
-	layer_stack m_layer_stack;
 
 	event_layer* m_event_layer;
 	input_layer* m_input_layer;
+
+	layer_stack m_layer_stack;
 };
 
 application* create_application();

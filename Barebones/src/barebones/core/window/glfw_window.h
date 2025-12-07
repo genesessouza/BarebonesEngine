@@ -1,5 +1,6 @@
 #pragma once
 
+#include "glfw_window_handle.h"
 #include "barebones/core/barebones/events/event.h"
 
 #include <glad/glad.h>
@@ -29,7 +30,7 @@ class glfw_window
 public:
 	using event_callback_fn = std::function<void(event&)>;
 
-	static glfw_window* create(const window_properties & = window_properties());
+	static std::unique_ptr<glfw_window> create(const window_properties& props = window_properties());
 
 	glfw_window(const window_properties& properties);
 	~glfw_window();
@@ -46,10 +47,8 @@ public:
 	void set_vsync(bool enabled);
 	bool is_vsync() const;
 
-	inline GLFWwindow* get_native_window() const { return m_window; }
+	inline GLFWwindow* get_native_window() const { return m_window_handle->get(); }
 	glm::vec2 get_mouse_ndc() const;
-
-	void shutdown();
 private:
 	void init(const window_properties& props);
 private:
@@ -68,7 +67,7 @@ private:
 public:
 	window_data& get_data() { return m_data; }
 private:
-	GLFWwindow* m_window;
+	glfw_window_handle* m_window_handle;
 	bool m_vsync;
 
 	window_data m_data;

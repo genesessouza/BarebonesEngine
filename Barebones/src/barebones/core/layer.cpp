@@ -1,6 +1,7 @@
 #include "layer.h"
 
-layer::layer(const std::string& name) : m_debug_name(name) {}
+layer::layer(const std::string& name) 
+	: m_debug_name(name) {}
 
 layer::~layer() {}
 

@@ -106,7 +106,8 @@ global_illumination_sample::global_illumination_sample()
 
 	// ---------------------------------- RENDERING & DEBUG -----------------------------
 	{
-		m_rendering_layer = new rendering_layer(*camera);
+		auto rendering_layer = rendering_layer::create(*camera);
+		m_rendering_layer = rendering_layer.get();
 
 		m_rendering_layer->add_object(floor, false);
 		m_rendering_layer->add_object(mid_air_platform, false);
@@ -120,10 +121,9 @@ global_illumination_sample::global_illumination_sample()
 
 		m_rendering_layer->add_object(*light_source, true);
 
-		push_overlay(m_rendering_layer);
+		push_overlay(std::move(rendering_layer));
 
 		get_window().set_vsync(false);
-		m_show_fps = true;
 	}
 }
 

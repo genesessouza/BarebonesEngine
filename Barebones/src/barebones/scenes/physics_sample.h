@@ -24,7 +24,7 @@ private:
 	perspective_camera* camera;
 private:
 	rendering_layer* m_rendering_layer;
-	physics_layer* m_physics_layer;
+	physics_layer* m_physics_layer = nullptr;
 
 	double mouse_delta_x = 0.0;
 	double mouse_delta_y = 180.0;

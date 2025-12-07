@@ -11,6 +11,11 @@ std::unordered_map<int, bool> input_layer::current_bttn_state;
 
 std::pair<double, double> input_layer::last_mouse_position = { 0.0, 0.0 };
 
+std::unique_ptr<input_layer> input_layer::create()
+{
+	return std::make_unique<input_layer>();
+}
+
 input_layer::input_layer()
 {
 	previous_key_state = current_key_state;

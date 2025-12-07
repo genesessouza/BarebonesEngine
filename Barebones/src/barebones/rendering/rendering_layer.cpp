@@ -1,5 +1,10 @@
 #include "rendering_layer.h"
 
+std::unique_ptr<rendering_layer> rendering_layer::create(perspective_camera& camera)
+{
+	return std::make_unique<rendering_layer>(camera);
+}
+
 rendering_layer::rendering_layer(perspective_camera& camera)
 	: main_light(nullptr)
 {

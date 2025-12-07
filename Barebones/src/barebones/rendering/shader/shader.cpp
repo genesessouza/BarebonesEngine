@@ -8,6 +8,11 @@
 #include <fstream>
 #include <iostream>
 
+std::shared_ptr<shader> shader::instantiate(const char* m_shader_filepath)
+{
+	return std::make_shared<shader>(m_shader_filepath);
+}
+
 shader_source shader::parse_file() const
 {
 	std::ifstream stream(m_shader_filepath);
@@ -31,6 +36,7 @@ shader_source shader::parse_file() const
 			ss[(int)type] << line << "\n";
 		}
 	}
+
 	return { ss[0].str(), ss[1].str() };
 }
 
@@ -113,12 +119,8 @@ void shader::create(const std::string& vertex_source, const std::string& fragmen
 	glDeleteShader(fragment_shader);
 }
 
-std::shared_ptr<shader> shader::instantiate(const char* m_shader_filepath)
-{
-	return std::make_shared<shader>(m_shader_filepath);
-}
-
-shader::shader(const std::string& m_shader_filepath) : m_shader_filepath(m_shader_filepath)
+shader::shader(const std::string& m_shader_filepath) 
+	: m_shader_filepath(m_shader_filepath)
 {
 	shader_source source = parse_file();
 
@@ -141,7 +143,7 @@ void shader::get_shader_info_log(const std::string& uniform_name) const
 	char* message = (char*)_malloca(message_length * sizeof(char));
 
 	glGetShaderInfoLog(m_renderer_id, message_length, &message_length, message);
-	std::cout << "Uniform <" << uniform_name.c_str() << "> not found!: " << message << std::endl;
+	std::cout << "Uniform <" << uniform_name.c_str() << "> not found!" << message << std::endl;
 }
 
 void shader::bind() const

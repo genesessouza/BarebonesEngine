@@ -1,6 +1,8 @@
 #include "application.h"
 #include "barebones/events/event_queue.h"
 
+#include <format>
+
 application* application::s_instance = nullptr;
 
 application::application()
@@ -14,62 +16,74 @@ application::application()
 
 	s_instance = this;
 
-	m_window = std::unique_ptr<glfw_window>(glfw_window::create());
+	m_window = glfw_window::create();
 	m_window->set_vsync(true);
 
 	m_window->set_event_callback([this](event& e) { this->on_event(e); });
-	m_event_layer = new event_layer();
-	push_layer(m_event_layer);
 
-	m_input_layer = new input_layer();
-	push_overlay(m_input_layer);
-}
+	auto evt = event_layer::create();
+	m_event_layer = evt.get();
+	push_layer(std::move(evt));
 
-void application::push_layer(layer* layer)
-{
-	m_layer_stack.push_layer(layer);
-	layer->on_attach();
-}
-
-void application::push_overlay(layer* overlay)
-{
-	m_layer_stack.push_overlay(overlay);
-	overlay->on_attach();
+	auto inp = input_layer::create();
+	m_input_layer = inp.get();
+	push_overlay(std::move(inp));
 }
 
 application::~application()
 {
+	if (m_window)
+	{
+		glfwSetWindowUserPointer(m_window->get_native_window(), nullptr);
+		glfwDestroyWindow(m_window->get_native_window());
+		glfwMakeContextCurrent(nullptr);
+
+		m_window.reset();
+	}
+}
+
+void application::push_layer(std::unique_ptr<layer> layer)
+{
+	layer->on_attach();
+	m_layer_stack.push_layer(std::move(layer));
+}
+
+void application::push_overlay(std::unique_ptr<layer> overlay)
+{
+	overlay->on_attach();
+	m_layer_stack.push_overlay(std::move(overlay));
 }
 
 void application::run()
 {
+	float last_time = (float)glfwGetTime();
+	float seconds_timer = 0.0f;
+	int fps = 0;
+
 	while (m_running)
 	{
-		float time = (float)glfwGetTime();
-		delta_time = time - m_last_frame_time;
-		m_last_frame_time = time;
+		float current_time = (float)glfwGetTime();
+		delta_time = current_time - last_time;
+		last_time = current_time;
 
-		static float fps_timer = 0.0f;
-		static int frame_count = 0;
+		seconds_timer += delta_time;
 
-		fps_timer += delta_time;
-		frame_count++;
-
-		if (fps_timer >= 0.1f) // Updates at 0.1 second intervals
+		if (seconds_timer >= 1.0f) // Updates at 0.1 second intervals
 		{
-			int fps = frame_count;
-			m_window->get_data().title = "Barebones Engine - FPS: " + std::to_string(fps * 10); // Multiply by 10 to get frame rate per second
-			fps_timer = 0.0f;
-			frame_count = 0;
+			m_window->get_data().title = std::format("Barebones Engine - FPS: {}", fps); // Multiply by 10 to get frame rate per second
+
+			seconds_timer = 0.0f;
+			fps = 0;
 		}
 
-		for (layer* layer : m_layer_stack)
+		for (auto& layer : m_layer_stack)
 			layer->on_update(delta_time);
 
 		m_window->on_update();
 		on_update_application();
 
 		event_queue::instance().run();
+		fps++;
 	}
 }
 

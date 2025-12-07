@@ -5,6 +5,11 @@
 
 #include "barebones/core/application.h"
 
+std::unique_ptr<event_layer> event_layer::create()
+{
+	return std::make_unique<event_layer>();
+}
+
 event_layer::event_layer()
 {
 	event_dispatcher::instance().subscribe<window_closed>([](window_closed& ev)
@@ -15,8 +20,8 @@ event_layer::event_layer()
 	event_dispatcher::instance().subscribe<window_resized>([this](window_resized& ev)
 		{
 			auto& data = application::get().get_window().get_data();
-			data.width = ev.get_width();
-			data.height = ev.get_height();
+			data.width = (float)ev.get_width();
+			data.height = (float)ev.get_height();
 		});
 }
 

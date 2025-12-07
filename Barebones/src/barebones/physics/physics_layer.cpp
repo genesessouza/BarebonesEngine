@@ -2,6 +2,11 @@
 
 #include "barebones/physics/physics.h"
 
+std::unique_ptr<physics_layer> physics_layer::create()
+{
+	return std::make_unique<physics_layer>();
+}
+
 physics_layer::physics_layer()
 {
 

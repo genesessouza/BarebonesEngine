@@ -12,6 +12,8 @@ class rendering_layer : public layer
 public:
 	rendering_layer(perspective_camera& camera);
 
+	static std::unique_ptr<rendering_layer> create(perspective_camera& camera);
+
 	void add_object(entity& object_to_render, bool is_main_light);
 	void on_update(timestep delta_time);
 

@@ -9,10 +9,8 @@
 
 #include <iostream>
 
-glfw_window* glfw_window::create(const window_properties& props)
-{
-	glfw_window* window = new glfw_window(props);
-	return window;
+std::unique_ptr<glfw_window> glfw_window::create(const window_properties& props) {
+	return std::make_unique<glfw_window>(props);
 }
 
 glfw_window::glfw_window(const window_properties& properties)
@@ -22,7 +20,6 @@ glfw_window::glfw_window(const window_properties& properties)
 
 glfw_window::~glfw_window()
 {
-	shutdown();
 }
 
 static bool s_glfw_initialized = false;
@@ -46,16 +43,18 @@ void glfw_window::init(const window_properties& props)
 	}
 
 	glfwWindowHint(GLFW_DEPTH_BITS, 24);
-	m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
+	
+	auto window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
+	m_window_handle = new glfw_window_handle(window);
 
-	if (!m_window)
+	if (!m_window_handle)
 	{
 		std::cout << "Failed to create GLFW Window!" << std::endl;
 		glfwTerminate();
 		return;
 	}
 
-	glfwMakeContextCurrent(m_window);
+	glfwMakeContextCurrent(m_window_handle->get());
 
 	// -------------------------------- GLAD ---------------------------------
 
@@ -65,21 +64,22 @@ void glfw_window::init(const window_properties& props)
 		return;
 	}
 
-	glfwSetWindowUserPointer(m_window, &m_data);
-
-	glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window)
+	glfwSetWindowUserPointer(m_window_handle->get(), this);
+	glfwSetWindowCloseCallback(m_window_handle->get(), [](GLFWwindow* window)
 		{
 			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
 			event_queue::instance().push(std::make_unique<window_closed>());
 		});
 
-	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
+	glfwSetWindowUserPointer(m_window_handle->get(), this);
+	glfwSetWindowSizeCallback(m_window_handle->get(), [](GLFWwindow* window, int width, int height)
 		{
 			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
 			event_queue::instance().push(std::make_unique<window_resized>(width, height));
 		});
 
-	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+	glfwSetWindowUserPointer(m_window_handle->get(), this);
+	glfwSetKeyCallback(m_window_handle->get(), [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
 
@@ -91,7 +91,8 @@ void glfw_window::init(const window_properties& props)
 				event_queue::instance().push(std::make_unique<key_held>(key));
 		});
 
-	glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods)
+	glfwSetWindowUserPointer(m_window_handle->get(), this);
+	glfwSetMouseButtonCallback(m_window_handle->get(), [](GLFWwindow* window, int button, int action, int mods)
 		{
 			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
 
@@ -101,7 +102,8 @@ void glfw_window::init(const window_properties& props)
 				event_queue::instance().push(std::make_unique<mouse_released>(button));
 		});
 
-	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos)
+	glfwSetWindowUserPointer(m_window_handle->get(), this);
+	glfwSetCursorPosCallback(m_window_handle->get(), [](GLFWwindow* window, double xpos, double ypos)
 		{
 			window_data& data = *(window_data*)glfwGetWindowUserPointer(window);
 			event_queue::instance().push(std::make_unique<mouse_moved>(xpos, ypos));
@@ -110,9 +112,9 @@ void glfw_window::init(const window_properties& props)
 
 void glfw_window::on_update()
 {
-	glfwSetWindowTitle(m_window, m_data.title.c_str());
+	glfwSetWindowTitle(m_window_handle->get(), m_data.title.c_str());
 	glfwPollEvents();
-	glfwSwapBuffers(m_window);
+	glfwSwapBuffers(m_window_handle->get());
 }
 
 void glfw_window::set_vsync(bool enabled)
@@ -135,21 +137,11 @@ glm::vec2 glfw_window::get_mouse_ndc() const
 	double xpos, ypos;
 	int width, height;
 
-	glfwGetCursorPos(m_window, &xpos, &ypos);
-	glfwGetWindowSize(m_window, &width, &height);
+	glfwGetCursorPos(m_window_handle->get(), &xpos, &ypos);
+	glfwGetWindowSize(m_window_handle->get(), &width, &height);
 
 	float ndc_x = (2.0f * static_cast<float>(xpos)) / static_cast<float>(width) - 1.0f;
 	float ndc_y = 1.0f - (2.0f * static_cast<float>(ypos)) / static_cast<float>(height);
 
 	return glm::vec2(ndc_x, ndc_y);
-}
-
-void glfw_window::shutdown()
-{
-	if (m_window)
-	{ 
-		glfwDestroyWindow(m_window);
-		glfwMakeContextCurrent(nullptr);
-	}
-	glfwTerminate();
 }

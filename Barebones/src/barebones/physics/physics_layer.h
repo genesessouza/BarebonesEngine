@@ -8,6 +8,8 @@ class physics_layer : public layer
 public:
 	physics_layer();
 
+	static std::unique_ptr<physics_layer> create();
+
 	void add_object(entity& obj);
 	void on_update(timestep delta_time);
 private:

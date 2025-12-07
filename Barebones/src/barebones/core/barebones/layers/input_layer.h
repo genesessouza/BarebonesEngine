@@ -4,11 +4,15 @@
 #include "barebones/core/barebones/timestep.h"
 #include "barebones/core/layer.h"
 
+#include <memory>
+
 class input_layer : public layer
 {
 public:
 	input_layer();
 	~input_layer();
+
+	static std::unique_ptr<input_layer> create();
 
 	void on_update(timestep delta_time);
 

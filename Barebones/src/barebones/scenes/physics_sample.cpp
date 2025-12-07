@@ -56,7 +56,8 @@ physics_sample::physics_sample()
 
 	// RENDERING LAYER
 	{
-		m_rendering_layer = new rendering_layer(*camera);
+		auto rendering_layer = rendering_layer::create(*camera);
+		m_rendering_layer = rendering_layer.get();
 
 		m_rendering_layer->add_object(floor, false);
 		m_rendering_layer->add_object(mid_air_platform, false);
@@ -65,23 +66,23 @@ physics_sample::physics_sample()
 
 		m_rendering_layer->add_object(*light_source, true);
 
-		push_overlay(m_rendering_layer);
+		push_layer(std::move(rendering_layer));
 	}
 
 	// PHYSICS LAYER
 	{
-		m_physics_layer = new physics_layer();
+		auto physics_layer = physics_layer::create();
+		m_physics_layer = physics_layer.get();
 
 		m_physics_layer->add_object(floor);
 		m_physics_layer->add_object(mid_air_platform);
 		m_physics_layer->add_object(red_cube);
 		m_physics_layer->add_object(blue_cube);
 
-		push_overlay(m_physics_layer);
+		push_overlay(std::move(physics_layer));
 	}
 
 	get_window().set_vsync(false);
-	m_show_fps = true;
 }
 
 static bool mouse_rotating = false;
